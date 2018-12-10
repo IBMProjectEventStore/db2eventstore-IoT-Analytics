@@ -1,0 +1,15 @@
+echo "Compile java code"
+#1. download & install jdk 1.8 
+#2. download & install scala 2.11.8 
+#3. set SPARK_HOME = < spark 2.0.2 or spark 2.1 installation path>
+ESLIB=./ibm-db2-eventstore-client-1.1.3.jar
+
+echo "Compile the scala application"
+rm myScalaExample.jar
+scalac ExampleScalaApp.scala -d myScalaExample.jar \
+	-classpath ${ESLIB}:${SPARK_HOME}/jars/*
+
+echo "Execute with spark submit" 
+
+SPARK_LOCAL_IP=127.0.0.1 $SPARK_HOME/bin/spark-submit --jars ${ESLIB} \
+	--class ExampleScalaApp myScalaExample.jar
