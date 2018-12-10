@@ -169,3 +169,6 @@ See the notebook with example output here: [notebook examples with result](noteb
 # License
 [Apache 2.0](LICENSE)
 
+
+[@Frank Sun](https://twitter.com/sun_xi_frank), [IBM Db2 Event Store](https://www.ibm.com/products/db2-event-store)
+
