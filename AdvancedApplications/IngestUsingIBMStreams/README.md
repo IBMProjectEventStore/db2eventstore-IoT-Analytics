@@ -1,4 +1,4 @@
-# Instructions on How to Run the IBM Streams and Remote Applicaations For IBM Db2 Event Store
+# Instructions on How to Run the IBM Streams and Remote Applications For IBM Db2 Event Store
 
 ## Streams container setup
 
