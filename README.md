@@ -1,5 +1,7 @@
 # IoT Sensor Temperature Analysis with IBM Db2 Event Store
 
+> Note: This code pattern was developed and tested with EventStore-Enterprise Edition 1.1.3. This code pattern is not compatible with other Event Store versions.
+
 IBM® Db2 Event Store is an in-memory database designed for massive structured data volumes and real-time analytics built on Apache SPARK and Apache Parquet Data Format. The solution is optimized for event-driven data processing and analysis. It can support emerging applications that are driven by events such as IoT solutions, payments, logistics and web commerce. It is flexible, scalable and can adapt quickly to your changing business needs over time. Available in a free developer edition and an enterprise edition that you can download now. The enterprise edition is free for pre-production and test, please visit the [official product webpage](https://www.ibm.com/products/db2-event-store) for more information.
 
 The sample data used in this code pattern simulates the common data pattern collected by the real industry IoT sensors. The IoT data sample consists of record timestamp, ambient temperature, power consumption, and sensor temperature record by a group of sensors identified with unique sensor IDs and device IDs. 
