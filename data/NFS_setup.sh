@@ -1,12 +1,5 @@
 #!/bin/bash -x
 
-#### Description
-# This script provision an NFS server on an DSX cluster where EventStore 2.0 
-# is already deployed. The script will moutn the NFS server to the designated
-# external table mount point on each cluster nodes.
-# 1/ Create NFS server on the current node
-# 2/ Mount NFS server to the external_tb mnt point on all nodes
-
 NAMESPACE="dsx"
 RELEASE_NAME="eventstore"
 DATA_PATH="/ibm"
@@ -14,6 +7,15 @@ DATA_PATH="/ibm"
 function usage()
 {
 cat <<-USAGE #| fmt
+Description:
+This script provision an NFS server on an DSX cluster where EventStore 2.0 
+is already deployed. The script will moutn the NFS server to the designated
+external table mount point on each cluster nodes.
+1/ Create NFS server on the current node
+2/ Put the sample data csv file and ingest.clp file under NFS server dir
+3/ Mount NFS server to the external_tb mnt point for active releases on all nodes
+
+-------------
 Usage: $0 [OPTIONS] [arg]
 OPTIONS:
 =======
@@ -49,13 +51,13 @@ if [ ! -d "${NFS_DIR}" ]; then
 
 fi
 
-if [ ! -f "${NFS_DIR}/sample_IOT_table.csv"]; then
+if [ ! -f "${NFS_DIR}/sample_IOT_table.csv" ]; then
     echo "Downloading sample csv data file."
     wget https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/raw/master/data/sample_IOT_table.csv \
         -O ${NFS_DIR}/sample_IOT_table.csv
 fi
 
-if [ ! -f "${NFS_DIR}/ingest.clp"]; then
+if [ ! -f "${NFS_DIR}/ingest.clp" ]; then
     touch ${NFS_DIR}/ingest.clp
     echo "insert into ADMIN.IOT_TEMP SELECT * FROM EXTERNAL '/eventstore/db/external_db/sample_IOT_table.csv' USING (DELIMITER ',')" \
         >> ${NFS_DIR}/ingest.clp
@@ -74,8 +76,16 @@ sudo exportfs -a
 echo "NFS Directory are exported as:"
 sudo exportfs
 
+if [ NAMESPACE != "dsx" ]; then
+    RELEASE_NAME=`helm ls --tls | grep db2eventstore | grep -v catalog | awk {'print $1'} | uniq`
+    DATA_PATH="/data"
+fi
+
 #TODO: error check and mounting
-echo "Mounting NFS directory to the external table mount point on all nodes..."
+echo "Mounting NFS directory to the external table mount point for active "
+echo "Event Store releases on all nodes..."
 for node in ${nodes}; do
-    ssh root@"${node}" "mount -t nfs ${NFS_SERVER}:${NFS_DIR} '/ibm/eventstore/engine/utils/external_db'" | tee
+    for release in ${RELEASE_NAME}; do
+        ssh root@"${node}" "mount -t nfs ${NFS_SERVER}:${NFS_DIR} ${DATA_PATH}/${release}/engine/utils/external_db/" | tee
+    done
 done
