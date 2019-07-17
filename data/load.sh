@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 NAMESPACE="dsx"
 RELEASE_NAME="eventstore"
@@ -7,6 +7,13 @@ DATA_PATH="/ibm"
 function usage()
 {
 cat <<-USAGE #| fmt
+Description:
+This script should be run after NFS_setup.sh script. It will ensure that the
+target external_db mount point is properly mounted with NFS partition. Then it 
+calls the ingest.clp created by NFS_setup.sh script to load the data.
+
+-----------
+Usage: $0 [OPTIONS] [arg]
 OPTIONS:
 ========
 -n|--namespace    [Default: dsx] Kubernetes namespace that Event Store is deployed under.
@@ -29,7 +36,7 @@ while [ -n "$1" ]; do
     esac
 done
 
-if [ NAMESPACE != "dsx" ]; then
+if [ ${NAMESPACE} != "dsx" ]; then
     RELEASE_NAME=`helm ls --tls | grep db2eventstore | grep -v catalog | awk {'print $1'} | uniq`
     DATA_PATH="/data"
 fi
