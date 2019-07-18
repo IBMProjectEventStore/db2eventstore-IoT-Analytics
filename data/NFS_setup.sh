@@ -9,7 +9,7 @@ function usage()
 cat <<-USAGE #| fmt
 Description:
 This script provision an NFS server on an DSX cluster where EventStore 2.0 
-is already deployed. The script will moutn the NFS server to the designated
+is already deployed. The script will mount the NFS server to the designated
 external table mount point on each cluster nodes.
 1/ Create NFS server on the current node
 2/ Put the sample data csv file and ingest.clp file under NFS server dir
@@ -81,7 +81,6 @@ if [ NAMESPACE != "dsx" ]; then
     DATA_PATH="/data"
 fi
 
-#TODO: error check and mounting
 echo "Mounting NFS directory to the external table mount point for active "
 echo "Event Store releases on all nodes..."
 for node in ${nodes}; do
