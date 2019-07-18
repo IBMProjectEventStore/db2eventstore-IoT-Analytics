@@ -113,6 +113,8 @@ function callESAPIWithBody (eventStoreURL, method, token, body, flow) {
         process.exit()
       }
       displayOutput (server + eventStoreNamespace + eventStoreURL, error, response, body)
+      console.log('')
+      console.log('**Query Result:**')
       console.log(JSON.parse(body).data);
       var callback = flow.shift()
       if (callback != undefined) {
@@ -161,7 +163,7 @@ function callAPI (label, url, method, token, flow) {
 // === End Generic API to call the event store ===
 
 // === SPARK SQL Support ===
-function submitSparkQuery2 (token, flow) {
+function submitSparkQuery1 (token, flow) {
   console.log ('')
   console.log ('Submitting a SparkSql query')
   var query = 'select count(*) as count from IOT_TEMP where deviceID=1 and sensorID=31'
@@ -171,10 +173,10 @@ function submitSparkQuery2 (token, flow) {
   var body = "{\"sql\":\"" + query + "\"}"
   callESAPIWithBody('/spark/sql?tableName=IOT_TEMP&databaseName=EVENTDB', 'POST', token, body, flow)
 }
-function submitSparkQuery1 (token, flow) {
+function submitSparkQuery2 (token, flow) {
   console.log ('')
   console.log ('Submitting a SparkSql query')
-  var query = 'select * from IOT_TEMP where deviceID=1 and sensorID=31'
+  var query = 'select * from IOT_TEMP where deviceID=1 and sensorID=31 limit 5'
   console.log ('==========================')
   console.log ('Submitting -> \"' + query + '\"')
   console.log ('Result of SparkSql query:')
@@ -233,10 +235,10 @@ console.log ('')
 var flow = []
 flow.push(connectEngine)
 flow.push(getDatabases)
-//flow.push(getTableInfo)
+flow.push(getTableInfo)
 //flow.push(getTables)
-flow.push(submitSparkQuery2)
 flow.push(submitSparkQuery1)
+flow.push(submitSparkQuery2)
 
 if (noAuth === undefined) {
   getBearerToken(flow);
