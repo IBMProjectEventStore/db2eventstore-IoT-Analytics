@@ -1,137 +1,130 @@
 import java.sql.*;   // Use 'Connection', 'Statement' and 'ResultSet' classes in java.sql package
- 
+
 // JDK 1.7 and above
-public class ExampleJDBCApp { 
+public class ExampleJdbcApp {   // Save as "JdbcSelectTest.java"
 
    public static void main(String[] args) {
-       String driverName = "org.apache.hive.jdbc.HiveDriver";
- 
-      try {
-		try {
-                        Class.forName(driverName);
-         		System.out.println("After class set"); 
-      		} catch(Exception ex) {
-			System.out.println("Could not find the driver class");
-                }
+       String driverName = "com.ibm.db2.jcc.DB2Driver";
+       Connection conn = null;
+       Statement stmt = null;
+       try {
+           try {
+                   Class.forName(driverName);
+                   System.out.println("After class set");
+           } catch(Exception ex) {
+                   System.out.println("Could not find the driver class");
+           }
 
-         	// Step 1: Allocate a database 'Connection' object
-         	Connection conn = 
-	  	DriverManager.getConnection(
-				"jdbc:hive2://172.16.180.33:12015/TESTDB", "admin", "password");
- 
-                System.out.println("Connected");
+           // Step 1: Allocate a database 'Connection' object
+           System.out.println("Connecting to a selected database...");
 
-		DatabaseMetaData databaseMetaData = conn.getMetaData();
+           conn =
+           DriverManager.getConnection(
+                    "jdbc:db2://9.30.119.26:18730/EVENTDB:sslConnection=true;" +
+	   	    "sslTrustStoreLocation=/user-home/_global_/eventstore/eventstore/clientkeystore;" +
+	   	    "sslKeyStoreLocation=/user-home/_global_/eventstore/eventstore/clientkeystore;" +
+                    "sslKeyStorePassword=LdsdUbGSyYF3;" +
+                    "sslTrustStorePassword=LdsdUbGSyYF3;" +
+                    "securityMechanism=15;" +
+                    "pluginName=IBMPrivateCloudAuth;", 
+                    "admin", "password");
 
-		//Print TABLE_TYPE "TABLE"
-		ResultSet resultSet = databaseMetaData.getTables(null, null, null, new String[]{"TABLE"});
-		System.out.println("Printing TABLE_TYPE \"TABLE\" ");
-		System.out.println("----------------------------------");
-		while(resultSet.next())
-		{
-    			System.out.println(resultSet.getString("TABLE_NAME"));
-		}
+	   System.out.println("Connected database successfully...");
+           stmt = conn.createStatement();
 
-                ResultSet resGet = conn.getMetaData().getTables( null, null, null, null );
-                System.out.println("Show getTables:");
-                while ( resGet.next() ) {
-                        System.out.println("Found table cat: " + resGet.getString(1) + " schema: " + resGet.getString(2) + 
-					", Name: " + resGet.getString(3) + ", Type: " + resGet.getString(4) );
-                }
+           // Step 2: delete old table if exist
+           System.out.println("Deleting table in given database...");
 
-		System.out.println("Test case sensitive:" );
+           String sql = "DROP TABLE TEST10";
+           try{
+               stmt.executeUpdate(sql);
+           }catch (SQLSyntaxErrorException ex){
+               ex.printStackTrace();        
+           }
+           
+           System.out.println("Table deleted in given database...");
 
-                ResultSet resGetT = conn.getMetaData().getTables( null, "default", "tab1", null );
-                System.out.println("Show getTables:");
-                while ( resGetT.next() ) {
-                        System.out.println("Found table cat: " + resGetT.getString(1) + " schema: " + resGetT.getString(2) + 
-					", Name: " + resGetT.getString(3) + ", Type: " + resGetT.getString(4) );
-                }
+           // Step 3: create new table
+           System.out.println("Creating table in given database...");
+           
+           sql= "create table TEST10 " +
+                "(DEVICEID INTEGER NOT NULL, " +
+                "SENSORID INTEGER NOT NULL, " +
+                "TS BIGINT NOT NULL, " +
+                "AMBIENT_TEMP DOUBLE NOT NULL, " +
+                "POWER DOUBLE NOT NULL, " +
+                "TEMPERATURE DOUBLE NOT NULL, " +
+                "CONSTRAINT \"TEST1INDEX\" " +
+                "PRIMARY KEY(DEVICEID, SENSORID, TS) " +
+                "include(TEMPERATURE)) " +
+                "DISTRIBUTE BY HASH (DEVICEID, SENSORID) " +
+                "organize by column stored as parquet";
 
-                ResultSet resGet2 = conn.getMetaData().getColumns( null, null, null, null );
-                System.out.println("Show getColumns:");
-                while ( resGet2.next() ) {
-    
-                        System.out.println("Found table cat: " + resGet2.getString(1) + " schema: " + resGet2.getString(2) + 
-				", Name: " + resGet2.getString(3) + 
-				", Col name: " + resGet2.getString(4) + 
-        			" data type: " + resGet2.getInt(5) + " type: " + resGet2.getString(6) +
-        			" size: " + resGet2.getInt(7) );
+           stmt.executeUpdate(sql);
+           System.out.println("Created table in given database...");
 
-                }
+           // Step 4: insert new lines
+           sql = "INSERT INTO TEST10 " +
+                 "VALUES (1,48,1541019342393,25.983183481618322,14.65874116573845,48.908846094198)";
+           stmt.executeUpdate(sql);
 
-                ResultSet resGetTy = conn.getMetaData().getTableTypes();
-                System.out.println("Show getTableTypes:");
-                while ( resGetTy.next() ) {
-                        System.out.println("Found table type: " + resGetTy.getString(1) );
-                }
+           sql = "INSERT INTO TEST10 " +
+                 "VALUES (1,24,1541019343497,22.54544424024718,9.834894630821138,39.065559149361725)";
+           stmt.executeUpdate(sql);
 
-		String resGetD = conn.getMetaData().getDriverVersion();
-                System.out.println("Show getDriver:" + resGetD);
+           sql = "INSERT INTO TEST10 " +
+                 "VALUES (2,39,1541019344356,24.3246538655206,14.100638100780325,44.398837306747936)";
+           stmt.executeUpdate(sql);
 
-                ResultSet resGetC = conn.getMetaData().getCatalogs();
-                System.out.println("Show getCatalogs:");
-                while ( resGetC.next() ) {
-			System.out.println(resGetC.getString(1));
-                }
+           sql = "INSERT INTO TEST10 " +
+                 "VALUES (2,1,1541019345216,25.658280957413456,14.24313156331591,45.29125502970843)";
+           stmt.executeUpdate(sql);
 
-                ResultSet resGetS = conn.getMetaData().getSchemas();
-                System.out.println("Show getSchemas:");
-                while ( resGetS.next() ) {
-			System.out.println( "Schema: " + resGetS.getString(1) + " catalog:  " + resGetS.getString(2));
-                }
+           // Step 5: read table
+           sql = "SELECT DEVICEID,SENSORID,TS,AMBIENT_TEMP,POWER,TEMPERATURE FROM TEST10";
+           ResultSet rs = stmt.executeQuery(sql);
+           while (rs.next()) {
+               // retrieve data by column name
+               int deviceID = rs.getInt("DEVICEID");
+               int sensorID = rs.getInt("SENSORID");
+               long ts = rs.getLong("TS");
+               double ambient_temp = rs.getDouble("AMBIENT_TEMP");
+               double power = rs.getDouble("POWER");
+               double temp = rs.getDouble("TEMPERATURE");
 
-
-         // Step 2: Allocate a 'Statement' object in the Connection
-         Statement stmt = conn.createStatement();
-      
-	 String tableName = "tab1";
- 
-	// show tables
-	String sql = "show tables '" + tableName + "'";
-	System.out.println("Running: " + sql);
-	ResultSet res = stmt.executeQuery(sql);
-	if (res.next()) {
-		System.out.println(res.getString(1));
-	}
- 
-        // describe table
-	sql = "describe " + tableName;
-	System.out.println("Running: " + sql);
-	res = stmt.executeQuery(sql);
-	while (res.next()) {
-	   System.out.println(res.getString(1) + "\t" + res.getString(2) + "\t" + res.getString(2));
-	}
-	    
-	sql = "select * from " + tableName;
-	System.out.println("Running: " + sql);
-	res = stmt.executeQuery(sql);
-
-	ResultSetMetaData rsmd = res.getMetaData();
-    	int numberOfColumns = rsmd.getColumnCount();
-	System.out.println( "num cols = " + numberOfColumns );
-	for( int i =1; i<numberOfColumns; i++ ){
-	  System.out.println( "Col " + i + " name: " + rsmd.getColumnName(i) +
-		" type: " + rsmd.getColumnTypeName(i) );
-	}
-
-        int count = 0;
-        System.out.println( "Output result:" );
-	while (res.next() && count < 100) {
-		System.out.println("Row output: " + res.getInt(1) + " " + res.getString(2));
-    		count = count + 1;
-	}
-         System.out.println("Total number of records = " + count);
-
-
-      // Step 5: Close the resources - Done automatically by try-with-resources
-	res.close();
-	stmt.close();
-	conn.close();
- 
-      } catch(SQLException ex) {
-         ex.printStackTrace();
-      }
+               // display data
+               System.out.print("deviceID: " + deviceID);
+               System.out.print(", sensorID: " + sensorID);
+               System.out.print(", ts: " + ts);
+               System.out.print(", ambient_temp: " + ambient_temp);
+               System.out.print(", power: " + power);
+               System.out.println(", temperature: " + temp);
+           }
+           rs.close();
+           // Step 2: check if table exists
+//           ResultSet resGetT = conn.getMetaData().getTables( null, "admin", "test1", new String[]{"TABLE"});
+//           System.out.println("Show getTables:");
+//           while ( resGetT.next() ) {
+//              System.out.println("Found table cat: " + resGetT.getString(1) + 
+//                                 " schema: " + resGetT.getString(2) +
+//                                 ", Name: " + resGetT.getString(3) + 
+//                                 ", Type: " + resGetT.getString(4) );
+//           }
+//           conn.close();
+       } catch(SQLException ex){
+           ex.printStackTrace();
+       } finally{
+           try{
+              if(stmt!=null)
+                 stmt.close();
+           } catch(SQLException se){
+           }// do nothing
+           try{
+              if(conn!=null)
+                 conn.close();
+           }catch(SQLException se){
+               se.printStackTrace();
+           }//end finally try
+       }//end try
    }
 }
-

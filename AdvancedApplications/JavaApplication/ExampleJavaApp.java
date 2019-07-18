@@ -42,7 +42,7 @@
 
       /** Name of the database that is created at the beginning and dropped at the
        * end of this program. A database with this name must not already exist. */
-      private static final String DATABASE_NAME  = "TESTDB";
+      private static final String DATABASE_NAME  = "EVENTDB";
 
       /** Number of rows to insert into the table */
       private static final int NUM_ROWS = 1000;
@@ -95,7 +95,10 @@
       public static void main(String args[]) {
 
           // Set connection endpoints
-          ConfigurationReader.setConnectionEndpoints("9.30.189.50:1101");
+          ConfigurationReader.setConnectionEndpoints("9.30.119.26:1101");
+          // Set user credential
+          ConfigurationReader.setEventUser("admin");
+          ConfigurationReader.setEventPassword("password");
           // Define schema of 'Ads' table as SparkSQL StructType
           StructField[] adsFields = new StructField[] {
               DataTypes.createStructField("storeId", DataTypes.LongType, false),
@@ -136,7 +139,7 @@
           System.out.println("Connect to database "+DATABASE_NAME);
           EventContext ctx = EventContext.getEventContext(DATABASE_NAME);
 
-          ctx.dropTable("Ads");
+          //ctx.dropTable("Ads");
 
           // Create 'Ads' table with index
           System.out.println("creating table "+adsTableSchema.tableName());
@@ -179,8 +182,6 @@
           results.show(10);
 
           // Drop database
-          //System.out.println("dropping database "+DATABASE_NAME);
-          //EventContext.dropDatabase(DATABASE_NAME);
           System.out.println("done.");
 
           EventContext.cleanUp();
