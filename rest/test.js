@@ -169,7 +169,7 @@ function submitSparkQuery2 (token, flow) {
   console.log ('Submitting -> \"' + query + '\"')
   console.log ('Result of SparkSql query:')
   var body = "{\"sql\":\"" + query + "\"}"
-  callESAPIWithBody('/spark/sql?tableName=IOT_TEMP&databaseName=TESTDB', 'POST', token, body, flow)
+  callESAPIWithBody('/spark/sql?tableName=IOT_TEMP&databaseName=EVENTDB', 'POST', token, body, flow)
 }
 function submitSparkQuery1 (token, flow) {
   console.log ('')
@@ -179,7 +179,7 @@ function submitSparkQuery1 (token, flow) {
   console.log ('Submitting -> \"' + query + '\"')
   console.log ('Result of SparkSql query:')
   var body = "{\"sql\":\"" + query + "\"}"
-  callESAPIWithBody('/spark/sql?tableName=IOT_TEMP&databaseName=TESTDB', 'POST', token, body, flow)
+  callESAPIWithBody('/spark/sql?tableName=IOT_TEMP&databaseName=EVENTDB', 'POST', token, body, flow)
 }
 // === End SPARK SQL Support ===
 
@@ -188,11 +188,11 @@ function getDatabases (token, flow) {
   callAPI ('Get Database', '/oltp/databases', 'GET', token, flow)
 }
 function getTables (token, flow) {
-  callAPI ('Get the list of Tables', '/oltp/tables?databaseName=TESTDB', 'GET', token, flow)
+  callAPI ('Get the list of Tables', '/oltp/tables?databaseName=EVENTDB', 'GET', token, flow)
 }
 
 function getTableInfo (token, flow) {
-  callAPI ('Get the table Info', '/oltp/table?tableName=IOT_TEMP&databaseName=TESTDB', 'GET', token, flow)
+  callAPI ('Get the table Info', '/oltp/table?tableName=IOT_TEMP&databaseName=EVENTDB', 'GET', token, flow)
 }
 
 // === Connect Support ===
