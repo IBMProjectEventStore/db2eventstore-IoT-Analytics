@@ -76,7 +76,7 @@ sudo exportfs -a
 echo "NFS Directory are exported as:"
 sudo exportfs
 
-if [ NAMESPACE != "dsx" ]; then
+if [ ${NAMESPACE} != "dsx" ]; then
     RELEASE_NAME=`helm ls --tls | grep db2eventstore | grep -v catalog | awk {'print $1'} | uniq`
     DATA_PATH="/data"
 fi
