@@ -51,7 +51,7 @@
       public static void main(String args[]) {
 
           // Set connection endpoints
-          ConfigurationReader.setConnectionEndpoints("9.30.119.26:1101");
+          ConfigurationReader.setConnectionEndpoints("9.30.119.26:18730;9.30.119.26:1101");
           // Set user credential
           ConfigurationReader.setEventUser("admin");
           ConfigurationReader.setEventPassword("password");
