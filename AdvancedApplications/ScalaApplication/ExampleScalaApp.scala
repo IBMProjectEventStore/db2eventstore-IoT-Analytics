@@ -1,77 +1,37 @@
-import com.ibm.event.oltp.EventContext
+import com.ibm.event.oltp.{EventContext,InsertResult}
 import com.ibm.event.common.ConfigurationReader
 import org.apache.spark.sql.ibm.event.EventSession
 import com.ibm.event.catalog.{TableSchema,IndexSpecification,SortSpecification,ColumnOrder}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.Row
 import org.apache.spark.{SparkConf, SparkContext}
+import scala.concurrent._
+import scala.concurrent.duration._
 
 object ExampleScalaApp {
 
   def main(args: Array[String]): Unit = {
-    val createDB = /*false */true
 
-    ConfigurationReader.setConnectionEndpoints("9.30.189.50:1101");
+    // set db2 connection endpoint
+    println("Please specify host IP: ")
+    val ip = scala.io.StdIn.readLine()
+    println(s"Connecting to $ip;")
+    ConfigurationReader.setConnectionEndpoints(s"$ip:18730;$ip:1101")
     ConfigurationReader.setConnectionTimeout(2)
+    
+    // set user credential
+    ConfigurationReader.setEventUser("admin")
+    ConfigurationReader.setEventPassword("password")
 
-    println("Please specify name of the new DB: ")
-    val dbName = scala.io.StdIn.readLine()
-
-    var ctx : EventContext = null
-
-    if( createDB ){
-    	try {
-       		println(s"Dropping database $dbName")
-       		EventContext.dropDatabase(dbName)
-    	} catch {
-        	case e: Exception =>
-          		println(s"error while dropping DB: ${e.getMessage}")
-    	}
-
-    	println(s"Creating database $dbName")
-        val ctx1 = EventContext.createDatabase(dbName)
-    }
-
+    // database information
+    val dbName="EVENTDB"
     println(s"Using database $dbName")
-    ctx = EventContext.getEventContext(dbName)
+    val ctx = EventContext.getEventContext(dbName)
 
     println("Please specify name of the new table ")
     val tabName = scala.io.StdIn.readLine()
-
-    println("Creating table " + tabName)
+    
     val tabSchema = TableSchema(tabName, StructType(Array(
-        StructField("id", IntegerType, false),
-        StructField("name", StringType, false),
-	StructField("q1",ArrayType(IntegerType, containsNull = true), nullable = true),
-        StructField("q2",MapType(IntegerType, IntegerType, valueContainsNull = true), nullable = true) )
-      ), shardingColumns = Array("id"), pkColumns = Array("id"))
-
-    var resDrop = ctx.dropTable(tabSchema.tableName)
-    assert(resDrop.isEmpty, s"drop table: ${resDrop.getOrElse("success")}")
-
-    var res = ctx.createTable(tabSchema)
-    assert(res.isEmpty, s"create table: ${res.getOrElse("success")}")
-
-    //insert into the table
-    val tab = ctx.getTable(tabName)
-    println("Table schema = " + tab )
-    val rows = Seq(Row(7,"eleven", Seq[Int](1,2,3), Map(1->1,2->2)),
-     	   	   Row(8,"twelve", Seq[Int](3,4), Map(100->9)) )
-
-    for( row <- rows ){ 
-        println( s"Inserting single row: ")// + row)
-    	val res1 = ctx.insert(tab, row)
-    	if (res1.failed)
-	      	println(s"single row insert failed: $res1")
-    	else
-      		println(s"Row successfully inserted into $tabName")
-    }
-
-    // Make the table for the streams example
-    val MLtabName = "IOT_TEMP"
-
-    println("Creating table " + MLtabName)
-    val MLtabSchema = TableSchema(MLtabName, StructType(Array(
    	StructField("deviceID", IntegerType, nullable = false),
    	StructField("sensorID", IntegerType, nullable = false),
    	StructField("ts", LongType, nullable = false),
@@ -83,38 +43,56 @@ object ExampleScalaApp {
    	pkColumns = Array("deviceID", "sensorID", "ts")
     )
 
-    val MLindexSchema = IndexSpecification(
-         indexName=MLtabName + "Index",
-         tableSchema=tabSchema,
-         equalColumns = Array("deviceID", "sensorID"),
-         sortColumns = Array(
-           SortSpecification("ts", ColumnOrder.DescendingNullsLast)),
-         includeColumns = Array("temperature")
-    )
+    val indexSpec = IndexSpecification(
+        indexName=tabName + "Index",
+        tableSchema=tabSchema,
+        equalColumns = Array("deviceID", "sensorID"),
+        sortColumns = Array(
+          SortSpecification("ts", ColumnOrder.DescendingNullsLast)),
+        includeColumns = Array("temperature")
+    ) 
 
-    var MLresDrop = ctx.dropTable(MLtabSchema.tableName)
-    assert(MLresDrop.isEmpty, s"drop table: ${MLresDrop.getOrElse("success")}")
+    println("Dropping table " + tabName)    
+    var resDrop = ctx.dropTable(tabName)
+    assert(resDrop.isEmpty, s"drop table: ${resDrop.getOrElse("success")}")
 
-    var MLres = ctx.createTableWithIndex(MLtabSchema,MLindexSchema)
-    assert(MLres.isEmpty, s"create table: ${MLres.getOrElse("success")}")
+    println("Creating table " + tabName)
+    var res = ctx.createTableWithIndex(tabSchema, indexSpec)
+    assert(res.isEmpty, s"create table: ${res.getOrElse("success")}")
+    val tab = ctx.getTable(tabName)
+    println("Table schema = " + tab )
+
+    // insert into the table
+    println("Inserting into table " + tabName)
+
+    val batch = IndexedSeq(Row(1,48,1541019342393L,25.983183481618322,14.65874116573845,48.908846094198),
+     	   	    Row(1,24,1541019343497L,22.54544424024718,9.834894630821138,39.065559149361725),
+                    Row(2,39,1541019344356L,24.3246538655206,14.100638100780325,44.398837306747936),
+                    Row(2,1,1541019345216L,25.658280957413456,14.24313156331591,45.29125502970843),
+                    Row(2,20,1541019346515L,26.836546274856012,12.841557839205619,48.70012987940281),
+                    Row(1,24,1541019347200L,24.960868340037266,11.773728418852778,42.16182979507462))
+
+    val future: Future[InsertResult] = ctx.batchInsertAsync(tab, batch)
+    val result: InsertResult = Await.result(future, Duration.Inf)
+    if (result.failed) 
+        println(s"Batch insert incomplete: $result")
+    else 
+        println(s"Batch successfully inserted into $tabName")
 
     EventContext.cleanUp()
 
+    // query from table
     val sc = new SparkContext(new SparkConf().setAppName("ExampleScalaApp").setMaster(
         Option(System.getenv("MASTER")).getOrElse("local[3]")))
     try {
       val sqlContext = new EventSession(sc, dbName)
       sqlContext.openDatabase()
       sqlContext.setQueryReadOption("SnapshotNone")
-   
       val ads = sqlContext.loadEventTable(tabName)
       println(ads.schema)
       ads.createOrReplaceTempView(tabName)
-
-      val results = sqlContext.sql(s"SELECT count(*) FROM $tabName")
-      results.show(100)
-      val results2 = sqlContext.sql(s"SELECT id, name, CAST(q1 as String), CAST(q2 as String)  FROM $tabName")
-      results2.show(100)
+      val results = sqlContext.sql(s"SELECT * FROM $tabName")
+      results.show()
     } catch {
       case e: Exception =>
         println("EXCEPTION: attempting to exit..." + e.getMessage)
