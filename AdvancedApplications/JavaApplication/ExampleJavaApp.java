@@ -1,3 +1,4 @@
+  import com.ibm.event.catalog.ColumnOrder;
   import com.ibm.event.catalog.IndexSpecification;
   import com.ibm.event.catalog.SortSpecification;
   import com.ibm.event.catalog.TableSchema;
@@ -22,130 +23,111 @@
   import scala.concurrent.duration.Duration;
 
   import java.util.ArrayList;
-  import java.util.Collections;
+  import java.util.Arrays;
   import java.util.List;
   import java.util.Random;
 
   /**
    * A simple Java class that invokes the EventContext.
    * It performs the following steps
-   * (1) creates a database
-   * (2) creates a table
-   * (3) asynchronously inserts a batch of rows into the table
-   * (4) Open a EventSession and run a query against the table (SELECT * FROM Ads)*
-   * (5) drops the database
-   *
-   * Note: to execute one case use:
-   *     java -cp target/scala-2.11/ibm-event_2.11-assembly-1.0.jar:${SPARK_HOME}/jars/* com.ibm.event.example.JavaEventStoreExample
+   * (1) connect to database "EVENTDB"
+   * (2) drop table if exists
+   * (3) creates the table
+   * (4) asynchronously inserts a batch of rows into the table
+   * (5) Open a EventSession and run a query against the table (SELECT * FROM <TABLE_NAME>)*
    */
   public class ExampleJavaApp {
 
       /** Name of the database that is created at the beginning and dropped at the
        * end of this program. A database with this name must not already exist. */
-      private static final String DATABASE_NAME  = "TESTDB";
+      private static final String DATABASE_NAME  = "EVENTDB";
 
-      /** Number of rows to insert into the table */
-      private static final int NUM_ROWS = 1000;
+      /** Name of table to create */
+      private static final String TABLE_NAME = "ABC"; 
 
       /** SparkSQL Query to run on table */
-      private static final String QUERY = "SELECT * FROM Ads";
-
-      /** Number of rows to show from query result */
-      private static final int NUM_QUERY_ROWS = 10;
-
-      /**
-       * Generate a number of random rows
-       * @param schema table schema for the rows
-       * @param numRows number of rows to generate
-       * @return a list of rows.
-       */
-      private static List<Row> getRandomRows(TableSchema schema, int numRows) {
-          ArrayList<Row> rows = new ArrayList<>(numRows);
-          Random rnd = new Random(1234);
-          for (long rowId=0; rowId<numRows; ++rowId) {
-
-              StructField[] fields = schema.schema().fields();
-              Object[] values = new Object[fields.length];
-              int fieldIdx = 0;
-              for (StructField field : fields) {
-                  DataType dt = field.dataType();
-                  if (field.name().equals("adId") && dt.equals(DataTypes.LongType)) {
-                      values[fieldIdx++] = rowId;
-                  } else if (dt.equals(DataTypes.IntegerType)) {
-                      values[fieldIdx++] = rnd.nextInt();
-                  } else if (dt.equals(DataTypes.LongType)) {
-                      values[fieldIdx++] = rnd.nextLong();
-                  } else if (dt.equals(DataTypes.ByteType)) {
-                      values[fieldIdx++] = (byte)rnd.nextInt(256);
-                  } else if (dt.equals(DataTypes.FloatType)) {
-                      values[fieldIdx++] = rnd.nextFloat();
-                  } else if (dt.equals(DataTypes.DoubleType)) {
-                      values[fieldIdx++] = rnd.nextDouble();
-                  } else if (dt.equals(DataTypes.BooleanType)) {
-                      values[fieldIdx++] = rnd.nextBoolean();
-                  } else {
-                      throw new RuntimeException("unsupported data type: "+dt);
-                  }
-              }
-              rows.add(new GenericRow(values));
-          }
-          return rows;
-      }
-
+      private static final String QUERY = "SELECT * FROM "+TABLE_NAME;
+      
       public static void main(String args[]) {
 
           // Set connection endpoints
-          ConfigurationReader.setConnectionEndpoints("9.30.189.50:1101");
-          // Define schema of 'Ads' table as SparkSQL StructType
-          StructField[] adsFields = new StructField[] {
-              DataTypes.createStructField("storeId", DataTypes.LongType, false),
-              DataTypes.createStructField("adId", DataTypes.LongType, false),
-              DataTypes.createStructField("categoryId", DataTypes.IntegerType, false),
-              DataTypes.createStructField("productName", DataTypes.LongType, false),
-              DataTypes.createStructField("budget", DataTypes.LongType, false),
-              DataTypes.createStructField("cost", DataTypes.LongType, false)
+          ConfigurationReader.setConnectionEndpoints("9.30.119.26:1101");
+          // Set user credential
+          ConfigurationReader.setEventUser("admin");
+          ConfigurationReader.setEventPassword("password");
+          // Define schema of table as SparkSQL StructType
+          StructField[] tabFields = new StructField[] {
+              DataTypes.createStructField("deviceID", DataTypes.IntegerType, false),
+              DataTypes.createStructField("sensorID", DataTypes.IntegerType, false),
+              DataTypes.createStructField("ts", DataTypes.LongType, false),
+              DataTypes.createStructField("ambient_temp", DataTypes.DoubleType, false),
+              DataTypes.createStructField("power", DataTypes.DoubleType, false),
+              DataTypes.createStructField("temperature", DataTypes.DoubleType, false)
           };
-          StructType adsSchema = DataTypes.createStructType(adsFields);
+          StructType tabSchemaStruct = DataTypes.createStructType(tabFields);
 
           // Create IBM Db2 Event Store table schema
           // For interoperability with the Scala API, the scala collection types are created from
           // the corresponding Java collection types.
-          Seq<String> pkList = JavaConversions.asScalaBuffer(Collections.singletonList("adId")).toSeq();
-          Seq<String> emptyStringList = JavaConversions.asScalaBuffer(Collections.<String>emptyList()).toSeq();
-          Seq<SortSpecification> emptySortSpecList = JavaConversions.asScalaBuffer(
-                  Collections.<SortSpecification>emptyList()).toSeq();
-          Option<Seq<String>> emptyPart = Option.empty();
+          Seq<String> pkColumns = JavaConversions.asScalaBuffer(Arrays.asList("deviceID", "sensorID", "ts")).toSeq();
+          Seq<String> shardColumns = JavaConversions.asScalaBuffer(Arrays.asList("deviceID", "sensorID")).toSeq();
+          //Option<Seq<String>> emptyPart = Option.empty();
 
-          TableSchema adsTableSchema = new TableSchema(
-                  "Ads",    // table name
-                  adsSchema,          // schema SparkSQL TypeStruct
-                  pkList,             // sharding key: list of columns that form composite sharding key
-                  pkList,             // primary key: list of columns that form composite primary key
-		  emptyPart );
+          TableSchema tabSchema = new TableSchema(
+                  TABLE_NAME,          // table name
+                  tabSchemaStruct,     // schema SparkSQL TypeStruct
+                  shardColumns,        // sharding key: list of columns that form composite sharding key
+                  pkColumns,           // primary key: list of columns that form composite primary key
+		  Option.empty()
+          );
 
+          Seq<String> equalColumns = JavaConversions.asScalaBuffer(Arrays.asList("deviceID", "sensorID")).toSeq();
+          Seq<SortSpecification> SortColumns = JavaConversions.asScalaBuffer(
+		  Arrays.asList(new SortSpecification("ts", ColumnOrder.DescendingNullsLast()))).toSeq();
+          Seq<String> includeColumns = JavaConversions.asScalaBuffer(Arrays.asList("temperature")).toSeq();
           // Create index specification along with table
-          IndexSpecification index = new IndexSpecification(
-                  "FooIndex",   // index name
-                  adsTableSchema,         // table schema
-                  pkList,                 // list of equality columns
-                  emptySortSpecList,      // list of sort columns
-                  emptyStringList,        // list of include columns
+          IndexSpecification indexSpec = new IndexSpecification(
+                  TABLE_NAME+"Index",     // index name
+                  tabSchema,              // table schema
+                  equalColumns,           // list of equality columns
+                  SortColumns,            // list of sort columns
+                  includeColumns,         // list of include columns
                   Option.apply(null));    // IndexID: None (will be engine generated)
 
-          // Create database
+          // Connect to database
           System.out.println("Connect to database "+DATABASE_NAME);
           EventContext ctx = EventContext.getEventContext(DATABASE_NAME);
 
-          ctx.dropTable("Ads");
+	  // Drop table if exists
+          try {
+       	      System.out.println("droping table "+tabSchema.tableName());
+              ctx.dropTable(TABLE_NAME);
+          } catch(Exception e){
+              if(!e.getMessage().contains("SQLCODE=-204")) throw e;
+              else System.out.println("Table not found, skip dropping table");
+          }
 
-          // Create 'Ads' table with index
-          System.out.println("creating table "+adsTableSchema.tableName());
-          ctx.createTableWithIndex(adsTableSchema, index);
+          // Create table with index
+          System.out.println("creating table "+tabSchema.tableName());
+          ctx.createTableWithIndex(tabSchema, indexSpec);
 
-          // Generate one batch of row and insert it asynchronously into the Ads table.
-          System.out.println("asynchronously inserting rows "+NUM_ROWS+" as batch");
-          Future<InsertResult> future = ctx.batchInsertAsync(ctx.getTable("Ads"),
-                  JavaConversions.asScalaBuffer(getRandomRows(adsTableSchema, NUM_ROWS)).toIndexedSeq(), true);
+          // Generate one batch of row and insert it asynchronously into table.
+          System.out.println("asynchronously inserting rows as batch");
+
+          List<Row> rows = new ArrayList<>();
+	  rows.add(new GenericRow(new Object[]
+		  {1,48,1541019342393L,25.983183481618322,14.65874116573845,48.908846094198}));
+          rows.add(new GenericRow(new Object[]
+		  {1,24,1541019343497L,22.54544424024718,9.834894630821138,39.065559149361725}));
+          rows.add(new GenericRow(new Object[]
+		  {2,39,1541019344356L,24.3246538655206,14.100638100780325,44.398837306747936}));
+          rows.add(new GenericRow(new Object[]
+		  {2,1,1541019345216L,25.658280957413456,14.24313156331591,45.29125502970843}));
+          rows.add(new GenericRow(new Object[]
+		  {2,20,1541019346515L,26.836546274856012,12.841557839205619,48.70012987940281}));
+
+          Future<InsertResult> future = ctx.batchInsertAsync(ctx.getTable(TABLE_NAME),
+                  JavaConversions.asScalaBuffer(rows).toIndexedSeq(), true);
           try {
               // Wait for insert to complete and check outcome
               InsertResult result = Await.result(future, Duration.Inf());
@@ -160,29 +142,27 @@
               e.printStackTrace();
           }
 
+          EventContext.cleanUp();
+
           // Create new IBM Db2 Event Store Spark Session
           System.out.println("create EventSession");
           SparkSession sparkSession = SparkSession.builder().master("local[3]")
-                  .appName("EventStoreExample").getOrCreate();
-          EventSession session = new EventSession(sparkSession.sparkContext(),
+                  .appName("ExampleJavaApp").getOrCreate();
+          EventSession sqlContext = new EventSession(sparkSession.sparkContext(),
                   DATABASE_NAME);
 
           // Open the database and register the table in the Spark catalog
-          System.out.println("open database and table Ads with SparkSQL");
-          session.openDatabase();
-          session.loadEventTable("Ads").createOrReplaceTempView("Ads");
+          System.out.println("open database and table "+TABLE_NAME+" with SparkSQL");
+          sqlContext.openDatabase();
+          sqlContext.setQueryReadOption("SnapshotNone");
+          sqlContext.loadEventTable(TABLE_NAME).createOrReplaceTempView(TABLE_NAME);
 
           // Run query and show NUM_QUERY_RESULT rows of the query result
           System.out.println("execute query: "+QUERY);
-          Dataset<Row> results = session.sql(QUERY);
-          System.out.println("result: ("+NUM_QUERY_ROWS+" result rows):");
-          results.show(10);
+          Dataset<Row> results = sqlContext.sql(QUERY);
+          results.show();
 
           // Drop database
-          //System.out.println("dropping database "+DATABASE_NAME);
-          //EventContext.dropDatabase(DATABASE_NAME);
           System.out.println("done.");
-
-          EventContext.cleanUp();
       }
   }
