@@ -43,7 +43,7 @@
       private static final String DATABASE_NAME  = "EVENTDB";
 
       /** Name of table to create */
-      private static final String TABLE_NAME = "ABC"; 
+      private static final String TABLE_NAME = "JavaTable"; 
 
       /** SparkSQL Query to run on table */
       private static final String QUERY = "SELECT * FROM "+TABLE_NAME;
