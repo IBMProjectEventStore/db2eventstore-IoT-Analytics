@@ -1,7 +1,7 @@
 import java.sql.*;   // Use 'Connection', 'Statement' and 'ResultSet' classes in java.sql package
 
 // JDK 1.7 and above
-public class ExampleJdbcApp {   // Save as "ExampleJdbcApp.java"
+public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
 
    /** Name of the database that is created at the beginning and dropped at the
     *  end of this program. A database with this name must not already exist. */
@@ -11,7 +11,7 @@ public class ExampleJdbcApp {   // Save as "ExampleJdbcApp.java"
    private static final String TABLE_NAME = "JdbcTable"; 
 
    /** Path for external table csv file */
-   private static final String EXTERNAL_CSV_PATH= "/root/sample_IOT_table.csv";
+   private static final String EXTERNAL_CSV_PATH= "/root/db2eventstore-IoT-Analytics/data/sample_IOT_table.csv";
 
    public static void main(String[] args) {
        String driverName = "com.ibm.db2.jcc.DB2Driver";
@@ -31,8 +31,8 @@ public class ExampleJdbcApp {   // Save as "ExampleJdbcApp.java"
            conn =
            DriverManager.getConnection(
                     "jdbc:db2://9.30.119.26:18730/" + DATABASE_NAME + ":sslConnection=true;" +
-	   	    "sslTrustStoreLocation=/user-home/_global_/eventstore/eventstore/clientkeystore;" +
-	   	    "sslKeyStoreLocation=/user-home/_global_/eventstore/eventstore/clientkeystore;" +
+	   	    "sslTrustStoreLocation=/var/lib/eventstore/clientkeystore;" +
+	   	    "sslKeyStoreLocation=/var/lib/eventstore/clientkeystore;" +
                     "sslKeyStorePassword=LdsdUbGSyYF3;" +
                     "sslTrustStorePassword=LdsdUbGSyYF3;" +
                     "securityMechanism=15;" +
@@ -75,19 +75,19 @@ public class ExampleJdbcApp {   // Save as "ExampleJdbcApp.java"
 
            // Step 4: insert new lines
            sql = "INSERT INTO " + TABLE_NAME + " " +
-                 "VALUES (1,48,1541019342393,25.983183481618322,14.65874116573845,48.908846094198)";
+                 "VALUES (99,48,1541019342393,25.983183481618322,14.65874116573845,48.908846094198)";
            stmt.executeUpdate(sql);
 
            sql = "INSERT INTO " + TABLE_NAME + " " +
-                 "VALUES (1,24,1541019343497,22.54544424024718,9.834894630821138,39.065559149361725)";
+                 "VALUES (99,24,1541019343497,22.54544424024718,9.834894630821138,39.065559149361725)";
            stmt.executeUpdate(sql);
 
            sql = "INSERT INTO " + TABLE_NAME + " " +
-                 "VALUES (2,39,1541019344356,24.3246538655206,14.100638100780325,44.398837306747936)";
+                 "VALUES (99,39,1541019344356,24.3246538655206,14.100638100780325,44.398837306747936)";
            stmt.executeUpdate(sql);
 
            sql = "INSERT INTO " + TABLE_NAME + " " +
-                 "VALUES (2,1,1541019345216,25.658280957413456,14.24313156331591,45.29125502970843)";
+                 "VALUES (99,1,1541019345216,25.658280957413456,14.24313156331591,45.29125502970843)";
            stmt.executeUpdate(sql);
 
            // Step 5: insert from external table
