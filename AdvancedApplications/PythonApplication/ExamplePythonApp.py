@@ -50,7 +50,7 @@ with EventContext.get_event_context(dbName) as ctx:
    try:
       ctx.drop_table(tabName)
    except Exception as e:
-      print e;
+      print (e);
       assert str(e).find("SQLCODE=-204")!=-1
       print("Table not found, skip dropping table")
 
@@ -82,7 +82,7 @@ with EventContext.get_event_context(dbName) as ctx:
    print("Inserting batch rows:")
    for row in rows:
       row_batch.append(dict(zip(column,row)));
-      print row_batch[-1]
+      print (row_batch[-1])
    ctx.batch_insert(table, row_batch)
    
 # load data from table
