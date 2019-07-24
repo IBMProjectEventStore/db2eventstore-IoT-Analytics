@@ -11,7 +11,7 @@ tar xzf Python-3.5.6.tgz
 cd Python-3.5.6
 ./configure --enable-optimizations
 make altinstall
-rm /usr/src Python-3.5.6.tgz
+rm /usr/src/Python-3.5.6.tgz
 ln -s /usr/local/bin/python3.5 /usr/local/bin/python
 
 ## set up EventStore python library
