@@ -9,7 +9,7 @@ then
    echo "SPARK_HOME not defined. Using SPARK_HOME=${SPARK_HOME}"
 fi
 
-git clone https://github.com/IBMProjectEventStore/db2eventstore-pythonpackages.git /
+git clone https://github.com/IBMProjectEventStore/db2eventstore-pythonpackages.git /db2eventstore-pythonpackages
 unzip /db2eventstore-pythonpackages/python.zip -d /var/lib
 rm -rf /db2eventstore-pythonpackages
 
