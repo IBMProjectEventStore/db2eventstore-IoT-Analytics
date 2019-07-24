@@ -12,4 +12,6 @@ fi
 unzip /root/python.zip -d /var/lib
 rm -f /root/python.zip
 
-echo "export PYTHONPATH=$PYTHONPATH:/var/lib:${SPARK_HOME}/python:${SPARK_HOME}/python/lib/py4j-0.10.3-src.zip" >> /etc/profile.d/local_python.sh
+PY4J_VERSION=$(ls ${SPARK_HOME}/python/lib | grep py4j)
+
+echo "export PYTHONPATH=$PYTHONPATH:/var/lib:${SPARK_HOME}/python:${SPARK_HOME}/python/lib/${PY4J_VERSION}" >> /etc/profile.d/local_python.sh
