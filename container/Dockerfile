@@ -36,6 +36,7 @@ RUN ${SETUP_AREA}/setup-scala.sh
 
 # Copy ES2.0 client libraries
 RUN wget -P /root/ https://repo1.maven.org/maven2/com/ibm/event/ibm-db2-eventstore-client-spark-2.2.1/2.0.0/ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar
+RUN cp /root/ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar ${SPARK_HOME}/jars/
 
 # Create client config file
 RUN mkdir -p /bluspark/external_conf/
