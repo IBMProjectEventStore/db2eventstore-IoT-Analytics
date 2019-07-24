@@ -5,11 +5,11 @@ echo "Compile java code"
 
 ESLIB=/root/ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar
 
-rm ExampleJavaApp.class
+rm -f ExampleJavaApp.class
 javac -cp "${ESLIB}:${SPARK_HOME}/jars/*" ExampleJavaApp.java
 
 echo "Make a jar with java class"
-rm myJarExample.jar
+rm -f myJarExample.jar
 jar -cf myJarExample.jar ExampleJavaApp.class
 
 echo "execute with spark submit" 

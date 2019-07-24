@@ -5,7 +5,7 @@ echo "Compile java code"
 ESLIB=/root/ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar
 
 echo "Compile the scala application"
-rm myScalaExample.jar
+rm -f myScalaExample.jar
 scalac ExampleScalaApp.scala -d myScalaExample.jar \
 	-classpath ${ESLIB}:${SPARK_HOME}/jars/*
 
