@@ -52,9 +52,13 @@ object ExampleScalaApp {
         includeColumns = Array("temperature")
     ) 
 
-    println("Dropping table " + tabName)    
-    var resDrop = ctx.dropTable(tabName)
-    assert(resDrop.isEmpty, s"drop table: ${resDrop.getOrElse("success")}")
+    try {
+        println("Trying to drop table if it exists")
+        ctx.dropTable(tabName)
+    } catch {
+        case e: Exception =>
+        println("Table not found.")
+    }
 
     println("Creating table " + tabName)
     var res = ctx.createTableWithIndex(tabSchema, indexSpec)
@@ -66,7 +70,7 @@ object ExampleScalaApp {
     println("Inserting into table " + tabName)
 
     val batch = IndexedSeq(Row(1,48,1541019342393L,25.983183481618322,14.65874116573845,48.908846094198),
-     	   	    Row(1,24,1541019343497L,22.54544424024718,9.834894630821138,39.065559149361725),
+                    Row(1,24,1541019343497L,22.54544424024718,9.834894630821138,39.065559149361725),
                     Row(2,39,1541019344356L,24.3246538655206,14.100638100780325,44.398837306747936),
                     Row(2,1,1541019345216L,25.658280957413456,14.24313156331591,45.29125502970843),
                     Row(2,20,1541019346515L,26.836546274856012,12.841557839205619,48.70012987940281),
