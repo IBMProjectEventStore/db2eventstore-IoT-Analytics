@@ -39,8 +39,9 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
                     "pluginName=IBMPrivateCloudAuth;", 
                     "admin", "password");
 
-	   System.out.println("Connected database successfully...");
+           conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
            stmt = conn.createStatement();
+	   System.out.println("Connected database successfully...");
 
            // Step 2: delete old table if exist
            System.out.println("Deleting table in given database...");
@@ -97,7 +98,8 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
            stmt.executeUpdate(sql);
 
            // Step6: read table
-           sql = "SELECT DEVICEID,SENSORID,TS,AMBIENT_TEMP,POWER,TEMPERATURE FROM " + TABLE_NAME;
+           sql = "SELECT DEVICEID,SENSORID,TS,AMBIENT_TEMP,POWER,TEMPERATURE FROM " + TABLE_NAME + 
+		 " LIMIT 10";
            ResultSet rs = stmt.executeQuery(sql);
            while (rs.next()) {
                // retrieve data by column name
@@ -117,15 +119,6 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
                System.out.println(", temperature: " + temp);
            }
            rs.close();
-           // Step 2: check if table exists
-           ResultSet resGetT = conn.getMetaData().getTables( null, "admin", TABLE_NAME, new String[]{"TABLE"});
-           System.out.println("Show getTables:");
-           while ( resGetT.next() ) {
-              System.out.println("Found table cat: " + resGetT.getString(1) + 
-                                 " schema: " + resGetT.getString(2) +
-                                 ", Name: " + resGetT.getString(3) + 
-                                 ", Type: " + resGetT.getString(4) );
-           }
        } catch(SQLException ex){
            ex.printStackTrace();
        } finally{
