@@ -14,6 +14,8 @@ RUN yum install -y \
     unzip \
     less \
     git \
+    gcc \
+    make \
     sudo \
     && yum clean all \
     && rm -rf /var/cache/yum
