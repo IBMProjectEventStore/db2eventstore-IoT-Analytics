@@ -31,11 +31,10 @@ ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/jvm/java-${JAVA_VERSION}-openjd
 # Setup spark/scala/python
 ENV SPARK_HOME="/spark_home"
 ENV PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
-COPY python.zip /root
-RUN ${SETUP_AREA}/setup-python.sh
 RUN ${SETUP_AREA}/setup-spark.sh
 RUN ${SETUP_AREA}/setup-scala.sh
-RUN ${SETUP_AREA}}/setup-kafka.sh
+RUN ${SETUP_AREA}/setup-python.sh
+RUN ${SETUP_AREA}/setup-kafka.sh
 
 # Copy ES2.0 client libraries
 RUN wget -P /root/ https://repo1.maven.org/maven2/com/ibm/event/ibm-db2-eventstore-client-spark-2.2.1/2.0.0/ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar
