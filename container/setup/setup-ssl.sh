@@ -17,7 +17,7 @@ bearerToken=`curl --silent -k -X GET https://${PUBLIC_IP}/v1/preauth/validateAut
 # get clientkeystore file
 curl --silent -k -X GET -H "authorization: Bearer $bearerToken" "https://${PUBLIC_IP}:443/com/ibm/event/api/v1/oltp/certificate" -o ${KEY_PATH}/clientkeystore
 
-PASSWORD=$(curl --silent -k -i -X GET -H "authorization: Bearer $bearerToken" "https://${PUBILC_IP}:443/com/ibm/event/api/v1/oltp/certificate_password" | tail -1)
+PASSWORD=$(curl --silent -k -i -X GET -H "authorization: Bearer $bearerToken" "https://${PUBLIC_IP}:443/com/ibm/event/api/v1/oltp/certificate_password" | tail -1)
 
 cat > /bluspark/external_conf/bluspark.conf <<EOL 
 internal.client.security.sslTrustStoreLocation ${KEY_PATH}/clientkeystore 

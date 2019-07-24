@@ -36,7 +36,7 @@ with EventContext.get_event_context(dbName) as ctx:
        ]),
        sharding_columns = ["deviceID", "sensorID"],
        pk_columns = ["deviceID", "sensorID", "ts"]
-    )
+   )
    # creating table index specification
    indexSpec = IndexSpecification(
        index_name=tabName + "Index",
