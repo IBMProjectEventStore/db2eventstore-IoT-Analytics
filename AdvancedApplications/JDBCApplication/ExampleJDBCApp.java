@@ -39,8 +39,9 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
                     "pluginName=IBMPrivateCloudAuth;", 
                     "admin", "password");
 
-	   System.out.println("Connected database successfully...");
+           conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
            stmt = conn.createStatement();
+	   System.out.println("Connected database successfully...");
 
            // Step 2: delete old table if exist
            System.out.println("Deleting table in given database...");
