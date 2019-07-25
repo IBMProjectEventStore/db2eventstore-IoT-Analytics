@@ -23,7 +23,7 @@ This script will execute multiple REST APIs to:
 Usage: $0 [OPTIONS] [arg]
 OPTIONS:
 ========
---publicIP    [Default: Public IP] Public IP of any cluster node.
+--IP  Public IP of any cluster node.
 --user [Default: admin] User name of Watson Studio Local user who created the IOT_TEMP table
 --password [Default: password] Password of Watson Studio Local user who created the IOT_TEMP table
 USAGE
@@ -35,17 +35,20 @@ while [ -n "$1" ]; do
         usage >&2
         exit 0
         ;;
-    --publicIP)
-        CLUSTER_IP="$1"
+    --IP)
+        CLUSTER_IP="$2"
+        shift 2
         ;;
     --user)
-        EVENTSTORE_USERID="$1"
+        EVENTSTORE_USERID="$2"
+        shift 2
         ;;
     --password)
-        EVENTSTORE_PASSWORD="$1"
+        EVENTSTORE_PASSWORD="$2"
+        shift 2
         ;;
     *)
-        echo "Unknown option:$1"
+        echo "Unknown option:$2"
         usage >&2
         exit 1
     esac
