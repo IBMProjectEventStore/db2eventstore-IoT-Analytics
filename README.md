@@ -62,8 +62,6 @@ When the reader has completed this code pattern, they will understand how to:
 
   The IBM Db2 Event Store Enterprise Edition is suggested to be installed in order to execute the examples in this repository. The Enterprise Edition is free for pre-production and test, you are welcomed to visit [official product webpage](https://www.ibm.com/products/db2-event-store) to get the Enterprise Edition for trial.
 
-  * Alternatively you can install the free developer edition on Mac, Linux, or Windows by following the instructions [here. ](https://www.ibm.com/support/knowledgecenter/en/SSGNPV/eventstore/desktop/install.html) However, the function of the developer edition is limited, some tasks cannot be performed with the developer edition.*
-
   > Note: This code pattern was developed with EventStore-Enterprise Edition 1.1.3
 
 * Clone this github repository to get a local copy of all files
@@ -71,7 +69,7 @@ When the reader has completed this code pattern, they will understand how to:
 Clone the `db2eventstore-IoT-Analytics` locally. In a terminal, run:
 
 ```bash
-git clone https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics
+git clone https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics.git
 ```
 
 # Workflow
