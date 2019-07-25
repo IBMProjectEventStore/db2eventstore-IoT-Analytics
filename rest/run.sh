@@ -1,8 +1,14 @@
 #!/bin/bash -x
 
-CLUSTER_IP=$(ifconfig | sed -n -e 's/ *inet \(9.30[0-9.]\+\) \+netmask.*/\1/p')
-EVENTSTORE_USERID="admin"
-EVENTSTORE_PASSWORD="password"
+# use default IP, user, and password if not set as environment variable.
+if [ -z "${IP}" ]; then
+    IP=$(ifconfig | sed -n -e 's/ *inet \(9.30[0-9.]\+\) \+netmask.*/\1/p')
+fi
+
+if [ -z "${USER}" ]; then
+    USER="admin"
+    PASSWORD="password"
+fi
 
 function usage()
 {
@@ -36,15 +42,15 @@ while [ -n "$1" ]; do
         exit 0
         ;;
     --IP)
-        CLUSTER_IP="$2"
+        IP="$2"
         shift 2
         ;;
     --user)
-        EVENTSTORE_USERID="$2"
+        USER="$2"
         shift 2
         ;;
     --password)
-        EVENTSTORE_PASSWORD="$2"
+        PASSWORD="$2"
         shift 2
         ;;
     *)
@@ -54,4 +60,4 @@ while [ -n "$1" ]; do
     esac
 done
 
-node test.js --engine=$CLUSTER_IP:1101 --server=https://$CLUSTER_IP:443 --user=$EVENTSTORE_USERID --password=$EVENTSTORE_PASSWORD
+node test.js --engine=$IP:1101 --server=https://$IP:443 --user=$USER --password=$PASSWORD
