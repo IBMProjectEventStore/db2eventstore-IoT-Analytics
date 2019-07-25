@@ -6,7 +6,7 @@ from eventstore.catalog import TableSchema, IndexSpecification, SortSpecificatio
 from pyspark.sql.types import *
 
 # set connection endpoint
-ip = raw_input("Please specify host IP: ")
+ip = input("Please specify host IP: ")
 print("Connecting to {}".format(ip))
 ConfigurationReader.setConnectionEndpoints("{}:18730;{}:1101".format(ip,ip))
 ConfigurationReader.setConnectionTimeout(2)
@@ -23,7 +23,7 @@ print("Opening database {}".format(dbName))
 eventSession = EventSession(sparkSession.sparkContext, dbName)
 eventSession.open_database()
 
-tabName = raw_input("Please specify name of the new table: ")
+tabName = input("Please specify name of the new table: ")
 with EventContext.get_event_context(dbName) as ctx:
    # creating table schema
    tableSchema = TableSchema(tabName, StructType([
