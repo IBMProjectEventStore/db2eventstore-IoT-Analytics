@@ -11,13 +11,6 @@ import scala.concurrent.duration._
 object ExampleScalaApp {
 
   def main(args: Array[String]): Unit = {
-    import org.apache.log4j.{Level, LogManager}
-    LogManager.getRootLogger.setLevel(Level.ALL)//Level.ALL)
-    val level = LogManager.getRootLogger.getLevel
-     println("Root logger level = " + level)
-    LogManager.getLogger("com.ibm.event").setLevel(level)//Level.INFO)
-    LogManager.getLogger("org.apache.spark.sql.ibm.event").setLevel(level)//Level.INFO)
-
     // set db2 connection endpoint
     println("Please specify host IP: ")
     val ip = scala.io.StdIn.readLine()
