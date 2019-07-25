@@ -3,16 +3,17 @@
 ## python
 ##
 
-## Set up python 3.5
+## Set up python 3.6
 
 cd /usr/src
-wget https://www.python.org/ftp/python/3.5.6/Python-3.5.6.tgz
-tar xzf Python-3.5.6.tgz
-cd Python-3.5.6
+wget https://www.python.org/ftp/python/3.6.8/Python-3.6.8.tgz
+tar xzf Python-3.6.8.tgz
+cd Python-3.6.8
 ./configure --enable-optimizations
 make altinstall
-rm /usr/src/Python-3.5.6.tgz
-ln -s /usr/local/bin/python3.5 /usr/local/bin/python
+rm /usr/src Python-3.6.8.tgz
+ln -fs /usr/local/bin/python3.6 /usr/local/bin/python
+
 
 ## set up EventStore python library
 if [ -z "${SPARK_HOME}" ]
