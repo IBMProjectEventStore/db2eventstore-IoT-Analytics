@@ -11,6 +11,12 @@ import scala.concurrent.duration._
 object ExampleScalaApp {
 
   def main(args: Array[String]): Unit = {
+    import org.apache.log4j.{Level, LogManager}
+    LogManager.getRootLogger.setLevel(Level.ALL)//Level.ALL)
+    val level = LogManager.getRootLogger.getLevel
+     println("Root logger level = " + level)
+    LogManager.getLogger("com.ibm.event").setLevel(level)//Level.INFO)
+    LogManager.getLogger("org.apache.spark.sql.ibm.event").setLevel(level)//Level.INFO)
 
     // set db2 connection endpoint
     println("Please specify host IP: ")
@@ -57,7 +63,14 @@ object ExampleScalaApp {
         ctx.dropTable(tabName)
     } catch {
         case e: Exception =>
-        println("Table not found.")
+        val TableNotFound = e.getMessage.split(" ").contains("SQLCODE=-204,")
+        if (TableNotFound) {
+            println("Table not found." + e.getMessage)
+        } else {
+            println("EXCEPTION: Exception during drop table. Trying to exit..." + e.getMessage)
+            e.printStackTrace()
+            sys.exit(1)
+        }
     }
 
     println("Creating table " + tabName)
