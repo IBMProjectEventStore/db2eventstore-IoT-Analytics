@@ -46,3 +46,4 @@ RUN wget -P ${SPARK_HOME}/jars/ https://repo1.maven.org/maven2/com/ibm/event/ibm
 # Create client config file
 RUN mkdir -p /bluspark/external_conf/
 RUN touch /bluspark/external_conf/bluspark.conf
+WORKDIR /root
