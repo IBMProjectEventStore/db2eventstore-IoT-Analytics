@@ -19,9 +19,6 @@ curl --silent -k -X GET -H "authorization: Bearer $bearerToken" "https://${PUBLI
 
 PASSWORD=$(curl --silent -k -i -X GET -H "authorization: Bearer $bearerToken" "https://${PUBLIC_IP}:443/com/ibm/event/api/v1/oltp/certificate_password" | tail -1)
 
-export "KEYDB_PATH"="${KEYDB_PATH}/clientkeystore"
-export "KEYDB_PASSWORD"=${PASSWORD}
-
 cat > /bluspark/external_conf/bluspark.conf <<EOL 
 internal.client.security.sslTrustStoreLocation ${KEY_PATH}/clientkeystore 
 internal.client.security.sslTrustStorePassword ${PASSWORD}
