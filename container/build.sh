@@ -34,4 +34,4 @@ while [ -n "$1" ]; do
     esac
 done
 
-docker build -t event_store_demo:"${TAG}" .
+docker build  --no-cache -t event_store_demo:"${TAG}" .

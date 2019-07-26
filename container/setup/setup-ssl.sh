@@ -1,36 +1,28 @@
 #!/bin/bash
 
-# target cluster's public IP 
-PUBLIC_IP=$1
-
-# check if USER name is provided through environment var, if not set to default.
-if [ -z ${USER} ]; then
-    USER="admin"
-    PASSWORD="password"
-fi
-
 function usage()
 {
 cat <<-USAGE #| fmt
 Pre-requisite:
-- You have created the table IOT_TEMP by runnign the Notebook examples
-- You have ingested data into the IOT_TEMP table by running /data/load.sh
-- You have run install.sh in this directory to install required packages
+- This script requires the SSL certificate to be the default self-signed certificate
+- This currently only run on Event Store 2.0 installed with Watson Studio Local
+- You have the public IP of the target Event Store 2.0 server
+- You have the username and password of the Watson Studio Local on the Event Store server
 ========
 Description:
-This script will execute multiple REST APIs to:
-- Connect to database
-- Get table IOT_TEMP
-- Query the count of record in IOT_TEMP
-- Fetch the first 5 record in IOT_TEMP with certain ID.
+This script will receive the argument of public IP of target Event Store 2.0 server,
+user and password of the Watson Studio Local on the Event Store 2.0 server.
+Then it will retrieve the clientkeystore file and it's password for the SSL connection
+with Event Store 2.0. The /bluspark/external_conf/bluspark.conf file be created
+with above information.
 
 -----------
 Usage: $0 [OPTIONS] [arg]
 OPTIONS:
 ========
 --IP  Public IP of target cluster.
---user [Default: admin] User name of Watson Studio Local user
---password [Default: password] Password of Watson Studio Local user
+--user User name of Watson Studio Local user
+--password Password of Watson Studio Local user
 USAGE
 }
 
@@ -41,7 +33,7 @@ while [ -n "$1" ]; do
         exit 0
         ;;
     --IP)
-        PUBLIC_IP="$2"
+        IP="$2"
         shift 2
         ;;
     --user)
@@ -59,31 +51,58 @@ while [ -n "$1" ]; do
     esac
 done
 
-if [ -z ${PUBLIC_IP} ]; then
-   echo "Error: please pass in the public IP of your cluster as part of the script argument" >&2
+# IP, Evnet_User, Event_Password can be read from the environment variable set by `docker run -e`
+
+if [ -z ${IP} ]; then
+   echo "Error: Please pass in the public IP of your cluster using flag --IP" >&2
+   usage >&2
    exit 1
 fi
 
+if [ -z ${EVENT_USER} ]; then
+    echo "Error: Please pass in the Watson Studio Local user name using flag --user" >&2
+    usage >&2
+    exit 1
+fi
+
+if [ -z ${EVENT_PASSWORD} ]; then
+    echo "Error: Please pass in the Watson Studio Local's password name using flag --password" >&2
+    usage >&2
+    exit 1
+fi
+
 # target path to store client ssl key
-KEY_PATH="/var/lib/eventstore"
+KEYDB_PATH="/var/lib/eventstore"
 
 # get bearerToken
-bearerToken=`curl --silent -k -X GET https://${PUBLIC_IP}/v1/preauth/validateAuth -u ${USER}:${PASSWORD} | jq -r '.accessToken'`
+bearerToken=`curl --silent -k -X GET https://${IP}/v1/preauth/validateAuth -u ${EVENT_USER}:${EVENT_PASSWORD} | jq -r '.accessToken'`
+[ $? -ne 0 ] && echo "Not able to get bearerToken" && exit 2
 
 # get clientkeystore file
-curl --silent -k -X GET -H "authorization: Bearer $bearerToken" "https://${PUBLIC_IP}:443/com/ibm/event/api/v1/oltp/certificate" -o ${KEY_PATH}/clientkeystore
+curl --silent -k -X GET -H "authorization: Bearer $bearerToken" "https://${IP}:443/com/ibm/event/api/v1/oltp/certificate" -o ${KEYDB_PATH}/clientkeystore
+[ $? -ne 0 ] && echo "Not able to get clientkeystore file" && exit 3
 
-PASSWORD=$(curl --silent -k -i -X GET -H "authorization: Bearer $bearerToken" "https://${PUBLIC_IP}:443/com/ibm/event/api/v1/oltp/certificate_password" | tail -1)
-
-export KEYDB_PATH="${KEYDB_PATH}/clientkeystore"
-export KEYDB_PASSWORD="${PASSWORD}"
+# get clientkeystore password
+KEYDB_PASSWORD=$(curl --silent -k -i -X GET -H "authorization: Bearer $bearerToken" "https://${IP}:443/com/ibm/event/api/v1/oltp/certificate_password" | tail -1)
+[ $? -ne 0 ] && echo "Not able to get clientkeystore password" && exit 4
 
 cat > /bluspark/external_conf/bluspark.conf <<EOL 
-internal.client.security.sslTrustStoreLocation ${KEY_PATH}/clientkeystore 
-internal.client.security.sslTrustStorePassword ${PASSWORD}
-internal.client.security.sslKeyStoreLocation ${KEY_PATH}/clientkeystore 
-internal.client.security.sslKeyStorePassword ${PASSWORD}
+internal.client.security.sslTrustStoreLocation ${KEYDB_PATH}/clientkeystore 
+internal.client.security.sslTrustStorePassword ${KEYDB_PASSWORD}
+internal.client.security.sslKeyStoreLocation ${KEYDB_PATH}/clientkeystore 
+internal.client.security.sslKeyStorePassword ${KEYDB_PASSWORD}
 internal.client.security.plugin true
 internal.client.security.pluginName IBMIAMauth
 security.SSLEnabled true
 EOL
+[ $? -ne 0 ] && echo "/bluspark/external_conf/bluspark.conf set up failed" && exit 5
+echo "Finished setting up SSL information at /bluspark/external_conf/bluspark.conf."
+
+# export the KEYDB_PATH and KEYDB_PASSWORD only if it's in a container.
+if [ -f "/.dockerenv" ]; then
+    sed -i "/export KEYDB_PASSWORD=/d" ~/.bashrc
+    sed -i "/export KEYDB_PATH=/d" ~/.bashrc
+    echo "export KEYDB_PASSWORD=${KEYDB_PASSWORD}" >> ~/.bashrc
+    echo "export KEYDB_PATH=${KEYDB_PATH}/clientkeystore" >> ~/.bashrc
+    source ~/.bashrc
+fi

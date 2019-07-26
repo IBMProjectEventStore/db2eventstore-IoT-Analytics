@@ -17,6 +17,7 @@ RUN yum install -y \
     gcc \
     make \
     sudo \
+    zlib-devel \
     && yum clean all \
     && rm -rf /var/cache/yum
 
