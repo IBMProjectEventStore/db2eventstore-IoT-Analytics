@@ -14,7 +14,6 @@ make altinstall
 rm /usr/src/Python-3.6.8.tgz
 ln -fs /usr/local/bin/python3.6 /usr/local/bin/python
 
-
 ## set up EventStore python library
 if [ -z "${SPARK_HOME}" ]
 then

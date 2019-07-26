@@ -5,8 +5,8 @@
 #example command is 
 #curl -k -X GET "https://9.30.111.222/v1/preauth/validateAuth" -u admin:password
 
-AUTH_RES=$(curl -k -X GET "https://$IP/v1/preauth/validateAuth" -u $USER:$PASSWORD | python -m json.tool)
-TOKEN=$(curl -k -X GET "https://$IP/v1/preauth/validateAuth" -u $USER:$PASSWORD | python -c "import sys, json; print json.load(sys.stdin)['accessToken']")
+AUTH_RES=$(curl -k -X GET "https://$IP/v1/preauth/validateAuth" -u $EVENT_USER:$EVENT_PASSWORD | python -m json.tool)
+TOKEN=$(curl -k -X GET "https://$IP/v1/preauth/validateAuth" -u $EVENT_USER:$EVENT_PASSWORD | python -c "import sys, json; print json.load(sys.stdin)['accessToken']")
 
 cat <<-EOL
 Authentication result is:

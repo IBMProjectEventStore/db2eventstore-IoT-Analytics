@@ -8,8 +8,8 @@ cat <<-USAGE #| fmt
 Description:
 This script is the entrypoint of the event_store_demo container. The script takes
 target Event Store server's public IP, Watson Studio Local's username, and password.
-The script will create the docker container using the image: event_store_demo:latest,
-and start a bash session in the container.
+The script will start docker container in interactive mode using the 
+image: event_store_demo:latest.
 
 -----------
 Usage: $0 [OPTIONS] [arg]
@@ -32,11 +32,11 @@ while [ -n "$1" ]; do
         shift 2
         ;;
     --user)
-        USER="$2"
+        EVENT_USER="$2"
         shift 2
         ;;
     --password)
-        PASSWORD="$2"
+        EVENT_PASSWORD="$2"
         shift 2
         ;;
     *)
@@ -46,13 +46,13 @@ while [ -n "$1" ]; do
     esac
 done
 
-if [ -z ${USER} ]; then
+if [ -z ${EVENT_USER} ]; then
     echo "Error: Please provide the Watson Studio Local user name with --user flag"
     usage >&2
     exit 1
 fi
 
-if [ -z ${PASSWORD} ]; then
+if [ -z ${EVENT_PASSWORD} ]; then
     echo "Error: Please provide the Watson Studio Local password with --password flag"
     usage >&2
     exit 1
@@ -64,11 +64,9 @@ if [ -z ${IP} ]; then
     exit 1
 fi
 
-#TODO: handle background docker ps created by docker run.
-CONTAINER_ID=$(docker run -d \
-                -e USER=${USER} -e PASSWORD=${PASSWORD} -e IP=${IP} \
-                event_store_demo:latest \
-                bash -c "${SETUP_PATH}/setup-ssl.sh \
-                --IP ${IP} --user ${USER} -passoword ${PASSWORD} \
-                && sleep infinity")
-docker exec -it ${CONTAINER_ID} bash
+# start container in interactive mode
+
+docker run -it \
+    -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWOR=${EVENT_PASSWORD} -e IP=${IP} \
+    event_store_demo:latest \
+    bash -c "${SETUP_PATH}/setup-ssl.sh && bash"
