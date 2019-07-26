@@ -2,8 +2,6 @@
 
 TAG="latest"
 
-#!/bin/bash
-
 function usage()
 {
 cat <<-USAGE #| fmt
@@ -25,7 +23,8 @@ while [ -n "$1" ]; do
         exit 0
         ;;
     -t|--tag)
-        TAG="$1"
+        TAG="$2"
+        shift 2
         ;;
     *)
         echo "Unknown option:$1"
