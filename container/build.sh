@@ -6,7 +6,10 @@ function usage()
 {
 cat <<-USAGE #| fmt
 Description:
-This script is the entrypoint of the 
+This script build a docker image containing the db2eventstore-IoT-Analytics repo
+and db2eventstore-kafka repo. The container has runtime for Python, Java, sbt and 
+Spark. The image will be built without using cache, and the image is always named
+event_store_demo:latest.
 
 -----------
 Usage: $0 [OPTIONS] [arg]
@@ -33,4 +36,4 @@ while [ -n "$1" ]; do
     esac
 done
 
-docker build  --no-cache -t event_store_demo:"${TAG}" .
+docker build --no-cache -t event_store_demo:"${TAG}" .
