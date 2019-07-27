@@ -67,6 +67,6 @@ fi
 # start container in interactive mode
 
 docker run -it \
-    -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWOR=${EVENT_PASSWORD} -e IP=${IP} \
+    -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWORD=${EVENT_PASSWORD} -e IP=${IP} \
     event_store_demo:latest \
     bash -c "${SETUP_PATH}/setup-ssl.sh && bash"
