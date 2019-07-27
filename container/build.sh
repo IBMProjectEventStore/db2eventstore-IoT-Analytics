@@ -40,4 +40,7 @@ while [ -n "$1" ]; do
     esac
 done
 
-docker build --no-cache --build-arg BRANCH="${BRANCH}" -t event_store_demo:"${TAG}" .
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+mkdir -p ${DIR}/image_build_log/
+docker build --no-cache --build-arg BRANCH="${BRANCH}" -t event_store_demo:"${TAG}" . | tee "image_build_${TIMESTAMP}.log"
