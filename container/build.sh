@@ -1,14 +1,17 @@
 #!/bin/bash
 
 TAG="latest"
-
-#!/bin/bash
+BRANCH="master"
+TIMESTAMP=`date "+%Y-%m-%d-%H:%M:%S"`
 
 function usage()
 {
 cat <<-USAGE #| fmt
 Description:
-This script is the entrypoint of the 
+This script build a docker image containing the db2eventstore-IoT-Analytics repo
+and db2eventstore-kafka repo. The container has runtime for Python, Java, sbt and 
+Spark. The image will be built without using cache, and the image is always named
+eventstore_demo:latest.
 
 -----------
 Usage: $0 [OPTIONS] [arg]
@@ -25,7 +28,12 @@ while [ -n "$1" ]; do
         exit 0
         ;;
     -t|--tag)
-        TAG="$1"
+        TAG="$2"
+        shift 2
+        ;;
+    -b|--branch)
+        BRANCH="$2"
+        shift 2
         ;;
     *)
         echo "Unknown option:$1"
@@ -34,4 +42,7 @@ while [ -n "$1" ]; do
     esac
 done
 
-docker build -t event_store_demo:"${TAG}" .
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+mkdir -p ${DIR}/image_build_log/
+docker build --no-cache --build-arg BRANCH="${BRANCH}" -t eventstore_demo:"${TAG}" . | tee "${DIR}/image_build_${TIMESTAMP}.log"

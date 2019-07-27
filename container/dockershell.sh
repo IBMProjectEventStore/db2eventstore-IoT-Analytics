@@ -1,16 +1,23 @@
 #!/bin/bash
 
+SETUP_PATH="/root/db2eventstore-IoT-Analytics/container/setup"
+
 function usage()
 {
 cat <<-USAGE #| fmt
 Description:
-This script is the entrypoint of the 
+This script is the entrypoint of the eventstore_demo container. The script takes
+target Event Store server's public IP, Watson Studio Local's username, and password.
+The script will start docker container in interactive mode using the 
+image: eventstore_demo:latest.
 
 -----------
 Usage: $0 [OPTIONS] [arg]
 OPTIONS:
 ========
--n|--namespace    [Default: dsx] Kubernetes namespace that Event Store is deployed under.
+--IP        Public IP address of the target Event Store server.
+--user      User name of the Watson Studio Local user
+--password  Password of the Watson Studio Local user
 USAGE
 }
 
@@ -20,8 +27,17 @@ while [ -n "$1" ]; do
         usage >&2
         exit 0
         ;;
-    -n|--namespace)
-        NAMESPACE="$1"
+    --IP)
+        IP="$2"
+        shift 2
+        ;;
+    --user)
+        EVENT_USER="$2"
+        shift 2
+        ;;
+    --password)
+        EVENT_PASSWORD="$2"
+        shift 2
         ;;
     *)
         echo "Unknown option:$1"
@@ -30,5 +46,27 @@ while [ -n "$1" ]; do
     esac
 done
 
-#TODO:
-echo "Not implemented yet"
+if [ -z ${EVENT_USER} ]; then
+    echo "Error: Please provide the Watson Studio Local user name with --user flag"
+    usage >&2
+    exit 1
+fi
+
+if [ -z ${EVENT_PASSWORD} ]; then
+    echo "Error: Please provide the Watson Studio Local password with --password flag"
+    usage >&2
+    exit 1
+fi
+
+if [ -z ${IP} ]; then
+    echo "Error: Please provide the Event Store server's public IP with --IP flag"
+    usage >&2
+    exit 1
+fi
+
+# start container in interactive mode
+
+docker run -it \
+    -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWORD=${EVENT_PASSWORD} -e IP=${IP} \
+    eventstore_demo:latest \
+    bash -c "${SETUP_PATH}/setup-ssl.sh && ${SETUP_PATH}/entrypoint_msg.sh && bash"
