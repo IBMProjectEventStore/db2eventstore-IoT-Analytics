@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TAG="latest"
-
+BRANCH="master"
 function usage()
 {
 cat <<-USAGE #| fmt
@@ -29,6 +29,10 @@ while [ -n "$1" ]; do
         TAG="$2"
         shift 2
         ;;
+    -b|--branch)
+        BRANCH="$2"
+        shift 2
+        ;;
     *)
         echo "Unknown option:$1"
         usage >&2
@@ -36,4 +40,4 @@ while [ -n "$1" ]; do
     esac
 done
 
-docker build --no-cache -t event_store_demo:"${TAG}" .
+docker build --no-cache --build-arg BRANCH="${BRANCH}" -t event_store_demo:"${TAG}" .

@@ -2,6 +2,7 @@ FROM registry.access.redhat.com/ubi7/ubi:latest
 LABEL maintainer "Chen Gao <Chen.Gao@.ibm.com>"
 
 ARG SETUP_AREA=/setup
+ARG BRANCH=master
 COPY setup ${SETUP_AREA}
 
 ARG JAVA_VERSION=1.8.0
@@ -26,7 +27,7 @@ ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/jvm/java-${JAVA_VERSION}-openjd
     JVM_LIBRARY_PATH=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk/jre/lib/amd64/server/libjvm.so \
     IOT_REPO_PATH=/root/db2eventstore-IoT-Analytics
 
-RUN git clone https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics.git ${IOT_REPO_PATH}
+RUN git clone --single-branch --branch ${BRANCH} https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics.git ${IOT_REPO_PATH}
 
 # Install jq
 RUN wget -O /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
