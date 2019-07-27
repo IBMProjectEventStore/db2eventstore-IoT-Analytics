@@ -2,6 +2,8 @@
 
 TAG="latest"
 BRANCH="master"
+TIMESTAMP=`date "+%Y-%m-%d-%H:%M:%S"`
+
 function usage()
 {
 cat <<-USAGE #| fmt
@@ -43,4 +45,4 @@ done
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 mkdir -p ${DIR}/image_build_log/
-docker build --no-cache --build-arg BRANCH="${BRANCH}" -t event_store_demo:"${TAG}" . | tee "image_build_${TIMESTAMP}.log"
+docker build --no-cache --build-arg BRANCH="${BRANCH}" -t event_store_demo:"${TAG}" . | tee "${DIR}/image_build_${TIMESTAMP}.log"
