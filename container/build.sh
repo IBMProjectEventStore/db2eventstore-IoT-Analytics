@@ -11,7 +11,7 @@ Description:
 This script build a docker image containing the db2eventstore-IoT-Analytics repo
 and db2eventstore-kafka repo. The container has runtime for Python, Java, sbt and 
 Spark. The image will be built without using cache, and the image is always named
-event_store_demo:latest.
+eventstore_demo:latest.
 
 -----------
 Usage: $0 [OPTIONS] [arg]
@@ -45,4 +45,4 @@ done
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 mkdir -p ${DIR}/image_build_log/
-docker build --no-cache --build-arg BRANCH="${BRANCH}" -t event_store_demo:"${TAG}" . | tee "${DIR}/image_build_${TIMESTAMP}.log"
+docker build --no-cache --build-arg BRANCH="${BRANCH}" -t eventstore_demo:"${TAG}" . | tee "${DIR}/image_build_${TIMESTAMP}.log"

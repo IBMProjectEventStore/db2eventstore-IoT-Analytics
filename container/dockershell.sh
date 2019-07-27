@@ -6,10 +6,10 @@ function usage()
 {
 cat <<-USAGE #| fmt
 Description:
-This script is the entrypoint of the event_store_demo container. The script takes
+This script is the entrypoint of the eventstore_demo container. The script takes
 target Event Store server's public IP, Watson Studio Local's username, and password.
 The script will start docker container in interactive mode using the 
-image: event_store_demo:latest.
+image: eventstore_demo:latest.
 
 -----------
 Usage: $0 [OPTIONS] [arg]
@@ -68,5 +68,5 @@ fi
 
 docker run -it \
     -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWORD=${EVENT_PASSWORD} -e IP=${IP} \
-    event_store_demo:latest \
-    bash -c "${SETUP_PATH}/setup-ssl.sh && bash"
+    eventstore_demo:latest \
+    bash -c "${SETUP_PATH}/setup-ssl.sh && ${SETUP_PATH}/entrypoint_msg.sh && bash"

@@ -96,7 +96,7 @@ internal.client.security.pluginName IBMIAMauth
 security.SSLEnabled true
 EOL
 [ $? -ne 0 ] && echo "/bluspark/external_conf/bluspark.conf set up failed" && exit 5
-echo "Finished setting up SSL information at /bluspark/external_conf/bluspark.conf."
+echo -e "\nFinished setting up SSL information at /bluspark/external_conf/bluspark.conf.\n"
 
 # export the KEYDB_PATH and KEYDB_PASSWORD only if it's in a container.
 if [ -f "/.dockerenv" ]; then

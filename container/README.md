@@ -1,6 +1,6 @@
 ### Docker Image for Event Store 2.0 Demo
 
-The Dockerfile in this directory will build a docker image named `event_store_demo`. The image contains remote applications and runtime environment for Event Store demo. Users can build the docker image, run the docker container from the image built, and run the pre-loaded examples in the docker container.
+The Dockerfile in this directory will build a docker image named `eventstore_demo`. The image contains remote applications and runtime environment for Event Store demo. Users can build the docker image, run the docker container from the image built, and run the pre-loaded examples in the docker container.
 
 **Procedure:**  
 Step 1: Build the docker image

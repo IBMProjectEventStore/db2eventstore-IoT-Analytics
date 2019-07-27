@@ -25,7 +25,8 @@ RUN yum install -y \
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/jvm/java-${JAVA_VERSION}-openjdk/jre/lib/amd64/server" \
     JAVA_HOME=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk \
     JVM_LIBRARY_PATH=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk/jre/lib/amd64/server/libjvm.so \
-    IOT_REPO_PATH=/root/db2eventstore-IoT-Analytics
+    IOT_REPO_PATH=/root/db2eventstore-IoT-Analytics \
+    KAFKA_REPO_PATH=/root/db2eventstore-kafka
 
 RUN git clone --single-branch --branch ${BRANCH} https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics.git ${IOT_REPO_PATH}
 
