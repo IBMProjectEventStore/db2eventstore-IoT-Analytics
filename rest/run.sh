@@ -1,15 +1,11 @@
 #!/bin/bash -x
 
-CLUSTER_IP=$(ifconfig | sed -n -e 's/ *inet \(9.30[0-9.]\+\) \+netmask.*/\1/p')
-EVENTSTORE_USERID="admin"
-EVENTSTORE_PASSWORD="password"
-
 function usage()
 {
 cat <<-USAGE #| fmt
 Pre-requisite:
 - You have created the table IOT_TEMP by runnign the Notebook examples
-- You have ingested data into the IOT_TEMP table by running /data/load.sh
+- You have ingested data into the IOT_TEMP table 
 - You have run install.sh in this directory to install required packages
 ========
 Description:
@@ -23,9 +19,12 @@ This script will execute multiple REST APIs to:
 Usage: $0 [OPTIONS] [arg]
 OPTIONS:
 ========
---publicIP    [Default: Public IP] Public IP of any cluster node.
---user [Default: admin] User name of Watson Studio Local user who created the IOT_TEMP table
---password [Default: password] Password of Watson Studio Local user who created the IOT_TEMP table
+--IP  Public IP of any cluster node.
+--user User name of Watson Studio Local user who created the IOT_TEMP table
+       [Default: ${EVENT_USER} shell environment variable]
+--password Password of Watson Studio Local user who created the IOT_TEMP table
+       [Default: ${EVENT_PASSWORD} shell environment variable]
+
 USAGE
 }
 
@@ -35,20 +34,41 @@ while [ -n "$1" ]; do
         usage >&2
         exit 0
         ;;
-    --publicIP)
-        CLUSTER_IP="$1"
+    --IP)
+        IP="$2"
+        shift 2
         ;;
     --user)
-        EVENTSTORE_USERID="$1"
+        EVENT_USER="$2"
+        shift 2
         ;;
     --password)
-        EVENTSTORE_PASSWORD="$1"
+        EVENT_PASSWORD="$2"
+        shift 2
         ;;
     *)
-        echo "Unknown option:$1"
+        echo "Unknown option:$2"
         usage >&2
         exit 1
     esac
 done
 
-node test.js --engine=$CLUSTER_IP:1101 --server=https://$CLUSTER_IP:443 --user=$EVENTSTORE_USERID --password=$EVENTSTORE_PASSWORD
+if [ -z ${EVENT_USER} ]; then
+    echo "Error: Please provide the Watson Studio Local user name with --user flag"
+    usage >&2
+    exit 1
+fi
+
+if [ -z ${EVENT_PASSWORD} ]; then
+    echo "Error: Please provide the Watson Studio Local password with --password flag"
+    usage >&2
+    exit 1
+fi
+
+if [ -z ${IP} ]; then
+    echo "Error: Please provide the Event Store server's public IP with --IP flag"
+    usage >&2
+    exit 1
+fi
+
+node test.js --engine=$IP:1101 --server=https://$IP:443 --user=$EVENT_USER --password=$EVENT_PASSWORD
