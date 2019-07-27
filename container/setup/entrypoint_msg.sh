@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # message that printed out when container starts.
+clear
 
 cat <<-EOL
 
