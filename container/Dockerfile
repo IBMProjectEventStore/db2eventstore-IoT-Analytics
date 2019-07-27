@@ -43,6 +43,7 @@ RUN ${SETUP_AREA}/setup-kafka.sh
 RUN ${IOT_REPO_PATH}/rest/install.sh
 
 # Copy ES2.0 client libraries
+RUN echo "Downloading Event Store 2.0 client libraries, it will take some time..."
 RUN wget -P ${SPARK_HOME}/jars/ https://repo1.maven.org/maven2/com/ibm/event/ibm-db2-eventstore-client-spark-2.2.1/2.0.0/ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar
 
 # Create client config file
