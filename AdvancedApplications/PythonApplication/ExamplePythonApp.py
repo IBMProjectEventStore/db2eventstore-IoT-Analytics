@@ -5,25 +5,27 @@ from eventstore.common import ConfigurationReader
 from eventstore.catalog import TableSchema, IndexSpecification, SortSpecification, ColumnOrder
 from pyspark.sql.types import *
 
+import os
+
 # set connection endpoint
-ip = input("Please specify host IP: ")
+ip = os.environ['IP'];
 print("Connecting to {}".format(ip))
 ConfigurationReader.setConnectionEndpoints("{}:18730;{}:1101".format(ip,ip))
 ConfigurationReader.setConnectionTimeout(2)
 
 # set user credential
-ConfigurationReader.setEventUser("admin")
-ConfigurationReader.setEventPassword("password")
+ConfigurationReader.setEventUser(os.environ['EVENT_USER']);
+ConfigurationReader.setEventPassword(os.environ['EVENT_PASSWORD']);
 
 # connect to db2
 sparkSession = SparkSession.builder.appName("EventStore in Python").getOrCreate()
 dbName="EVENTDB";
 print("Opening database {}".format(dbName))
-
 eventSession = EventSession(sparkSession.sparkContext, dbName)
 eventSession.open_database()
 
-tabName = input("Please specify name of the new table: ")
+# create table and ingest
+tabName = "PYTHONTABLE" 
 with EventContext.get_event_context(dbName) as ctx:
    # creating table schema
    tableSchema = TableSchema(tabName, StructType([
@@ -37,6 +39,7 @@ with EventContext.get_event_context(dbName) as ctx:
        sharding_columns = ["deviceID", "sensorID"],
        pk_columns = ["deviceID", "sensorID", "ts"]
    )
+
    # creating table index specification
    indexSpec = IndexSpecification(
        index_name=tabName + "Index",
@@ -45,6 +48,7 @@ with EventContext.get_event_context(dbName) as ctx:
        sort_columns = [SortSpecification("ts", ColumnOrder.DESCENDING_NULLS_LAST)],
        include_columns = ["temperature"]
     )
+
    # drop old table if exists
    print("Dropping table {}".format(tabName))
    try:
@@ -58,10 +62,13 @@ with EventContext.get_event_context(dbName) as ctx:
    print("creating table with index...\n{}".format(tableSchema))
    ctx.create_table_with_index(tableSchema, indexSpec)
    print("Table {} is created successfully".format(tabName))
+
+   # print all tables in database
    allTables = ctx.get_names_of_tables()
    for idx, name in enumerate(allTables):
       print(name)
-   # insert into table
+
+   # ingest into table
    table = ctx.get_table(tabName)
    print("Table schema = {}".format(table))
    row_batch=[]
