@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/bin/bash -x
 
 function usage()
 {
 cat <<-USAGE #| fmt
 Description:
-This script add a Linux user provided username and password. The user will be
+This script adds a Linux user provided username and password. The user will be
 added to the 'docker' usergroup, which will be created if not exist.
 
 -----------
@@ -127,7 +127,7 @@ EOL
 
 # get bearer token
 bearerToken=$(curl -k -X GET "https://$IP/v1/preauth/validateAuth" \
-    -u $WSL_ADMIN:$WSL_PASSWORD | python -c "import sys, json; print json.load(sys.stdin)['accessToken']")
+    -u $WSL_ADMIN:$WSL_ADMINPASS | python -c "import sys, json; print json.load(sys.stdin)['accessToken']")
 [ $? -ne 0 ] && echo "Error when getting WSL bearerToken" && exit 5
 
 curl -i -k -X POST https://${IP}/api/v1/usermgmt/v1/user \
