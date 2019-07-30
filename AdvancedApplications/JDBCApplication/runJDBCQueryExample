@@ -1,0 +1,9 @@
+echo "Compile java code"
+ESLIB=${SPARK_HOME}/jars/ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar
+
+rm -f ExampleJDBCQueryApp.class
+javac ExampleJDBCQueryApp.java -classpath ${ESLIB}
+
+echo "execute app:" 
+
+java -cp .:${ESLIB} ExampleJDBCQueryApp.java
