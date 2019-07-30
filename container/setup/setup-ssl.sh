@@ -75,7 +75,7 @@ fi
 KEYDB_PATH="/var/lib/eventstore"
 
 # get bearerToken
-bearerToken=`curl --silent -k -X GET https://${IP}/v1/preauth/validateAuth -u ${EVENT_USER}:${EVENT_PASSWORD} | python -c "import sys, json; print json.load(sys.stdin)['accessToken']"`
+bearerToken=`curl --silent -k -X GET https://${IP}/v1/preauth/validateAuth -u ${EVENT_USER}:${EVENT_PASSWORD} | python -c "import sys, json; print(json.load(sys.stdin)['accessToken'])"`
 [ $? -ne 0 ] && echo "Not able to get bearerToken" && exit 2
 
 # get clientkeystore file
