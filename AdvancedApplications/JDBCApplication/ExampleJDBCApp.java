@@ -32,14 +32,15 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
            // Establish connection with ssl and user credentials
            conn =
            DriverManager.getConnection(
-                    "jdbc:db2://9.30.119.26:18730/" + DATABASE_NAME + ":sslConnection=true;" +
+                    "jdbc:db2://" + System.getenv("IP") + ":18730/" + DATABASE_NAME + 
+                    ":sslConnection=true;" +
 	   	    "sslTrustStoreLocation=/var/lib/eventstore/clientkeystore;" +
 	   	    "sslKeyStoreLocation=/var/lib/eventstore/clientkeystore;" +
-                    "sslKeyStorePassword=LdsdUbGSyYF3;" +
-                    "sslTrustStorePassword=LdsdUbGSyYF3;" +
+                    "sslKeyStorePassword=MkVhSzcgcQiA;" +
+                    "sslTrustStorePassword=MkVhSzcgcQiA;" +
                     "securityMechanism=15;" +
                     "pluginName=IBMPrivateCloudAuth;", 
-                    "admin", "password");
+                    System.getenv("EVENT_USER"), System.getenv("EVENT_USER");
 
            // Set Isolation level to be able to query data immediately after it is inserted
            conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
