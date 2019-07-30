@@ -4,7 +4,8 @@ function usage()
 {
 cat <<-USAGE #| fmt
 Description:
-This script adds a Linux user and a WSL user provided username and password. 
+This script adds
+ a Linux user and a WSL user provided username and password. 
 The WSL user credentials will be the same with those of Linux user if not provided.
 The Linux user will beadded to the 'docker' usergroup.
 
@@ -83,8 +84,8 @@ if [ -z ${WSL_ADMIN} ]; then
     exit 1
 fi
 
-if [ -z ${WSL_PASSWORD} ]; then
-    echo "Error: Please provide the WSL admin user's password with --WSL_password flag"
+if [ -z ${WSL_ADMINPASS} ]; then
+    echo "Error: Please provide the WSL admin user's password with --WSL_adminpass flag"
     usage >&2
     exit 1
 fi
