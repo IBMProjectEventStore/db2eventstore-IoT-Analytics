@@ -4,8 +4,9 @@ function usage()
 {
 cat <<-USAGE #| fmt
 Description:
-This script add a Linux user provided username and password. The user will be
-added to the 'docker' usergroup, which will be created if not exist.
+This script add a Linux user and a WSL user provided username and password. 
+The WSL user credentials will be the same with those of Linux user if not provided.
+The Linux user will beadded to the 'docker' usergroup.
 
 -----------
 Usage: $0 [OPTIONS] [arg]
