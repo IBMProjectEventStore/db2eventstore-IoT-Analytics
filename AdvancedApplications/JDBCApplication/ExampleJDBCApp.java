@@ -11,7 +11,16 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
    private static final String TABLE_NAME = "JDBCTABLE"; 
 
    /** Path for external table csv file */
-   private static final String EXTERNAL_CSV_PATH= "/root/db2eventstore-IoT-Analytics/data/sample_IOT_table.csv";
+   private static final String EXTERNAL_CSV_PATH = "/root/db2eventstore-IoT-Analytics/data/sample_IOT_table.csv";
+
+   /** User name of database account */
+   private static final String USERNAME = System.getenv("EVENT_USER");
+  
+   /** Password of database account */
+   private static final String PASSWORD = System.getenv("EVENT_PASSWORD");
+
+   /** Virtual IP of database server*/
+   private static final String IP = System.getenv("IP");
 
    public static void main(String[] args) {
        String driverName = "com.ibm.db2.jcc.DB2Driver";
@@ -32,15 +41,15 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
            // Establish connection with ssl and user credentials
            conn =
            DriverManager.getConnection(
-                    "jdbc:db2://" + System.getenv("IP") + ":18730/" + DATABASE_NAME + 
-                    ":sslConnection=true;" +
+                    "jdbc:db2://" + IP + ":18730/" + DATABASE_NAME + ":" +
+                    "sslConnection=true;" +
 	   	    "sslTrustStoreLocation=/var/lib/eventstore/clientkeystore;" +
 	   	    "sslKeyStoreLocation=/var/lib/eventstore/clientkeystore;" +
                     "sslKeyStorePassword=MkVhSzcgcQiA;" +
                     "sslTrustStorePassword=MkVhSzcgcQiA;" +
                     "securityMechanism=15;" +
                     "pluginName=IBMPrivateCloudAuth;", 
-                    System.getenv("EVENT_USER"), System.getenv("EVENT_USER");
+                    USERNAME, PASSWORD);
 
            // Set Isolation level to be able to query data immediately after it is inserted
            conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
@@ -112,7 +121,7 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
 
            // Step 6: get column name of table
            DatabaseMetaData databaseMetaData = conn.getMetaData();
-           rs = databaseMetaData.getColumns(null, "ADMIN", TABLE_NAME, null);
+           rs = databaseMetaData.getColumns(null, USERNAME.toUpperCase(), TABLE_NAME, null);
            System.out.println("Table columns:");
            while (rs.next()){
               String columnName = rs.getString("COLUMN_NAME");
