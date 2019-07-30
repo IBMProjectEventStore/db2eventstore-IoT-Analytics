@@ -123,18 +123,18 @@ cat > /home/"${USER}"/.user_info <<EOL
 username ${USER}
 password ${PASSWORD}
 EOL
-[ $? -ne 0 ] && echo "Error when backing up user credentials" && exit 4
+[ $? -ne 0 ] && echo "Error when backing up user credentials" && exit 5
 
 ## Create DSX user
 
 # get bearer token
 bearerToken=$(curl -k -X GET "https://$IP/v1/preauth/validateAuth" \
     -u $WSL_ADMIN:$WSL_ADMINPASS | python -c "import sys, json; print json.load(sys.stdin)['accessToken']")
-[ $? -ne 0 ] && echo "Error when getting WSL bearerToken" && exit 5
+[ $? -ne 0 ] && echo "Error when getting WSL bearerToken" && exit 6
 
 curl -i -k -X POST https://${IP}/api/v1/usermgmt/v1/user \
     -H "authorization: Bearer $bearerToken" -H "content-type: application/json" \
     -d '{ "username": "'${WSL_USER}'", "password": "'${WSL_PASSWORD}'",
     "displayName": "'${WSL_USER}'", "role": "User"}'
-[ $? -ne 0 ] && echo "Error when creating WSL user." && exit 6
+[ $? -ne 0 ] && echo "Error when creating WSL user." && exit 7
 
