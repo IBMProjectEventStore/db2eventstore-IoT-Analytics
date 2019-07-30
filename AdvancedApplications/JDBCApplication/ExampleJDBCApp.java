@@ -17,6 +17,7 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
        String driverName = "com.ibm.db2.jcc.DB2Driver";
        Connection conn = null;
        Statement stmt = null;
+       ResultSet rs = null;
        try {
            try {
                    Class.forName(driverName);
@@ -28,6 +29,7 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
            // Step 1: Allocate a database 'Connection' object
            System.out.println("Connecting to a selected database...");
 
+           // Establish connection with ssl and user credentials
            conn =
            DriverManager.getConnection(
                     "jdbc:db2://9.30.119.26:18730/" + DATABASE_NAME + ":sslConnection=true;" +
@@ -39,7 +41,10 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
                     "pluginName=IBMPrivateCloudAuth;", 
                     "admin", "password");
 
+           // Set Isolation level to be able to query data immediately after it is inserted
            conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+
+           // Connect to database
            stmt = conn.createStatement();
 	   System.out.println("Connected database successfully...");
 
@@ -51,7 +56,9 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
                stmt.executeUpdate(sql);
                System.out.println("Table deleted in given database...");
            }catch (SQLSyntaxErrorException ex){
+               // Error other than table not exist
                if(!ex.getMessage().contains("SQLCODE=-204")) throw ex;
+               // Table not exist
                else System.out.println("Table not found, skip dropping table");
            }
            
@@ -74,33 +81,55 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
            stmt.executeUpdate(sql);
            System.out.println("Created table in given database...");
 
-           // Step 4: insert new lines
+           // Step 4: insert new rows
+           System.out.println("Insert row: 99,48,1541019342393,25.983183481618322,14.65874116573845,48.908846094198");
            sql = "INSERT INTO " + TABLE_NAME + " " +
                  "VALUES (99,48,1541019342393,25.983183481618322,14.65874116573845,48.908846094198)";
            stmt.executeUpdate(sql);
 
+           System.out.println("Insert row: 99,24,1541019343497,22.54544424024718,9.834894630821138,39.065559149361725");
            sql = "INSERT INTO " + TABLE_NAME + " " +
                  "VALUES (99,24,1541019343497,22.54544424024718,9.834894630821138,39.065559149361725)";
            stmt.executeUpdate(sql);
-
+  
+           System.out.println("Insert row: 99,39,1541019344356,24.3246538655206,14.100638100780325,44.398837306747936");         
            sql = "INSERT INTO " + TABLE_NAME + " " +
                  "VALUES (99,39,1541019344356,24.3246538655206,14.100638100780325,44.398837306747936)";
            stmt.executeUpdate(sql);
 
+           System.out.println("Insert row: 99,1,1541019345216,25.658280957413456,14.24313156331591,45.29125502970843");
            sql = "INSERT INTO " + TABLE_NAME + " " +
                  "VALUES (99,1,1541019345216,25.658280957413456,14.24313156331591,45.29125502970843)";
            stmt.executeUpdate(sql);
 
            // Step 5: insert from external table
+           System.out.println("Insert from external table: " + EXTERNAL_CSV_PATH);
            sql = "INSERT INTO " + TABLE_NAME + " " +
                  "SELECT * FROM external '" + EXTERNAL_CSV_PATH + "' LIKE " + TABLE_NAME + " " +
                  "USING (delimiter ',' MAXERRORS 10 SOCKETBUFSIZE 30000 REMOTESOURCE 'JDBC' )";
            stmt.executeUpdate(sql);
 
-           // Step6: read table
+           // Step 6: get number of rows in table
+           sql = "SELECT count(*) FROM " + TABLE_NAME;
+           rs = stmt.executeQuery(sql);
+           while(rs.next()) {
+               System.out.println("Totol number of Rows: " + rs.getInt(1));
+           }
+
+           // Step 7: get minimun and maximum value of timestamp
+           sql = "SELECT MIN(ts) as MINTS, MAX(ts) as MAXTS FROM " + TABLE_NAME;
+           rs = stmt.executeQuery(sql);
+           while(rs.next()) {
+               System.out.print("MIN(ts): "+ rs.getLong("MINTS") + " ");
+               System.out.println("MAX(ts): "+ rs.getLong("MAXTS"));
+           }
+
+           // Step 8: read first 10 rows from table
+           System.out.println("First 10 rows:");
+
            sql = "SELECT DEVICEID,SENSORID,TS,AMBIENT_TEMP,POWER,TEMPERATURE FROM " + TABLE_NAME + 
 		 " LIMIT 10";
-           ResultSet rs = stmt.executeQuery(sql);
+           rs = stmt.executeQuery(sql);
            while (rs.next()) {
                // retrieve data by column name
                int deviceID = rs.getInt("DEVICEID");
@@ -118,15 +147,25 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
                System.out.print(", power: " + power);
                System.out.println(", temperature: " + temp);
            }
+
+           // close result set
            rs.close();
+
        } catch(SQLException ex){
            ex.printStackTrace();
        } finally{
            try{
+              if(rs!=null)
+                 rs.close();
+           } catch(SQLException se){
+                se.printStackTrace();
+           }
+           try{
               if(stmt!=null)
                  stmt.close();
            } catch(SQLException se){
-           }// do nothing
+                 se.printStackTrace();
+           }
            try{
               if(conn!=null)
                  conn.close();
