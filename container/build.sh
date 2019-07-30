@@ -45,4 +45,4 @@ done
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 mkdir -p ${DIR}/image_build_log/
-docker build --no-cache --build-arg BRANCH="${BRANCH}" -t eventstore_demo:"${TAG}" . | tee "${DIR}/image_build_${TIMESTAMP}.log"
+docker build --no-cache --build-arg BRANCH="${BRANCH}" -t eventstore_demo:"${TAG}" . | tee "${DIR}/image_build_log/image_build_${TIMESTAMP}.log"

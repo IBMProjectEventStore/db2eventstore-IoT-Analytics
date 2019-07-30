@@ -8,7 +8,7 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
    private static final String DATABASE_NAME  = "EVENTDB";
 
    /** Name of table to create */
-   private static final String TABLE_NAME = "JdbcTable"; 
+   private static final String TABLE_NAME = "JDBCTABLE"; 
 
    /** Path for external table csv file */
    private static final String EXTERNAL_CSV_PATH= "/root/db2eventstore-IoT-Analytics/data/sample_IOT_table.csv";
@@ -48,7 +48,7 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
            // Connect to database
            stmt = conn.createStatement();
 	   System.out.println("Connected database successfully...");
-
+           
            // Step 2: delete old table if exist
            System.out.println("Deleting table in given database...");
 
@@ -110,14 +110,24 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
                  "USING (delimiter ',' MAXERRORS 10 SOCKETBUFSIZE 30000 REMOTESOURCE 'JDBC' )";
            stmt.executeUpdate(sql);
 
-           // Step 6: get number of rows in table
+           // Step 6: get column name of table
+           DatabaseMetaData databaseMetaData = conn.getMetaData();
+           rs = databaseMetaData.getColumns(null, "ADMIN", TABLE_NAME, null);
+           System.out.println("Table columns:");
+           while (rs.next()){
+              String columnName = rs.getString("COLUMN_NAME");
+              System.out.print(columnName + "  ");
+           }
+           System.out.println();
+
+           // Step 7: get number of rows in table
            sql = "SELECT count(*) FROM " + TABLE_NAME;
            rs = stmt.executeQuery(sql);
            while(rs.next()) {
                System.out.println("Totol number of Rows: " + rs.getInt(1));
            }
 
-           // Step 7: get minimun and maximum value of timestamp
+           // Step 8: get minimun and maximum value of timestamp
            sql = "SELECT MIN(ts) as MINTS, MAX(ts) as MAXTS FROM " + TABLE_NAME;
            rs = stmt.executeQuery(sql);
            while(rs.next()) {
@@ -125,7 +135,7 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
                System.out.println("MAX(ts): "+ rs.getLong("MAXTS"));
            }
 
-           // Step 8: read first 10 rows from table
+           // Step 9: read first 10 rows from table
            System.out.println("First 10 rows:");
 
            sql = "SELECT DEVICEID,SENSORID,TS,AMBIENT_TEMP,POWER,TEMPERATURE FROM " + TABLE_NAME + 
