@@ -17,6 +17,6 @@ Authentication token is:
 
 ${TOKEN}
 
-Please export the token as the 'accessToken' environment variable, then run the './score.sh' script to get prediction
+Please export the token as the 'bearerToken' environment variable, then run the './score.sh' script to get prediction
 value using the deployed machine learning model.
 EOL
