@@ -72,13 +72,13 @@ To setup the python environment
 
 To get the client jar go to the following and download the jar:
 
-* https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client/1.1.3
+* https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.2.1
 
 ### Downloading the IBM Db2 Event Store JDBC client jar
 
 To get the JDBC client jar go to the following and download the jar:
   
-* https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-jdbcdriver/1.1.3
+* https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.2.1
 
 ### Downloading the IBM Db2 Event Store Python package
 
