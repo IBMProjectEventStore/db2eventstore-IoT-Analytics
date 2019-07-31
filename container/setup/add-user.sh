@@ -108,8 +108,15 @@ fi
 
 # add username/password
 echo "Adding Linux user: ${USER}"
-useradd -m "${USER}" -p "${PASSWORD}"
+useradd -m "${USER}"
 [ $? -ne 0 ] && echo "Error when adding user" && exit 2
+echo -e "${PASSWORD}\n${PASSWORD}\n" | passwd "${USER}"
+if [ $? -ne 0 ]; then
+    echo "Error when setting up Linux user password" >&2
+    echo "Linux user ${USER} is not created" >&2
+    userdel ${USER}
+    exit 2
+fi
 # add docker usergroup
 echo "Creating "
 getent group docker || groupadd docker
