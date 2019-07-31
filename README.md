@@ -134,16 +134,16 @@ $ ./load.sh --namespace dsx
 
 Run the notebooks below to learn how the IBM Db2 Event Store can be integrated with multiple popular scientific tools to perform various data analytics tasks.
 
-**`[Event_Store_Querying_on_Table.ipynb](notebook_with_result/Event_Store_Querying_on_Table.ipynb)`**  
+**[Event_Store_Querying_on_Table.ipynb](notebook_with_result/Event_Store_Querying_on_Table.ipynb)**  
 This notebook demonstrates best practices for querying the data stored in the IBM Db2 Event Store database. 
 
-**`[Event_Store_Data_Analytics.ipynb](notebook_with_result/Event_Store_Data_Analytics.ipynb)`**  
+**[Event_Store_Data_Analytics.ipynb](notebook_with_result/Event_Store_Data_Analytics.ipynb)**
 This notebook demonstrates performing data analytics on the data stored in the IBM Db2 Event Store database.
 
-**``[Event_Store_ML_Model_Deployment.ipynb](notebooks_with_result/Event_Store_ML_Model_Deployment.ipynb)`**  
+**[Event_Store_ML_Model_Deployment.ipynb](notebooks_with_result/Event_Store_ML_Model_Deployment.ipynb)**  
 This notebook demonstrates building and deploying a machine learning model on the data stored in the IBM Db2 Event Store database. It also shows how to perform online scoring from command line using curl.
 
-**`[Advanced_Time_Series_Queries.ipynb](notebooks_with_result/Advanced_Time_Series_Queries.ipynb)`**  
+**[Advanced_Time_Series_Queries.ipynb](notebooks_with_result/Advanced_Time_Series_Queries.ipynb)**  
 This notebook demonstrates the use of the time series capabilities that are new in Db2 Event Store 2.0. For a detailed documentation on this refer to the Db2 Event Store [Knowledge Center page](https://www.ibm.com/support/knowledgecenter/en/SSGNPV_2.0.0/com.ibm.swg.im.dashdb.analytics.doc/doc/timeseries_intro.html). 
 
 **To run each notebook**
