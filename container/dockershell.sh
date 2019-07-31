@@ -3,6 +3,13 @@
 # path within container
 SETUP_PATH="/root/db2eventstore-IoT-Analytics/container/setup"
 
+if [ -f ./.user_info ]; then
+    echo "File: '.user-info' found in the current directory."
+    echo "Extracting user information from the file."
+    EVENT_USER=$(grep  "username" ./.user_info |awk {'print $2'})
+    EVENT_PASSWORD=$(grep  "password" ./.user_info |awk {'print $2'})
+fi
+
 function usage()
 {
 cat <<-USAGE #| fmt
