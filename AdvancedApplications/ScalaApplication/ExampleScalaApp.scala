@@ -12,24 +12,25 @@ object ExampleScalaApp {
 
   def main(args: Array[String]): Unit = {
     // set db2 connection endpoint
-    println("Please specify host IP: ")
-    val ip = scala.io.StdIn.readLine()
+    val ip = sys.env("IP")
     println(s"Connecting to $ip;")
     ConfigurationReader.setConnectionEndpoints(s"$ip:18730;$ip:1101")
     ConfigurationReader.setConnectionTimeout(2)
     
     // set user credential
-    ConfigurationReader.setEventUser("admin")
-    ConfigurationReader.setEventPassword("password")
+    val username = sys.env("EVENT_USER")
+    val password = sys.env("EVENT_PASSWORD")
+    ConfigurationReader.setEventUser(username)
+    ConfigurationReader.setEventPassword(password)
 
     // database information
-    val dbName="EVENTDB"
+    val dbName = "EVENTDB"
     println(s"Using database $dbName")
     val ctx = EventContext.getEventContext(dbName)
-
-    println("Please specify name of the new table ")
-    val tabName = scala.io.StdIn.readLine()
     
+    // define table structure
+    val tabName = "SCALATABLE"
+
     val tabSchema = TableSchema(tabName, StructType(Array(
    	StructField("deviceID", IntegerType, nullable = false),
    	StructField("sensorID", IntegerType, nullable = false),

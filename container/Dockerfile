@@ -9,7 +9,6 @@ ARG JAVA_VERSION=1.8.0
 
 # Install neccessary packages
 RUN yum install -y \
-    java-${JAVA_VERSION}-openjdk-devel \
     wget \
     vim \
     unzip \
@@ -22,10 +21,7 @@ RUN yum install -y \
     && yum clean all \
     && rm -rf /var/cache/yum
 
-ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/lib/jvm/java-${JAVA_VERSION}-openjdk/jre/lib/amd64/server" \
-    JAVA_HOME=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk \
-    JVM_LIBRARY_PATH=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk/jre/lib/amd64/server/libjvm.so \
-    IOT_REPO_PATH=/root/db2eventstore-IoT-Analytics \
+ENV IOT_REPO_PATH=/root/db2eventstore-IoT-Analytics \
     KAFKA_REPO_PATH=/root/db2eventstore-kafka
 
 RUN git clone --single-branch --branch ${BRANCH} https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics.git ${IOT_REPO_PATH}
@@ -37,6 +33,7 @@ RUN chmod +x /usr/local/bin/jq
 # Setup spark/scala/python/rest
 ENV SPARK_HOME="/spark_home"
 ENV PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+RUN ${SETUP_AREA}/setup-java.sh
 RUN ${SETUP_AREA}/setup-spark.sh
 RUN ${SETUP_AREA}/setup-scala.sh
 RUN ${SETUP_AREA}/setup-python.sh
