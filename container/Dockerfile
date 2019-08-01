@@ -1,11 +1,10 @@
 FROM registry.access.redhat.com/ubi7/ubi:latest
 LABEL maintainer "Chen Gao <Chen.Gao@.ibm.com>"
 
-ARG SETUP_AREA=/setup
+ENV IOT_REPO_PATH=/root/db2eventstore-IoT-Analytics \
+    KAFKA_REPO_PATH=/root/db2eventstore-kafka
+ARG SETUP_AREA=${IOT_REPO_PATH}/container/setup
 ARG BRANCH=master
-COPY setup ${SETUP_AREA}
-
-ARG JAVA_VERSION=1.8.0
 
 # Install neccessary packages
 RUN yum install -y \
@@ -18,11 +17,9 @@ RUN yum install -y \
     make \
     sudo \
     zlib-devel \
+    screen \
     && yum clean all \
     && rm -rf /var/cache/yum
-
-ENV IOT_REPO_PATH=/root/db2eventstore-IoT-Analytics \
-    KAFKA_REPO_PATH=/root/db2eventstore-kafka
 
 RUN git clone --single-branch --branch ${BRANCH} https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics.git ${IOT_REPO_PATH}
 
