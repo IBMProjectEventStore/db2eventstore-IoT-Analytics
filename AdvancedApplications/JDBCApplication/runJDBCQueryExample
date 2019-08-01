@@ -6,4 +6,4 @@ javac ExampleJDBCQueryApp.java -classpath ${ESLIB}
 
 echo "execute app:" 
 
-java -cp .:${ESLIB} ExampleJDBCQueryApp.java
+java -cp .:${ESLIB} ExampleJDBCQueryApp

@@ -19,18 +19,20 @@ Follow these links to get to each of the sample applications:
 
 > Note the following assumes you are running these examples from a RedHat / CentOS environment. Use these as a guidance to complete your setup if you are running from a different environment.
 
+> Note that this repository allows you to build a docker container following the instructions in the [container folder in this repository](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/container) that already has all of the environment set up to run all sample applications.
+
 ### Spark Setup
 
-To get Spark 2.0.2 on your system, follow these steps:
+To get Spark 2.2.1 on your system, follow these steps:
 
-* Go to: https://spark.apache.org/downloads.html
-* For "Choose a Spark release" entry, select "2.0.2 (Nov 2016)"
-* For "Choose a package type", select:  "Pre-build for Apache 2.6 or later"  (Note you could select 2.7 as well)
-* Then under "Download Spark" and click on spark-2.0.2-bin-hadoop2.6.tgz
-* Wherever you stored the tired file above (e.g. under "/home/<userid>), untarnished the file using: tar -xvf spark-2.0.2-bin-hadoop2.7.tgz
+* Go to: https://archive.apache.org/dist/spark/spark-2.2.1/ to download Spark release "2.2.1"
+* From that folder, download spark-2.2.1-bin-hadoop2.6.tgz that is built for Hadoop 2.6
+* Wherever you stored the tired file above (e.g. under "/home/<userid>), open the archive using: tar -xvf spark-2.0.2-bin-hadoop2.7.tgz
 * In the window you want to execute remote applications, set the SPARK_HOME using the directory where you untared (e.g., /home/<userid>) and set:
-   * `export SPARK_HOME=<directory where untared>/spark-2.0.2-bin-hadoop2.6`
-   * E.g., `export SPARK_HOME=/home/<userid>/spark-2.0.2-bin-hadoop2.6`
+   * `export SPARK_HOME=<directory where untared>/spark-2.2.1-bin-hadoop2.6`
+   * E.g., `export SPARK_HOME=/home/<userid>/spark-2.2.1-bin-hadoop2.6`
+
+Or refer to the script used for the [container setup](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh)
 
 ### Java Setup
 
@@ -39,12 +41,16 @@ To set up java (for java 1.8) use: 
 * `sudo yum install java`
 * `sudo yum install java-devel`
 
+Or refer to the script used for the [container setup](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-java.sh)
+
 ### Scala Setup
 
 To set up scala use:
 
 * `wget http://downloads.typesafe.com/scala/2.11.8/scala-2.11.8.rpm`
 * `sudo rpm -ihv scala-2.11.8.rpm`
+
+Or refer to the script used for the [container setup](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-scala.sh)
 
 ### SBT Setup
 
@@ -54,12 +60,17 @@ To set up SBT use:
 * `sudo yum install sbt-launcher-packaging`
 * You can see the version with: `sbt sbtVersion`
 
+Or refer to the script used for the [container setup](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-scala.sh)
+
 ### Python Setup
 
 To setup the python environment
 
-* Get Python 2.7.5 from steps in https://tecadmin.net/install-python-2-7-on-centos-rhel/ (where you can replace the python version with Python 2.7.5)
-* Note you can use any Python version >= 2.7.5
+* Download and setup Python 3.6.8 
+   * Download the package from https://www.python.org/ftp/python/3.6.8 and open the archive
+   * Run the following to configure the downloaded package and install it 
+      * ```./configure --enable-optimizations```
+      * ```make altinstall```
 * You will need to have pandas and numpy installed to execute the generate.sh locally so you should run the following (for Centos Linux):
    * `sudo yum install python-pip`
    * `sudo pip install numpy`
@@ -68,17 +79,19 @@ To setup the python environment
    * Install any additional required modules. For this application, you need the PySpark module:
       * `pip3 install pyspark`
 
+Or refer to the script used for the [container setup](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-python.sh)
+
 ### Downloading the IBM Db2 Event Store client JAR
 
 To get the client jar go to the following and download the jar:
 
-* https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client/1.1.3
+* https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.2.1
 
 ### Downloading the IBM Db2 Event Store JDBC client jar
 
 To get the JDBC client jar go to the following and download the jar:
   
-* https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-jdbcdriver/1.1.3
+* https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.2.1
 
 ### Downloading the IBM Db2 Event Store Python package
 
