@@ -43,18 +43,27 @@
       private static final String DATABASE_NAME  = "EVENTDB";
 
       /** Name of table to create */
-      private static final String TABLE_NAME = "JavaTable"; 
+      private static final String TABLE_NAME = "JAVATABLE"; 
 
       /** SparkSQL Query to run on table */
-      private static final String QUERY = "SELECT * FROM "+TABLE_NAME;
-      
+      private static final String QUERY = "SELECT * FROM " + TABLE_NAME;
+
+      /** User name of database account */
+      private static final String USERNAME = System.getenv("EVENT_USER");
+   
+      /** Password of database account */
+      private static final String PASSWORD = System.getenv("EVENT_PASSWORD");
+   
+      /** Virtual IP of database server*/
+      private static final String IP = System.getenv("IP");
+
       public static void main(String args[]) {
 
           // Set connection endpoints
-          ConfigurationReader.setConnectionEndpoints("9.30.119.26:18730;9.30.119.26:1101");
+          ConfigurationReader.setConnectionEndpoints( IP + ":18730;" + IP + ":1101");
           // Set user credential
-          ConfigurationReader.setEventUser("admin");
-          ConfigurationReader.setEventPassword("password");
+          ConfigurationReader.setEventUser(USERNAME);
+          ConfigurationReader.setEventPassword(PASSWORD);
           // Define schema of table as SparkSQL StructType
           StructField[] tabFields = new StructField[] {
               DataTypes.createStructField("deviceID", DataTypes.IntegerType, false),
