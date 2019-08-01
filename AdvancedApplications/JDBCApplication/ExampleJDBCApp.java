@@ -1,4 +1,6 @@
 import java.sql.*;   // Use 'Connection', 'Statement' and 'ResultSet' classes in java.sql package
+import java.util.*;
+import java.io.*;
 
 // JDK 1.7 and above
 public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
@@ -8,7 +10,7 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
    private static final String DATABASE_NAME  = "EVENTDB";
 
    /** Name of table to create */
-   private static final String TABLE_NAME = "JDBCTABLE"; 
+   private static final String TABLE_NAME = "IOT_TEMP"; 
 
    /** Path for external table csv file */
    private static final String EXTERNAL_CSV_PATH = "/root/db2eventstore-IoT-Analytics/data/sample_IOT_table.csv";
@@ -27,6 +29,8 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
        Connection conn = null;
        Statement stmt = null;
        ResultSet rs = null;
+       String KEYDB_PASSWORD = null;
+       String KEYDB_PATH = null;
        try {
            try {
                    Class.forName(driverName);
@@ -34,6 +38,23 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
            } catch(Exception ex) {
                    System.out.println("Could not find the driver class");
            }
+
+        File bluspark =new File("/bluspark/external_conf/bluspark.conf");
+        Scanner in = null;
+        try {
+            in = new Scanner(bluspark);
+            while(in.hasNext())
+            {
+                String line=in.nextLine();
+                if(line.contains("sslKeyStorePassword"))
+                    { KEYDB_PASSWORD = line.split(" ")[1];}
+                if(line.contains("sslKeyStoreLocation"))
+                { KEYDB_PATH = line.split(" ")[1];}
+            }
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
            // Step 1: Allocate a database 'Connection' object
            System.out.println("Connecting to a selected database...");
@@ -43,10 +64,10 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
            DriverManager.getConnection(
                     "jdbc:db2://" + IP + ":18730/" + DATABASE_NAME + ":" +
                     "sslConnection=true;" +
-	   	    "sslTrustStoreLocation=/var/lib/eventstore/clientkeystore;" +
-	   	    "sslKeyStoreLocation=/var/lib/eventstore/clientkeystore;" +
-                    "sslKeyStorePassword=MkVhSzcgcQiA;" +
-                    "sslTrustStorePassword=MkVhSzcgcQiA;" +
+	   	            "sslTrustStoreLocation="+ KEYDB_PATH + ";" +
+	   	            "sslKeyStoreLocation="+ KEYDB_PATH + ";" +
+                    "sslKeyStorePassword="+ KEYDB_PASSWORD + ";" +
+                    "sslTrustStorePassword="+ KEYDB_PASSWORD + ";" +
                     "securityMechanism=15;" +
                     "pluginName=IBMPrivateCloudAuth;", 
                     USERNAME, PASSWORD);
