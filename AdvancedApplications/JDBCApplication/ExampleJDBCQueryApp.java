@@ -73,13 +73,99 @@ public class ExampleJDBCQueryApp {   // Save as "ExampleJDBCQueryApp.java"
            // Set Isolation level to be able to query data immediately after it is inserted
            conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 
-           // Please write your own query and uncomment the line if needed
-           /** sql = <Please place your query here> 
-             * rs = stmt.executeQuery(sql);
-             * while(rs.next()){
-             *
-             * }
-             */
+           // Please write your own query or uncomment the blocks if needed
+           
+           /*
+             // Get the total row number of table 
+             sql = "SELECT count(*) FROM " + TABLE_NAME;
+             rs = stmt.executeQuery(sql);
+ 	     while(rs.next()) {
+ 	          System.out.println("Total number of rows: " + rs.getInt(1));
+ 	      }
+            */
+
+           /* 
+             // Show one row within table
+             sql = "SELECT * FROM " + TABLE_NAME + " LIMIT 1";
+             rs = stmt.executeQuery(sql);
+             while(rs.next()) {
+                 int deviceID = rs.getInt("DEVICEID");
+                 int sensorID = rs.getInt("SENSORID");
+                 long ts = rs.getLong("TS");
+                 double ambient_temp = rs.getDouble("AMBIENT_TEMP");
+                 double power = rs.getDouble("POWER");
+                 double temp = rs.getDouble("TEMPERATURE");
+            
+                 // display data
+                 System.out.print("deviceID: " + deviceID);
+                 System.out.print(", sensorID: " + sensorID);
+                 System.out.print(", ts: " + ts);
+                 System.out.print(", ambient_temp: " + ambient_temp);
+                 System.out.print(", power: " + power);
+                 System.out.println(", temperature: " + temp);
+             } 
+            */
+
+           /* 
+             // Get the minimum and maximum timestamp from table
+             sql = "SELECT MIN(ts), MAX(ts) FROM " + TABLE_NAME; 
+             rs = stmt.executeQuery(sql);
+             while(rs.next()) {
+                 System.out.print("MIN(ts): "+ rs.getLong("MINTS") + " ");
+                 System.out.println("MAX(ts): "+ rs.getLong("MAXTS"));
+             }
+            */
+
+           /*
+             // Get timestamp and temperature of rows that satisfies some contraints 
+             sql = "SELECT ts, temperature  FROM " + TABLE_NAME + " " +
+                   "where deviceID=1 and sensorID=12 and " + 
+                   "ts > 1541021271619 and ts < 1541043671128 order by ts";
+             rs = stmt.executeQuery(sql);
+             while(rs.next()) {
+                 long ts = rs.getLong("TS");
+                 double temp = rs.getDouble("TEMPERATURE");
+                
+                 // display data
+                 System.out.print("ts: " + ts);
+                 System.out.println(", temperature: " +  temp);
+             }
+            */
+
+           /*
+             // Get the number of rows of table where sensorID=7
+             sql = "SELECT count(*)  FROM " + TABLE_NAME + " where sensorID = 7";
+             rs = stmt.excuteQuery(sql);
+             while(rs.next()) {
+                 System.out.println("Total number of rows where sensorID = 7: " + rs.getInt(1));
+              }
+            */
+
+           /*
+             // Get deviceId, sensorID and ts from rows that satisfies some constraints
+             sql = "SELECT deviceID, sensorID, ts  FROM " + TABLE_NAME + " " + 
+                   "where deviceID=1 and sensorID in (1, 5, 7, 12) and " + 
+                   "ts >1541021271619 and ts < 1541043671128 order by ts";
+             rs = stmt.excuteQuery(sql);
+             while(rs.next()) {
+                 int deviceID = rs.getInt("DEVICEID");
+                 int sensorID = rs.getInt("SENSORID");
+                 long ts = rs.getLong("TS");
+
+                 // display data
+                 System.out.print("deviceID: " + deviceID);
+                 System.out.print(", sensorID: " + sensorID);
+                 System.out.print("ts: " + ts);
+             }
+            */
+
+           /*
+             sql = <Please place your query here>;
+             rs = stmt.executeQuery(sql);
+             while(rs.next()){
+                 <logics for processing the data>
+             }
+            */
 
            // close result set
            rs.close();
