@@ -2,6 +2,7 @@
 
 # path within container
 SETUP_PATH="/root/db2eventstore-IoT-Analytics/container/setup"
+USER_VOLUME=${HOME}/eventstore_demo_volume
 
 if [ -f ./.user_info ]; then
     echo "File: '.user-info' found in the current directory."
@@ -72,9 +73,10 @@ if [ -z ${IP} ]; then
     exit 1
 fi
 
+mkdir -p ${USER_VOLUME}
 # start container in interactive mode
 
-docker run -it \
+docker run -it --name eventstore_demo_${EVENT_USER} -v ${USER_VOLUME}:/root/user_volume \
     -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWORD=${EVENT_PASSWORD} -e IP=${IP} \
     eventstore_demo:latest \
     bash -c "${SETUP_PATH}/setup-ssl.sh && ${SETUP_PATH}/entrypoint_msg.sh && bash"
