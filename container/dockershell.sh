@@ -80,3 +80,8 @@ docker run -it --name eventstore_demo_${EVENT_USER} -v ${USER_VOLUME}:/root/user
     -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWORD=${EVENT_PASSWORD} -e IP=${IP} \
     eventstore_demo:latest \
     bash -c "${SETUP_PATH}/setup-ssl.sh && ${SETUP_PATH}/entrypoint_msg.sh && bash"
+
+echo "Cleaning up dangling images and/or exited containers"
+docker rmi $(docker images -q -f dangling=true) > /dev/null 2>&1
+docker rm -v $(docker ps -a -q -f status=exited) > /dev/null 2>&1
+echo "Exited container successfully!"
