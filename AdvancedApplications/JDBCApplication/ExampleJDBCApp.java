@@ -189,9 +189,6 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
                System.out.println(", temperature: " + temp);
            }
 
-           // close result set
-           rs.close();
-
        } catch(SQLException ex){
            ex.printStackTrace();
        } finally{
