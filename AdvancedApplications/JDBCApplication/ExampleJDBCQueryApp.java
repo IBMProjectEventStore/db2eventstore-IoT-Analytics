@@ -38,22 +38,22 @@ public class ExampleJDBCQueryApp {   // Save as "ExampleJDBCQueryApp.java"
                    System.out.println("Could not find the driver class");
            }
            
-            File bluspark =new File("/bluspark/external_conf/bluspark.conf");
-            Scanner in = null;
-            try {
-                in = new Scanner(bluspark);
-                while(in.hasNext())
-                {
-                    String line=in.nextLine();
-                    if(line.contains("sslKeyStorePassword"))
-                        { KEYDB_PASSWORD = line.split(" ")[1];}
-                    if(line.contains("sslKeyStoreLocation"))
-                    { KEYDB_PATH = line.split(" ")[1];}
-                }
-            } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+           File bluspark =new File("/bluspark/external_conf/bluspark.conf");
+           Scanner in = null;
+           try {
+               in = new Scanner(bluspark);
+               while(in.hasNext())
+               {
+                   String line=in.nextLine();
+                   if(line.contains("sslKeyStorePassword"))
+                       { KEYDB_PASSWORD = line.split(" ")[1];}
+                   if(line.contains("sslKeyStoreLocation"))
+                   { KEYDB_PATH = line.split(" ")[1];}
+               }
+           } catch (FileNotFoundException e) {
+               // TODO Auto-generated catch block
+               e.printStackTrace();
+           }
 
            // Step 1: Allocate a database 'Connection' object
            System.out.println("Connecting to a selected database...");
