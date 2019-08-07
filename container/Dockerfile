@@ -17,7 +17,6 @@ RUN yum install -y \
     make \
     sudo \
     zlib-devel \
-    screen \
     && yum clean all \
     && rm -rf /var/cache/yum
 
@@ -26,6 +25,10 @@ RUN git clone --single-branch --branch ${BRANCH} https://github.com/IBMProjectEv
 # Install jq
 RUN wget -O /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
 RUN chmod +x /usr/local/bin/jq
+
+# Install screen
+RUN wget -P /tmp/ http://mirror.centos.org/centos/7/os/x86_64/Packages/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm
+RUN yum localinstall -y /tmp/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm && yum clean all && rm -rf /var/cache/yum && rm -rf /tmp/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm
 
 # Setup spark/scala/python/rest
 ENV SPARK_HOME="/spark_home"

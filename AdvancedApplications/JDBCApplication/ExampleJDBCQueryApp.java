@@ -75,8 +75,13 @@ public class ExampleJDBCQueryApp {   // Save as "ExampleJDBCQueryApp.java"
 
            // Please write your own query or uncomment the blocks if needed
            
+           /********************************************************************************
+            *                         Basic Event Store Queries                            *
+            *                                                                              *
+            ********************************************************************************/
+
+           // Get the total row number of table 
            /*
-             // Get the total row number of table 
              sql = "SELECT count(*) FROM " + TABLE_NAME;
              rs = stmt.executeQuery(sql);
  	     while(rs.next()) {
@@ -84,8 +89,8 @@ public class ExampleJDBCQueryApp {   // Save as "ExampleJDBCQueryApp.java"
  	      }
             */
 
+           // Show one row within table
            /* 
-             // Show one row within table
              sql = "SELECT * FROM " + TABLE_NAME + " LIMIT 1";
              rs = stmt.executeQuery(sql);
              while(rs.next()) {
@@ -105,9 +110,9 @@ public class ExampleJDBCQueryApp {   // Save as "ExampleJDBCQueryApp.java"
                  System.out.println(", temperature: " + temp);
              } 
             */
-
+           
+           // Get the minimum and maximum timestamp from table
            /* 
-             // Get the minimum and maximum timestamp from table
              sql = "SELECT MIN(ts), MAX(ts) FROM " + TABLE_NAME; 
              rs = stmt.executeQuery(sql);
              while(rs.next()) {
@@ -116,8 +121,30 @@ public class ExampleJDBCQueryApp {   // Save as "ExampleJDBCQueryApp.java"
              }
             */
 
+           /********************************************************************************
+            *                     Optimal query through the index                          *
+            *                                             				   *
+            * - Index queries will significantly reduce amount of data that needs to be    *
+            *   scanned for results.							   *
+            *    - Indexes in IBM Db2 Event Store are formed asynchronously to avoid  	   *
+            *      insert latency.                					   *
+            *    - They are stored as a Log Structured Merge (LSM) Tree.	           *
+            *    - The index is formed by "runs", which include sequences of sorted keys.  *
+            *    - These runs are written to disk during “Share” processing.               *
+            *      These index runs are merged together over time to improve scan and      *
+            *      I/O efficiency.                                                         *
+            * - For an optimal query performance you must specify equality on all the      *
+            *   equal_columns in the index and a range on the sort column in the index.    *
+            *   								           *
+            ********************************************************************************/
+
+           /* For example, in the following query we are retrieving all the values in the 
+            * range of dates for a specific device and sensor, where both the deviceID and 
+            * sensorID are in the equal_columns definition for the index schema and the ts 
+            * column is the sort column for the index.
+            */
+
            /*
-             // Get timestamp and temperature of rows that satisfies some contraints 
              sql = "SELECT ts, temperature  FROM " + TABLE_NAME + " " +
                    "where deviceID=1 and sensorID=12 and " + 
                    "ts > 1541021271619 and ts < 1541043671128 order by ts";
@@ -132,8 +159,20 @@ public class ExampleJDBCQueryApp {   // Save as "ExampleJDBCQueryApp.java"
              }
             */
 
+            /********************************************************************************
+             *                            Sub-optimal query                                 *
+             * 										    *
+             * - Sub-optimal query only specifies equality in one of the equal_columns in   *
+             *   the index schema, and for this reason ends up doing a full scan of         *
+             *   the table. 								    *
+             *   									    *
+             ********************************************************************************/
+
+           /* The following query demonstrates a sub-optimal query where we only search 
+ 	    * rows with the equality column being "sensorID".
+ 	    */
+
            /*
-             // Get the number of rows of table where sensorID=7
              sql = "SELECT count(*)  FROM " + TABLE_NAME + " where sensorID = 7";
              rs = stmt.excuteQuery(sql);
              while(rs.next()) {
@@ -141,8 +180,21 @@ public class ExampleJDBCQueryApp {   // Save as "ExampleJDBCQueryApp.java"
               }
             */
 
+           /********************************************************************************
+            *                   Accessing multiple sensorIDs optimally                     *
+            *										   *
+            * - The easiest way to write a query that needs to retrieve multiple values    *
+            *   in the equal_columns in the index schema is by using an In-List.           *
+            *   With this, you can get optimal index access across multiple sensorID's.    *
+            *                                                                              *
+            ********************************************************************************/
+            
+           /* In this example we specify equality for a specific deviceID, and an In-List 
+            * for the four sensors we are trying to retrieve. To limit the number of records 
+            * we are returning we also include a range of timestamps.
+            */
+
            /*
-             // Get deviceId, sensorID and ts from rows that satisfies some constraints
              sql = "SELECT deviceID, sensorID, ts  FROM " + TABLE_NAME + " " + 
                    "where deviceID=1 and sensorID in (1, 5, 7, 12) and " + 
                    "ts >1541021271619 and ts < 1541043671128 order by ts";
