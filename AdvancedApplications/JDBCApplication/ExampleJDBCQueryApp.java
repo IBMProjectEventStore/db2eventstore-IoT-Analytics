@@ -118,7 +118,7 @@ public class ExampleJDBCQueryApp {   // Save as "ExampleJDBCQueryApp.java"
            
            // Get the minimum and maximum timestamp from table
            /* 
-             sql = "SELECT MIN(ts), MAX(ts) FROM " + TABLE_NAME; 
+             sql = "SELECT MIN(ts) AS MINTS, MAX(ts) AS MAXTS FROM " + TABLE_NAME; 
              rs = stmt.executeQuery(sql);
              while(rs.next()) {
                  System.out.print("MIN(ts): "+ rs.getLong("MINTS") + " ");
@@ -179,7 +179,7 @@ public class ExampleJDBCQueryApp {   // Save as "ExampleJDBCQueryApp.java"
 
            /*
              sql = "SELECT count(*)  FROM " + TABLE_NAME + " where sensorID = 7";
-             rs = stmt.excuteQuery(sql);
+             rs = stmt.executeQuery(sql);
              while(rs.next()) {
                  System.out.println("Total number of rows where sensorID = 7: " + rs.getInt(1));
               }
@@ -203,7 +203,7 @@ public class ExampleJDBCQueryApp {   // Save as "ExampleJDBCQueryApp.java"
              sql = "SELECT deviceID, sensorID, ts  FROM " + TABLE_NAME + " " + 
                    "where deviceID=1 and sensorID in (1, 5, 7, 12) and " + 
                    "ts >1541021271619 and ts < 1541043671128 order by ts";
-             rs = stmt.excuteQuery(sql);
+             rs = stmt.executeQuery(sql);
              while(rs.next()) {
                  int deviceID = rs.getInt("DEVICEID");
                  int sensorID = rs.getInt("SENSORID");
