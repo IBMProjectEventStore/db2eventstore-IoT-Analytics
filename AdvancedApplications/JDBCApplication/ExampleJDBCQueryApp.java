@@ -27,6 +27,7 @@ public class ExampleJDBCQueryApp {   // Save as "ExampleJDBCQueryApp.java"
        Connection conn = null;
        Statement stmt = null;
        ResultSet rs = null;
+       String sql = null;
        String KEYDB_PASSWORD = null;
        String KEYDB_PATH = null;
        try {
@@ -72,6 +73,10 @@ public class ExampleJDBCQueryApp {   // Save as "ExampleJDBCQueryApp.java"
 
            // Set Isolation level to be able to query data immediately after it is inserted
            conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+
+	   // Connect to database
+	   stmt = conn.createStatement();
+	   System.out.println("Connected database successfully...");
 
            // Please write your own query or uncomment the blocks if needed
            
@@ -130,7 +135,7 @@ public class ExampleJDBCQueryApp {   // Save as "ExampleJDBCQueryApp.java"
             *      insert latency.                					   *
             *    - They are stored as a Log Structured Merge (LSM) Tree.	           *
             *    - The index is formed by "runs", which include sequences of sorted keys.  *
-            *    - These runs are written to disk during “Share” processing.               *
+            *    - These runs are written to disk during "Share" processing.               *
             *      These index runs are merged together over time to improve scan and      *
             *      I/O efficiency.                                                         *
             * - For an optimal query performance you must specify equality on all the      *
@@ -144,7 +149,7 @@ public class ExampleJDBCQueryApp {   // Save as "ExampleJDBCQueryApp.java"
             * column is the sort column for the index.
             */
 
-           /*
+           /* 
              sql = "SELECT ts, temperature  FROM " + TABLE_NAME + " " +
                    "where deviceID=1 and sensorID=12 and " + 
                    "ts > 1541021271619 and ts < 1541043671128 order by ts";
@@ -218,9 +223,6 @@ public class ExampleJDBCQueryApp {   // Save as "ExampleJDBCQueryApp.java"
                  <logics for processing the data>
              }
             */
-
-           // close result set
-           rs.close();
 
        } catch(SQLException ex){
            ex.printStackTrace();
