@@ -4,11 +4,11 @@
 SETUP_PATH="/root/db2eventstore-IoT-Analytics/container/setup"
 USER_VOLUME=${HOME}/eventstore_demo_volume
 
-if [ -f ./.user_info ]; then
+if [ -f ${HOME}/.user_info ]; then
     echo "File: '.user-info' found in the current directory."
     echo "Extracting user information from the file."
-    EVENT_USER=$(grep  "username" ./.user_info |awk {'print $2'})
-    EVENT_PASSWORD=$(grep  "password" ./.user_info |awk {'print $2'})
+    EVENT_USER=$(grep  "username" ${HOME}/.user_info |awk {'print $2'})
+    EVENT_PASSWORD=$(grep  "password" ${HOME}/.user_info |awk {'print $2'})
 fi
 
 function usage()
