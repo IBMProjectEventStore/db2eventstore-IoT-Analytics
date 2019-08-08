@@ -7,6 +7,7 @@ LICENCE_ACCEPT=
 SSL_KEY_DATABASE_PASSWORD=myClientPassw0rdpw0
 DOCKER_CLIENT_CONTAINER_NAME=db2-${USER}
 IP=
+AUTO_SETUP="false"
 
 # default values
 DB2_CLIENT_PORT_ON_EVENTSTORE_SERVER=18730
@@ -36,6 +37,7 @@ OPTIONS:
   --IP                          Event store cluster IP
 
 [Optional]
+  --auto-config      Automatically conigure the remote Event Store connection (default: false)
   --user             Event store user (default: ${USER})
   --password         Event store password (default: password)
   --shared-path                 Local path to share with the docker container (default ${HOME}/db2Client_volume)
@@ -53,6 +55,10 @@ USAGE
 while [ -n "$1" ]
 do
    case $1 in
+      --auto-config)
+         AUTO_SETUP=$2
+         shift 2
+         ;;
       --shared-path)
          DB_DIRECTORY=$2
          shift 2
@@ -172,7 +178,7 @@ function docker_run()
 {
    DB2_DEFAULT_USERNAME=db2inst1
    COMMAND="$@"
-   docker exec ${DOCKER_CLIENT_CONTAINER_NAME} bash -c "su - ${DB2_DEFAULT_USERNAME} -c \"$COMMAND\" "
+   docker exec ${DOCKER_CLIENT_CONTAINER_NAME} bash -c "su ${DB2_DEFAULT_USERNAME} -c \"$COMMAND\" "
 }
 
 function docker_run_as_root() 
@@ -194,20 +200,25 @@ function check_errors() {
 }
 
 # install java for keytool
-docker_run_as_root yum install -y java
+docker_run_as_root yum install -y java wget
 check_errors $? "install java and wget"
 
-# create or update setup-remoteES connection script.
+# install screen
+wget -P /tmp/ http://mirror.centos.org/centos/7/os/x86_64/Packages/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm
+yum localinstall -y /tmp/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm && yum clean all && rm -rf /var/cache/yum && rm -rf /tmp/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm
+
+# create or update setup-remoteES connection script to the shared path on host
 touch ${DB_DIRECTORY}/setup-remote-eventstore.sh ${DB_DIRECTORY}/load_csv.sql
 check_errors $? "create setup-remote-eventstore.sh & load_csv.sql"
 
 chmod +x ${DB_DIRECTORY}/setup-remote-eventstore.sh ${DB_DIRECTORY}/load_csv.sql
 check_errors $? "chmod on setup-remote-eventstore.sh & /database/load_csv.sql"
 
-cat > ${DB_DIRECTORY}/setup-remote-eventstore.sh  <<'EOF' 
+cat > ${DB_DIRECTORY}/setup-remote-eventstore.sh <<'EOF' 
 #!/bin/bash -x
+. /database/config/db2inst1/sqllib/db2profile
 rm -rf $HOME/mydbclient.kdb  $HOME/mydbclient.sth $HOME/mydbclient.crl $HOME/mydbclient.rdb
-gsk8capicmd_64 -keydb -create -db $HOME/mydbclient.kdb -pw ${SSL_KEY_DATABASE_PASSWORD} -stash
+$HOME/sqllib/gskit/bin/gsk8capicmd_64 -keydb -create -db $HOME/mydbclient.kdb -pw ${SSL_KEY_DATABASE_PASSWORD} -stash
 
 KEYDB_PATH=/var/lib/eventstore/clientkeystore
 
@@ -221,19 +232,20 @@ keytool -list -keystore  $HOME/clientkeystore -storepass $KEYDB_PASSWORD
 
 keytool -export -keystore $HOME/clientkeystore -storepass  $KEYDB_PASSWORD  -file $HOME/server-certificate.cert -alias SSLCert
 
-gsk8capicmd_64 -cert -add -db $HOME/mydbclient.kdb  -pw ${SSL_KEY_DATABASE_PASSWORD}  -label server -file $HOME/server-certificate.cert -format ascii -fips
+$HOME/sqllib/gskit/bin/gsk8capicmd_64 -cert -add -db $HOME/mydbclient.kdb  -pw ${SSL_KEY_DATABASE_PASSWORD}  -label server -file $HOME/server-certificate.cert -format ascii -fips
 
-db2 update dbm cfg using SSL_CLNT_KEYDB $HOME/mydbclient.kdb SSL_CLNT_STASH $HOME/mydbclient.sth
+$HOME/sqllib/bin/db2 update dbm cfg using SSL_CLNT_KEYDB $HOME/mydbclient.kdb SSL_CLNT_STASH $HOME/mydbclient.sth
 
-db2 UNCATALOG NODE ${NODE_NAME}
-db2 CATALOG TCPIP NODE ${NODE_NAME} REMOTE ${IP} SERVER ${DB2_CLIENT_PORT_ON_EVENTSTORE_SERVER} SECURITY SSL
-db2 UNCATALOG DATABASE ${EVENTSTORE_DATABASE}
-db2 CATALOG DATABASE ${EVENTSTORE_DATABASE} AT NODE ${NODE_NAME} AUTHENTICATION GSSPLUGIN
-db2 CONNECT TO ${EVENTSTORE_DATABASE} USER ${EVENT_USER} USING ${EVENT_PASSWORD}
+$HOME/sqllib/bin/db2 UNCATALOG NODE ${NODE_NAME}
+$HOME/sqllib/bin/db2 CATALOG TCPIP NODE ${NODE_NAME} REMOTE ${IP} SERVER ${DB2_CLIENT_PORT_ON_EVENTSTORE_SERVER} SECURITY SSL
+$HOME/sqllib/bin/db2 UNCATALOG DATABASE ${EVENTSTORE_DATABASE}
+$HOME/sqllib/bin/db2 CATALOG DATABASE ${EVENTSTORE_DATABASE} AT NODE ${NODE_NAME} AUTHENTICATION GSSPLUGIN
+$HOME/sqllib/bin/db2 CONNECT TO ${EVENTSTORE_DATABASE} USER ${EVENT_USER} USING ${EVENT_PASSWORD}
 EOF
 
 check_errors $? "cat to setup-remote-eventstore.sh"
 
+# create or update load_csv.sql to the shared path on host
 cat > ${DB_DIRECTORY}/load_csv.sql <<EOF
 CONNECT TO ${EVENTSTORE_DATABASE} USER ${EVENT_USER} USING ${EVENT_PASSWORD}
 SET CURRENT ISOLATION UR
@@ -248,6 +260,7 @@ TERMINATE
 EOF
 check_errors $? "cat to load_csv.sql"
 
+# wget the data csv file to the shared path on host
 wget https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/raw/master/data/sample_IOT_table.csv -O  ${DB_DIRECTORY}/sample_IOT_table.csv
 check_errors $? "wget csv file from github"
 
@@ -256,5 +269,10 @@ check_errors $? "mkdir -p database/logs"
 
 docker_run_as_root chmod 777 /database/logs
 check_errors $? "chmod 777 /database/logs"
+
+if [ ${AUTO_SETUP} == "true" ]; then
+  docker_run /database/setup-remote-eventstore.sh
+  check_errors $? "running setup-remote-eventstore.sh"
+fi
 
 docker exec -it ${DOCKER_CLIENT_CONTAINER_NAME} bash
