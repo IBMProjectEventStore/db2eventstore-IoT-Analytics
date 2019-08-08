@@ -73,7 +73,7 @@ fi
 
 # target path to store client ssl key
 KEYDB_PATH="/var/lib/eventstore"
-
+mkdir -p ${KEYDB_PATH}
 # get bearerToken
 bearerToken=`curl --silent -k -X GET https://${IP}/v1/preauth/validateAuth -u ${EVENT_USER}:${EVENT_PASSWORD} | python -c "import sys, json; print(json.load(sys.stdin)['accessToken'])"`
 [ $? -ne 0 ] && echo "Not able to get bearerToken" && exit 2
@@ -86,6 +86,8 @@ curl --silent -k -X GET -H "authorization: Bearer $bearerToken" "https://${IP}:4
 KEYDB_PASSWORD=$(curl --silent -k -i -X GET -H "authorization: Bearer $bearerToken" "https://${IP}:443/com/ibm/event/api/v1/oltp/certificate_password" | tail -1)
 [ $? -ne 0 ] && echo "Not able to get clientkeystore password" && exit 4
 
+mkdir -p /bluspark/external_conf/
+touch /bluspark/external_conf/bluspark.conf
 cat > /bluspark/external_conf/bluspark.conf <<EOL 
 internal.client.security.sslTrustStoreLocation ${KEYDB_PATH}/clientkeystore 
 internal.client.security.sslTrustStorePassword ${KEYDB_PASSWORD}
