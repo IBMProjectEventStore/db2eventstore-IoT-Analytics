@@ -275,4 +275,4 @@ if [ ${AUTO_SETUP} == "true" ]; then
   check_errors $? "running setup-remote-eventstore.sh"
 fi
 
-docker exec -it ${DOCKER_CLIENT_CONTAINER_NAME} bash
+docker exec -it --user db2inst1 ${DOCKER_CLIENT_CONTAINER_NAME} bash
