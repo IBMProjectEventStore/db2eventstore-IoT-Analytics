@@ -275,4 +275,12 @@ if [ ${AUTO_SETUP} == "true" ]; then
   check_errors $? "running setup-remote-eventstore.sh"
 fi
 
+rm -f ${DB_DIRECTORY}/setup-ssl.sh && wget https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/raw/master/container/setup/setup-ssl.sh -O ${DB_DIRECTORY}/setup-ssl.sh
+check_errors $? "downloading setup-ssl.sh script to the shared path"
+docker_run_as_root chmod +x /database/setup-ssl.sh 
+check_errors $? "make setup-ssl.sh executable"
+
+docker_run_as_root /database/setup-ssl.sh
+check_errors $? "running setup-ssl.sh as root in the container"
+
 docker exec -it --user db2inst1 ${DOCKER_CLIENT_CONTAINER_NAME} bash
