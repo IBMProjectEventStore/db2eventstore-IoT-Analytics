@@ -64,8 +64,8 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
            DriverManager.getConnection(
                     "jdbc:db2://" + IP + ":18730/" + DATABASE_NAME + ":" +
                     "sslConnection=true;" +
-	   	            "sslTrustStoreLocation="+ KEYDB_PATH + ";" +
-	   	            "sslKeyStoreLocation="+ KEYDB_PATH + ";" +
+	   	    "sslTrustStoreLocation="+ KEYDB_PATH + ";" +
+	   	    "sslKeyStoreLocation="+ KEYDB_PATH + ";" +
                     "sslKeyStorePassword="+ KEYDB_PASSWORD + ";" +
                     "sslTrustStorePassword="+ KEYDB_PASSWORD + ";" +
                     "securityMechanism=15;" +
@@ -104,8 +104,7 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
                 "POWER DOUBLE NOT NULL, " +
                 "TEMPERATURE DOUBLE NOT NULL, " +
                 "CONSTRAINT \"TEST1INDEX\" " +
-                "PRIMARY KEY(DEVICEID, SENSORID, TS) " +
-                "include(TEMPERATURE)) " +
+                "PRIMARY KEY(DEVICEID, SENSORID, TS)) " +
                 "DISTRIBUTE BY HASH (DEVICEID, SENSORID) " +
                 "organize by column stored as parquet";
 
