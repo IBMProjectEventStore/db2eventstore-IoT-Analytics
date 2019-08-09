@@ -31,10 +31,10 @@ RUN wget -P /tmp/ http://mirror.centos.org/centos/7/os/x86_64/Packages/screen-4.
 RUN yum localinstall -y /tmp/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm && yum clean all && rm -rf /var/cache/yum && rm -rf /tmp/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm
 
 # Setup Screen
-echo -e 'startup_message off \nhardstatus on \nhardstatus alwayslastline \nvbell off \nhardstatus string "%{.bW}%-w%{..G}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a"' > ${HOME}/.screenrc
+RUN echo -e 'startup_message off \nhardstatus on \nhardstatus alwayslastline \nvbell off \nhardstatus string "%{.bW}%-w%{..G}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a"' > ${HOME}/.screenrc
 
 # Setup vim 
-echo -e 'syntax enable \nset tabstop=4 \nset number \nset hlsearch \nset incsearch' > ${HOME}/.vimrc
+RUN echo -e 'syntax enable \nset tabstop=4 \nset number \nset hlsearch \nset incsearch' > ${HOME}/.vimrc
 
 # Setup spark/scala/python/rest
 ENV SPARK_HOME="/spark_home"
