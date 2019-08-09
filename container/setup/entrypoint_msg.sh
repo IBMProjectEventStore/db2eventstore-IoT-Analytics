@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # message that printed out when container starts.
-cd $IOT_REPO_PATH
-git fetch --all
-git reset --hard origin/master
-cd ~
+cd $IOT_REPO_PATH >& /dev/null
+git fetch --all >& /dev/null
+git reset --hard origin/master >& /dev/null
+cd ~ >& /dev/null
 
 clear
 cat <<-EOL
