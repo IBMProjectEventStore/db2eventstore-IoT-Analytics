@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # path within container
 SETUP_PATH="/root/db2eventstore-IoT-Analytics/container/setup"

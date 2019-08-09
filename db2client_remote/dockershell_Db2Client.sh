@@ -151,6 +151,7 @@ docker run -itd --name ${DOCKER_CLIENT_CONTAINER_NAME} -v ${DB_DIRECTORY}:/datab
     -e DB2INST1_PASSWORD=${DB2INST1_PASSWORD} -e LICENSE=${LICENCE_ACCEPT} \
     -e SSL_KEY_DATABASE_PASSWORD=${SSL_KEY_DATABASE_PASSWORD} -e EVENTSTORE_DATABASE=${EVENTSTORE_DATABASE}\
     -e NODE_NAME=${NODE_NAME} -e DB2_CLIENT_PORT_ON_EVENTSTORE_SERVER=${DB2_CLIENT_PORT_ON_EVENTSTORE_SERVER}\
+    -e ESLIB="/opt/ibm/db2/V11.5/java/db2jcc4.jar"
     --privileged=true ${DOCKER_IMAGE}
 
 echo -e "\n\n* Client container started"
@@ -273,6 +274,7 @@ check_errors $? "cat to load_csv.sql"
 # wget the data csv file to the shared path on host
 wget https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/raw/master/data/sample_IOT_table.csv -O  ${DB_DIRECTORY}/sample_IOT_table.csv
 check_errors $? "wget csv file from github"
+cp ${DB_DIRECTORY}/sample_IOT_table.csv ${DB_DIRECTORY}/config/db2inst1/
 
 docker_run_as_root mkdir -p /database/logs
 check_errors $? "mkdir -p database/logs"
