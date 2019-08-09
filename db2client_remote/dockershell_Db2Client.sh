@@ -215,7 +215,7 @@ docker_run_as_root yum install -y java-${JAVA_VERSION}-openjdk-devel wget screen
 check_errors $? "install java and wget"
 
 # setup screen
-docker_run_as_root echo -e 'startup_message off \nhardstatus on \nhardstatus alwayslastline \nvbell off \nhardstatus string "%{.bW}%-w%{..G}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a"' > ${HOME}.screenrc
+docker_run "echo -e 'startup_message off \nhardstatus on \nhardstatus alwayslastline \nvbell off \nhardstatus string "%{.bW}%-w%{..G}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a"' > \${HOME}.screenrc"
 
 # create or update setup-remoteES connection script to the shared path on host
 touch ${DB_DIRECTORY}/setup-remote-eventstore.sh ${DB_DIRECTORY}/load_csv.sql
