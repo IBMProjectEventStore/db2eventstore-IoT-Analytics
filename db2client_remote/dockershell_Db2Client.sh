@@ -184,7 +184,8 @@ function docker_run()
 function docker_run_as_root() 
 {
    COMMAND="$@"
-   docker exec ${DOCKER_CLIENT_CONTAINER_NAME} bash -c "$COMMAND"
+   echo $COMMAND
+   docker exec --user root ${DOCKER_CLIENT_CONTAINER_NAME} bash -c "$COMMAND"
 }
 
 function check_errors() {
@@ -199,13 +200,25 @@ function check_errors() {
     fi
 }
 
-# install java for keytool
-docker_run_as_root yum install -y java wget
+
+JAVA_VERSION=1.8.0
+# install java
+docker_run_as_root yum install -y java-${JAVA_VERSION}-openjdk-devel wget
+#docker_run_as_root yum clean all
+#docker_run_as_root rm -rf /var/cache/yum
+#docker_run_as_root "cat > /etc/profile.d/local_java.sh <<EOL
+#export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/lib/jvm/java-${JAVA_VERSION}-openjdk/jre/lib/amd64/server
+#export JAVA_HOME=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk
+#export JVM_LIBRARY_PATH=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk/jre/lib/amd64/server/libjvm.so
+#EOL"
 check_errors $? "install java and wget"
 
 # install screen
 wget -P /tmp/ http://mirror.centos.org/centos/7/os/x86_64/Packages/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm
 yum localinstall -y /tmp/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm && yum clean all && rm -rf /var/cache/yum && rm -rf /tmp/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm
+
+# setup screen
+docker_run_as_root echo -e 'startup_message off \nhardstatus on \nhardstatus alwayslastline \nvbell off \nhardstatus string "%{.bW}%-w%{..G}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a"' > ${HOME}/.screenrc
 
 # create or update setup-remoteES connection script to the shared path on host
 touch ${DB_DIRECTORY}/setup-remote-eventstore.sh ${DB_DIRECTORY}/load_csv.sql
@@ -282,5 +295,15 @@ check_errors $? "make setup-ssl.sh executable"
 
 docker_run_as_root /database/setup-ssl.sh
 check_errors $? "running setup-ssl.sh as root in the container"
+
+rm -f  ${DB_DIRECTORY}/setup-db2instance.sh
+cp setup-db2instance.sh ${DB_DIRECTORY}/
+docker_run /database/setup-db2instance.sh 172.30.0.11
+
+rm -f ${DB_DIRECTORY}/runExampleJDBCApp
+wget https://raw.githubusercontent.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/master/AdvancedApplications/JDBCApplication/runExampleJDBCApp -P ${DB_DIRECTORY}/
+
+rm -f ${DB_DIRECTORY}/ExampleJDBCApp.java
+wget https://raw.githubusercontent.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/master/AdvancedApplications/JDBCApplication/ExampleJDBCApp.java -P ${DB_DIRECTORY}/
 
 docker exec -it --user db2inst1 ${DOCKER_CLIENT_CONTAINER_NAME} bash

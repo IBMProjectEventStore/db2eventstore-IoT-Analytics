@@ -104,7 +104,8 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
                 "POWER DOUBLE NOT NULL, " +
                 "TEMPERATURE DOUBLE NOT NULL, " +
                 "CONSTRAINT \"TEST1INDEX\" " +
-                "PRIMARY KEY(DEVICEID, SENSORID, TS)) " +
+                "PRIMARY KEY(DEVICEID, SENSORID, TS) " +
+                "include(TEMPERATURE)) " +
                 "DISTRIBUTE BY HASH (DEVICEID, SENSORID) " +
                 "organize by column stored as parquet";
 
