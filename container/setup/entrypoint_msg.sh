@@ -1,11 +1,12 @@
 #!/bin/bash
 
 # message that printed out when container starts.
-clear
 cd $IOT_REPO_PATH
 git fetch --all
 git reset --hard origin/master
 cd ~
+
+clear
 cat <<-EOL
 
 ==================================================================
