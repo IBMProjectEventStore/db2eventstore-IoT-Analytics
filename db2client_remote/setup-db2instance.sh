@@ -1,6 +1,7 @@
 #!/bin/bash
 
 CLUSTER_IP_FOR_SSH=$1
+EVENTSTORE_NAMESPACE=dsx
 if [ -z $CLUSTER_IP_FOR_SSH ]; then
    echo "Please provide cluster ip" >&2 
    exit 1

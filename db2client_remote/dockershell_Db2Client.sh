@@ -17,6 +17,7 @@ EVENTSTORE_DATABASE=eventdb
 NODE_NAME=nova
 DOCKER_IMAGE=ibmcom/db2
 CSV_FILE="sample_IOT_table.csv"
+DB2_DEFAULT_USERNAME="db2inst1"
 # PORT_OPTION=-p ${DB2_PORT}:50000
 
 if [ -f ${HOME}/.user_info ]; then
@@ -176,7 +177,7 @@ done
 
 function docker_run() 
 {
-   DB2_DEFAULT_USERNAME=db2inst1
+   DB2_DEFAULT_USERNAME=${DB2_DEFAULT_USERNAME}
    COMMAND="$@"
    docker exec ${DOCKER_CLIENT_CONTAINER_NAME} bash -c "su ${DB2_DEFAULT_USERNAME} -c \"$COMMAND\" "
 }
@@ -203,7 +204,7 @@ function check_errors() {
 
 JAVA_VERSION=1.8.0
 # install java
-docker_run_as_root yum install -y java-${JAVA_VERSION}-openjdk-devel wget
+docker_run_as_root yum install -y java-${JAVA_VERSION}-openjdk-devel wget screen
 #docker_run_as_root yum clean all
 #docker_run_as_root rm -rf /var/cache/yum
 #docker_run_as_root "cat > /etc/profile.d/local_java.sh <<EOL
@@ -213,12 +214,8 @@ docker_run_as_root yum install -y java-${JAVA_VERSION}-openjdk-devel wget
 #EOL"
 check_errors $? "install java and wget"
 
-# install screen
-wget -P /tmp/ http://mirror.centos.org/centos/7/os/x86_64/Packages/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm
-yum localinstall -y /tmp/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm && yum clean all && rm -rf /var/cache/yum && rm -rf /tmp/screen-4.1.0-0.25.20120314git3c2946.el7.x86_64.rpm
-
 # setup screen
-docker_run_as_root echo -e 'startup_message off \nhardstatus on \nhardstatus alwayslastline \nvbell off \nhardstatus string "%{.bW}%-w%{..G}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a"' > ${HOME}/.screenrc
+docker_run_as_root echo -e 'startup_message off \nhardstatus on \nhardstatus alwayslastline \nvbell off \nhardstatus string "%{.bW}%-w%{..G}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a"' > ${HOME}.screenrc
 
 # create or update setup-remoteES connection script to the shared path on host
 touch ${DB_DIRECTORY}/setup-remote-eventstore.sh ${DB_DIRECTORY}/load_csv.sql
@@ -296,14 +293,20 @@ check_errors $? "make setup-ssl.sh executable"
 docker_run_as_root /database/setup-ssl.sh
 check_errors $? "running setup-ssl.sh as root in the container"
 
-rm -f  ${DB_DIRECTORY}/setup-db2instance.sh
-cp setup-db2instance.sh ${DB_DIRECTORY}/
-docker_run /database/setup-db2instance.sh 172.30.0.11
+rm -f ${DB_DIRECTORY}/setup-db2instance.sh
+wget https://raw.githubusercontent.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/master/db2client_remote/setup-db2instance.sh -P ${DB_DIRECTORY}/
+docker_run_as_root chown ${DB2_DEFAULT_USERNAME} /database/setup-db2instance.sh
+docker_run_as_root chmod +x /database/setup-db2instance.sh 
+##docker_run /database/setup-db2instance.sh 172.30.0.11
 
 rm -f ${DB_DIRECTORY}/runExampleJDBCApp
 wget https://raw.githubusercontent.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/master/AdvancedApplications/JDBCApplication/runExampleJDBCApp -P ${DB_DIRECTORY}/
+docker_run_as_root chown ${DB2_DEFAULT_USERNAME} /database/runExampleJDBCApp
+docker_run_as_root chmod +x /database/runExampleJDBCApp
 
 rm -f ${DB_DIRECTORY}/ExampleJDBCApp.java
 wget https://raw.githubusercontent.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/master/AdvancedApplications/JDBCApplication/ExampleJDBCApp.java -P ${DB_DIRECTORY}/
+docker_run_as_root chown ${DB2_DEFAULT_USERNAME} /database/ExampleJDBCApp.java
+docker_run_as_root chmod +x /database/ExampleJDBCApp.java
 
 docker exec -it --user db2inst1 ${DOCKER_CLIENT_CONTAINER_NAME} bash
