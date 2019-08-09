@@ -151,7 +151,7 @@ docker run -itd --name ${DOCKER_CLIENT_CONTAINER_NAME} -v ${DB_DIRECTORY}:/datab
     -e DB2INST1_PASSWORD=${DB2INST1_PASSWORD} -e LICENSE=${LICENCE_ACCEPT} \
     -e SSL_KEY_DATABASE_PASSWORD=${SSL_KEY_DATABASE_PASSWORD} -e EVENTSTORE_DATABASE=${EVENTSTORE_DATABASE}\
     -e NODE_NAME=${NODE_NAME} -e DB2_CLIENT_PORT_ON_EVENTSTORE_SERVER=${DB2_CLIENT_PORT_ON_EVENTSTORE_SERVER}\
-    -e ESLIB="/opt/ibm/db2/V11.5/java/db2jcc4.jar"
+    -e ESLIB="/opt/ibm/db2/V11.5/java/db2jcc4.jar"\
     --privileged=true ${DOCKER_IMAGE}
 
 echo -e "\n\n* Client container started"
