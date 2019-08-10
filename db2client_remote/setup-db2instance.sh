@@ -41,31 +41,29 @@ fi
 
 echo "Validating certificate label in eventstore SSL keystore"
 echo "Expected label: ${CERT_LABEL}"
-gsk8capicmd_64 -cert -list -db ${DB2INST_PATH}/eventstore.kdb  -stashed -label ${CERT_LABEL}
+$HOME/sqllib/gskit/bin/gsk8capicmd_64 -cert -list -db ${DB2INST_PATH}/eventstore.kdb  -stashed -label ${CERT_LABEL}
 if [ $? -ne 0 ]; then
    echo "Error: Failed to validate certificate label of ${CERT_LABEL}." >&2
    exit 1
 fi
 
 # Set db to cde
-db2set DB2_WORKLOAD=ANALYTICS
-
-# get eventstore.kdb
+$HOME/sqllib/adm/db2set DB2_WORKLOAD=ANALYTICS
 
 # setup db2 server ssl keystore
-db2 update dbm cfg using SSL_SVR_KEYDB ${DB2INST_PATH}/eventstore.kdb
+$HOME/sqllib/bin/db2 update dbm cfg using SSL_SVR_KEYDB ${DB2INST_PATH}/eventstore.kdb
 
 # setup db2 server ssl stash
-db2 update dbm cfg using SSL_SVR_STASH ${DB2INST_PATH}/eventstore.sth
+$HOME/sqllib/bin/db2 update dbm cfg using SSL_SVR_STASH ${DB2INST_PATH}/eventstore.sth
 
 # setup db2 server ssl label to be same withe eventstore keystore
-db2 update dbm cfg using SSL_SVR_LABEL ${CERT_LABEL}
+$HOME/sqllib/bin/db2 update dbm cfg using SSL_SVR_LABEL ${CERT_LABEL}
 
 # setup db2 server ssl listening port
-db2 update dbm cfg using SSL_SVCENAME 18730
+$HOME/sqllib/bin/db2 update dbm cfg using SSL_SVCENAME 18730
 
 # setup db2 comm method to SSL
-db2set -i db2inst1 DB2COMM=SSL
+$HOME/sqllib/adm/db2set -i db2inst1 DB2COMM=SSL
 
 # restart instance
 db2stop
