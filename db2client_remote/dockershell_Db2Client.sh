@@ -195,6 +195,13 @@ function docker_run()
    docker exec ${DOCKER_CLIENT_CONTAINER_NAME} bash -c "su ${DB2_DEFAULT_USERNAME} -c \"$COMMAND\" "
 }
 
+function docker_run_db2() 
+{
+   DB2_DEFAULT_USERNAME=${DB2_DEFAULT_USERNAME}
+   COMMAND="$@"
+   docker exec ${DOCKER_CLIENT_CONTAINER_NAME} bash -c "su ${DB2_DEFAULT_USERNAME} -c \". /database/config/db2inst1/sqllib/db2profile ; $COMMAND\" "
+}
+
 function docker_run_as_root() 
 {
    COMMAND="$@"
@@ -362,7 +369,7 @@ rm -f ${DB_HOME}/setup-db2instance.sh
 wget https://raw.githubusercontent.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/master/db2client_remote/setup-db2instance.sh -P ${DB_HOME}/
 docker_run_as_root chown ${DB2_DEFAULT_USERNAME} ${DB_HOME_IN_CONTAINER}/setup-db2instance.sh
 docker_run_as_root chmod +x ${DB_HOME_IN_CONTAINER}/setup-db2instance.sh
-docker_run ${DB_HOME_IN_CONTAINER}/setup-db2instance.sh ${IP} ${ES_SSH_PASSWORD}
+docker_run_db2 ${DB_HOME_IN_CONTAINER}/setup-db2instance.sh ${IP} ${ES_SSH_PASSWORD}
 
 rm -f ${DB_HOME}/runExampleJDBCApp
 wget https://raw.githubusercontent.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/master/db2client_remote/runExampleJDBCApp -P ${DB_HOME}/
