@@ -203,8 +203,13 @@ function check_errors() {
     fi
 }
 
-docker_run_as_root chmod -R 777 /database
-check_errors $? "chmod -R 777 /database"
+# change owners for permission issues
+docker_run_as_root chmod -R 777 /database 
+check_errors $? "chmod /database"
+docker_run_as_root chown root:root ${DB_HOME_IN_CONTAINER}/sqllib/security/db2chpw ${DB_HOME_IN_CONTAINER}/sqllib/security/db2ckpw
+check_errors $? "chown /security/db2ckpw"
+docker_run_as_root chmod 4511 ${DB_HOME_IN_CONTAINER}/sqllib/security/db2chpw ${DB_HOME_IN_CONTAINER}/sqllib/security/db2ckpw
+check_errors $? "chmod /security/db2ckpw"
 
 JAVA_VERSION=1.8.0
 # install java
