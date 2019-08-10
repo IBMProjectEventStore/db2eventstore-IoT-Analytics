@@ -1,6 +1,8 @@
 #!/bin/bash -x
 
-DB_DIRECTORY=${HOME}/db2Client_volume/
+DB_DIR=${HOME}/db2Client_volume
+DB_HOME=${HOME}/db2Client_volume/config/db2inst1
+DB_HOME_IN_CONTAINER=/database/config/db2inst1
 DB2INST1_PASSWORD=GD1OJfLGG64HV2dtwK
 DB2_PORT=$((50000+${UID}))
 LICENCE_ACCEPT=
@@ -145,13 +147,12 @@ then
    usage >&2
    exit 1
 fi
-mkdir -p ${DB_DIRECTORY}
-docker run -itd --name ${DOCKER_CLIENT_CONTAINER_NAME} -v ${DB_DIRECTORY}:/database \
+mkdir -p ${DB_DIR}
+docker run -itd --name ${DOCKER_CLIENT_CONTAINER_NAME} -v ${DB_DIR}:/database \
     -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWORD=${EVENT_PASSWORD} -e IP=${IP} \
     -e DB2INST1_PASSWORD=${DB2INST1_PASSWORD} -e LICENSE=${LICENCE_ACCEPT} \
     -e SSL_KEY_DATABASE_PASSWORD=${SSL_KEY_DATABASE_PASSWORD} -e EVENTSTORE_DATABASE=${EVENTSTORE_DATABASE}\
     -e NODE_NAME=${NODE_NAME} -e DB2_CLIENT_PORT_ON_EVENTSTORE_SERVER=${DB2_CLIENT_PORT_ON_EVENTSTORE_SERVER}\
-    -e ESLIB="/opt/ibm/db2/V11.5/java/db2jcc4.jar"\
     --privileged=true ${DOCKER_IMAGE}
 
 echo -e "\n\n* Client container started"
@@ -202,6 +203,8 @@ function check_errors() {
     fi
 }
 
+docker_run_as_root chmod -R 777 /database
+check_errors $? "chmod -R 777 /database"
 
 JAVA_VERSION=1.8.0
 # install java
@@ -219,13 +222,13 @@ check_errors $? "install java and wget"
 docker_run "echo -e 'startup_message off \nhardstatus on \nhardstatus alwayslastline \nvbell off \nhardstatus string "%{.bW}%-w%{..G}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a"' > \${HOME}.screenrc"
 
 # create or update setup-remoteES connection script to the shared path on host
-touch ${DB_DIRECTORY}/setup-remote-eventstore.sh ${DB_DIRECTORY}/load_csv.sql
+touch ${DB_HOME}/setup-remote-eventstore.sh ${DB_HOME}/load_csv.sql
 check_errors $? "create setup-remote-eventstore.sh & load_csv.sql"
 
-chmod +x ${DB_DIRECTORY}/setup-remote-eventstore.sh ${DB_DIRECTORY}/load_csv.sql
-check_errors $? "chmod on setup-remote-eventstore.sh & /database/load_csv.sql"
+chmod +x ${DB_HOME}/setup-remote-eventstore.sh ${DB_HOME}/load_csv.sql
+check_errors $? "chmod on setup-remote-eventstore.sh & ${DB_HOME}/load_csv.sql"
 
-cat > ${DB_DIRECTORY}/setup-remote-eventstore.sh <<'EOF' 
+cat > ${DB_HOME}/setup-remote-eventstore.sh <<'EOF' 
 #!/bin/bash -x
 . /database/config/db2inst1/sqllib/db2profile
 rm -rf $HOME/mydbclient.kdb  $HOME/mydbclient.sth $HOME/mydbclient.crl $HOME/mydbclient.rdb
@@ -257,11 +260,11 @@ EOF
 check_errors $? "cat to setup-remote-eventstore.sh"
 
 # create or update load_csv.sql to the shared path on host
-cat > ${DB_DIRECTORY}/load_csv.sql <<EOF
+cat > ${DB_HOME}/load_csv.sql <<EOF
 CONNECT TO ${EVENTSTORE_DATABASE} USER ${EVENT_USER} USING ${EVENT_PASSWORD}
 SET CURRENT ISOLATION UR
 CREATE TABLE db2cli_csvload (DEVICEID INTEGER NOT NULL, SENSORID INTEGER NOT NULL, TS BIGINT NOT NULL, AMBIENT_TEMP DOUBLE NOT NULL, POWER DOUBLE NOT NULL, TEMPERATURE DOUBLE NOT NULL, CONSTRAINT "TEST1INDEX" PRIMARY KEY(DEVICEID, SENSORID, TS) INCLUDE (TEMPERATURE)) DISTRIBUTE BY HASH (DEVICEID, SENSORID) ORGANIZE BY COLUMN STORED AS PARQUET
-INSERT INTO db2cli_csvload SELECT * FROM EXTERNAL '/database/${CSV_FILE}' LIKE db2cli_csvload USING (delimiter ',' MAXERRORS 10 SOCKETBUFSIZE 30000 REMOTESOURCE 'YES' LOGDIR '/database/logs' )
+INSERT INTO db2cli_csvload SELECT * FROM EXTERNAL '${DB_HOME_IN_CONTAINER}/${CSV_FILE}' LIKE db2cli_csvload USING (delimiter ',' MAXERRORS 10 SOCKETBUFSIZE 30000 REMOTESOURCE 'YES' LOGDIR '/database/logs' )
 SELECT * FROM db2cli_csvload LIMIT 10
 SELECT COUNT(*) FROM db2cli_csvload 
 SELECT AMBIENT_TEMP FROM db2cli_csvload WHERE TS > 1541019365252 AND TS < 1541019500380 
@@ -274,7 +277,6 @@ check_errors $? "cat to load_csv.sql"
 # wget the data csv file to the shared path on host
 wget https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/raw/master/data/sample_IOT_table.csv -O  ${DB_DIRECTORY}/sample_IOT_table.csv
 check_errors $? "wget csv file from github"
-cp ${DB_DIRECTORY}/sample_IOT_table.csv ${DB_DIRECTORY}/config/db2inst1/
 
 docker_run_as_root mkdir -p /database/logs
 check_errors $? "mkdir -p database/logs"
@@ -283,32 +285,32 @@ docker_run_as_root chmod 777 /database/logs
 check_errors $? "chmod 777 /database/logs"
 
 if [ ${AUTO_SETUP} == "true" ]; then
-  docker_run /database/setup-remote-eventstore.sh
+  docker_run ${DB_HOME_IN_CONTAINER}/setup-remote-eventstore.sh
   check_errors $? "running setup-remote-eventstore.sh"
 fi
 
-rm -f ${DB_DIRECTORY}/setup-ssl.sh && wget https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/raw/master/container/setup/setup-ssl.sh -O ${DB_DIRECTORY}/setup-ssl.sh
+rm -f ${DB_HOME}/setup-ssl.sh && wget https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/raw/master/container/setup/setup-ssl.sh -O ${DB_HOME}/setup-ssl.sh
 check_errors $? "downloading setup-ssl.sh script to the shared path"
-docker_run_as_root chmod +x /database/setup-ssl.sh 
+docker_run_as_root chmod +x ${DB_HOME_IN_CONTAINER}/setup-ssl.sh 
 check_errors $? "make setup-ssl.sh executable"
 
-docker_run_as_root /database/setup-ssl.sh
+docker_run_as_root ${DB_HOME_IN_CONTAINER}/setup-ssl.sh
 check_errors $? "running setup-ssl.sh as root in the container"
 
-rm -f ${DB_DIRECTORY}/setup-db2instance.sh
-wget https://raw.githubusercontent.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/master/db2client_remote/setup-db2instance.sh -P ${DB_DIRECTORY}/
-docker_run_as_root chown ${DB2_DEFAULT_USERNAME} /database/setup-db2instance.sh
-docker_run_as_root chmod +x /database/setup-db2instance.sh 
+rm -f ${DB_HOME}/setup-db2instance.sh
+wget https://raw.githubusercontent.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/master/db2client_remote/setup-db2instance.sh -P ${DB_HOME}/
+docker_run_as_root chown ${DB2_DEFAULT_USERNAME} ${DB_HOME_IN_CONTAINER}/setup-db2instance.sh
+docker_run_as_root chmod +x ${DB_HOME_IN_CONTAINER}/setup-db2instance.sh 
 ##docker_run /database/setup-db2instance.sh 172.30.0.11
 
-rm -f ${DB_DIRECTORY}/runExampleJDBCApp
-wget https://raw.githubusercontent.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/master/AdvancedApplications/JDBCApplication/runExampleJDBCApp -P ${DB_DIRECTORY}/
-docker_run_as_root chown ${DB2_DEFAULT_USERNAME} /database/runExampleJDBCApp
-docker_run_as_root chmod +x /database/runExampleJDBCApp
+rm -f ${DB_HOME}/runExampleJDBCApp
+wget https://raw.githubusercontent.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/master/db2client_remote/runExampleJDBCApp -P ${DB_HOME}/
+docker_run_as_root chown ${DB2_DEFAULT_USERNAME} ${DB_HOME_IN_CONTAINER}/runExampleJDBCApp
+docker_run_as_root chmod +x ${DB_HOME_IN_CONTAINER}/runExampleJDBCApp
 
-rm -f ${DB_DIRECTORY}/ExampleJDBCApp.java
-wget https://raw.githubusercontent.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/master/AdvancedApplications/JDBCApplication/ExampleJDBCApp.java -P ${DB_DIRECTORY}/
-docker_run_as_root chown ${DB2_DEFAULT_USERNAME} /database/ExampleJDBCApp.java
-docker_run_as_root chmod +x /database/ExampleJDBCApp.java
+rm -f ${DB_HOME}/ExampleJDBCApp.java
+wget https://raw.githubusercontent.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/master/db2client_remote/ExampleJDBCApp.java -P ${DB_HOME}/
+docker_run_as_root chown ${DB2_DEFAULT_USERNAME} ${DB_HOME_IN_CONTAINER}/ExampleJDBCApp.java
+docker_run_as_root chmod +x ${DB_HOME_IN_CONTAINER}/ExampleJDBCApp.java
 
 docker exec -it --user db2inst1 ${DOCKER_CLIENT_CONTAINER_NAME} bash
