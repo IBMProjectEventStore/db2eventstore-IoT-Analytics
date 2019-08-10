@@ -63,7 +63,7 @@ do
          shift 2
          ;;
       --shared-path)
-         DB_DIRECTORY=$2
+         DB_DIR=$2
          shift 2
          ;;
       --docker-db2-port)
@@ -275,7 +275,7 @@ EOF
 check_errors $? "cat to load_csv.sql"
 
 # wget the data csv file to the shared path on host
-wget https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/raw/master/data/sample_IOT_table.csv -O  ${DB_DIRECTORY}/sample_IOT_table.csv
+wget https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/raw/master/data/sample_IOT_table.csv -O  ${DB_DIR}/sample_IOT_table.csv
 check_errors $? "wget csv file from github"
 
 docker_run_as_root mkdir -p /database/logs
