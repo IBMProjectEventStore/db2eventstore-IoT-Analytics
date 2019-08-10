@@ -285,8 +285,25 @@ docker_run_as_root chmod 777 /database/logs
 check_errors $? "chmod 777 /database/logs"
 
 if [ ${AUTO_SETUP} == "true" ]; then
-  docker_run ${DB_HOME_IN_CONTAINER}/setup-remote-eventstore.sh
-  check_errors $? "running setup-remote-eventstore.sh"
+   docker_run ${DB_HOME_IN_CONTAINER}/setup-remote-eventstore.sh
+   RES=$?
+   ITER=0
+   MAX_ITER=4
+   while [ $RES -ne 0 ]
+   do
+      if [ $ITER -eq $MAX_ITER ]
+      then
+         echo "Timeout running setup-remote-eventstore.sh" >&2
+         docker rm -f ${DOCKER_CLIENT_CONTAINER_NAME}
+         docker rmi $(docker images -q -f dangling=true) > /dev/null 2>&1
+         docker rm -v $(docker ps -a -q -f status=exited) > /dev/null 2>&1
+         exit 1
+      fi
+      sleep 1
+      docker_run ${DB_HOME_IN_CONTAINER}/setup-remote-eventstore.sh
+      RES=$?
+      ITER=$(( $ITER + 1 ))
+   done
 fi
 
 rm -f ${DB_HOME}/setup-ssl.sh && wget https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/raw/master/container/setup/setup-ssl.sh -O ${DB_HOME}/setup-ssl.sh
