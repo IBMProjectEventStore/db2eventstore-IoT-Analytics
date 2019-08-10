@@ -1,0 +1,11 @@
+echo "Compile java code"
+if [ -z ${ESLIB} ]; then
+ESLIB="/opt/ibm/db2/V11.5/java/db2jcc4.jar"
+fi
+
+rm -f ExampleJDBCApp.class
+javac ExampleJDBCApp.java -classpath ${ESLIB}
+
+echo "execute app:" 
+
+java -cp .:${ESLIB} ExampleJDBCApp
