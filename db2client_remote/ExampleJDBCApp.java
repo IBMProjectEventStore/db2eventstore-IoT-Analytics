@@ -63,11 +63,11 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
            conn =
            DriverManager.getConnection(
                     "jdbc:db2://" + IP + ":18730/" + DATABASE_NAME + ":" +
+                    "securityMechanism=15;" +
+                    "pluginName=IBMPrivateCloudAuth;" + 
                     "sslConnection=true;" +
 	   	    "sslTrustStoreLocation="+ KEYDB_PATH + ";" +
-                    "sslTrustStorePassword="+ KEYDB_PASSWORD + ";" +
-                    "securityMechanism=15;" +
-                    "pluginName=IBMPrivateCloudAuth;", 
+                    "sslTrustStorePassword="+ KEYDB_PASSWORD + ";",
                     USERNAME, PASSWORD);
 
            // Set Isolation level to be able to query data immediately after it is inserted
