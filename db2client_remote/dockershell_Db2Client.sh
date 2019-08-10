@@ -108,6 +108,10 @@ do
          EVENTSTORE_NAMESPACE=$2
          shift 2
          ;;
+      --es-password)
+         ES_SSH_PASSWORD=$2
+         shift 2
+         ;;
       --help)
          usage
          exit 0
@@ -140,6 +144,13 @@ if [ -z ${IP} ]; then
     usage >&2
     exit 1
 fi
+
+if [ -z ${ES_SSH_PASSWORD} ]; then
+    echo "Error: Please provide the Event Store server's ssh password with --es-password flag"
+    usage >&2
+    exit 1
+fi
+
 
 if [ "${LICENCE_ACCEPT}" != "accept" ]
 then
@@ -213,7 +224,7 @@ check_errors $? "chmod /security/db2ckpw"
 
 JAVA_VERSION=1.8.0
 # install java
-docker_run_as_root yum install -y java-${JAVA_VERSION}-openjdk-devel wget screen
+docker_run_as_root yum install -y java-${JAVA_VERSION}-openjdk-devel wget screen sshpass
 #docker_run_as_root yum clean all
 #docker_run_as_root rm -rf /var/cache/yum
 #docker_run_as_root "cat > /etc/profile.d/local_java.sh <<EOL
@@ -279,6 +290,34 @@ TERMINATE
 EOF
 check_errors $? "cat to load_csv.sql"
 
+# setup login to source script for switching between db2/es within container
+touch ${DB_HOME}/loginToSource
+check_errors $? "create logintoSource"
+
+chmod +x ${DB_HOME}/loginToSource
+check_errors $? "chmod on logintoSource"
+
+cat >${DB_HOME}/loginToSource <<EOF
+#!/bin/bash
+
+if [ "$#" -ne 1 ] || ([ ! $1 == "--db2" ] && [ ! $1 == "--eventstore" ]); then
+    echo "Please provide --db2 or --eventstore to change" \
+         "the user crendential and clutser endpoint accordingly" >&2
+    return 1
+fi
+
+if [ $1 == "--db2" ]; then
+   export EVENT_USER=db2inst1
+   export EVENT_PASSWORD=GD1OJfLGG64HV2dtwK
+   export IP=18730
+else
+   export EVENT_USER=$USER
+   export EVENT_PASSWORD=EventStore20
+   export IP=18730
+fi
+EOF
+check_errors $? "cat to logintoSource"
+
 # wget the data csv file to the shared path on host
 wget https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/raw/master/data/sample_IOT_table.csv -O  ${DB_DIR}/sample_IOT_table.csv
 check_errors $? "wget csv file from github"
@@ -323,7 +362,7 @@ rm -f ${DB_HOME}/setup-db2instance.sh
 wget https://raw.githubusercontent.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/master/db2client_remote/setup-db2instance.sh -P ${DB_HOME}/
 docker_run_as_root chown ${DB2_DEFAULT_USERNAME} ${DB_HOME_IN_CONTAINER}/setup-db2instance.sh
 docker_run_as_root chmod +x ${DB_HOME_IN_CONTAINER}/setup-db2instance.sh 
-##docker_run /database/setup-db2instance.sh 172.30.0.11
+docker_run /database/setup-db2instance.sh ${IP} ${ES_SSH_PASSWORD}
 
 rm -f ${DB_HOME}/runExampleJDBCApp
 wget https://raw.githubusercontent.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/master/db2client_remote/runExampleJDBCApp -P ${DB_HOME}/

@@ -1,14 +1,20 @@
 #!/bin/bash
 
 CLUSTER_IP_FOR_SSH=$1
-EVENTSTORE_NAMESPACE=dsx
+CLUSTER_PASSWORD=$2
 if [ -z $CLUSTER_IP_FOR_SSH ]; then
    echo "Please provide cluster ip" >&2 
    exit 1
 fi
+if [ -z $CLUSTER_PASSWORD ]; then
+   echo "Please provide cluster password" >&2 
+   exit 1
+fi
+
+EVENTSTORE_NAMESPACE=dsx
 DB2INST_PATH="/database/config/db2inst1"
 SSH_OPTIONS="-o StrictHostKeyChecking=no"
-RUN_IN_CLUSTER="ssh ${SSH_OPTIONS} root@${CLUSTER_IP_FOR_SSH}"
+RUN_IN_CLUSTER="sshpass -p ${CLUSTER_PASSWORD} ssh ${SSH_OPTIONS} root@${CLUSTER_IP_FOR_SSH}"
 CERT_LABEL="SSLCert"
 
 echo "Attempting to find engine container within the cluster with the provided IP ${CLUSTER_IP_FOR_SSH}"
