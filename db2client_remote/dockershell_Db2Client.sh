@@ -231,7 +231,7 @@ check_errors $? "chmod /security/db2ckpw"
 
 JAVA_VERSION=1.8.0
 # install java
-docker_run_as_root yum install -y java-${JAVA_VERSION}-openjdk-devel wget screen sshpass
+docker_run_as_root yum install -y java-${JAVA_VERSION}-openjdk-devel wget screen sshpass vim
 #docker_run_as_root yum clean all
 #docker_run_as_root rm -rf /var/cache/yum
 #docker_run_as_root "cat > /etc/profile.d/local_java.sh <<EOL
