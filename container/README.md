@@ -17,6 +17,6 @@ The script takes 3 mandatory arguments.
 `./dockershell.sh --IP <EventStore_Server_IP> --user <EventStore_Username> --password <EventStore_Password>`
 
 After the above commnand:
-- A docker container instance will be started. The container instance contains necessary run-time environments for running applications in Python, Java, JDBC, Scala, Kafka, REST (Node.js), and Spark.
+- A docker container instance named `eventstore_demo_${user}` will be started. The container instance contains necessary run-time environments for running applications in Python, Java, JDBC, Scala, Kafka, REST (Node.js), and Spark.
 - The docker container instance will create the configuration file at `/bluspark/external_conf/bluspark.conf` based on the Event Store server IP provided as argument to dockershell.sh. The configuration file contains the necessary configurations to establish SSL connection.
 - Mount hostpath `${HOME}/eventstore_demo_volume` to `/root/user_volume` inside the container.
