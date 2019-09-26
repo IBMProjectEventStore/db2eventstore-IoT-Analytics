@@ -79,12 +79,15 @@ bearerToken=`curl --silent -k -X GET https://${IP}/v1/preauth/validateAuth -u ${
 [ $? -ne 0 ] && echo "Not able to get bearerToken" && exit 2
 
 # get clientkeystore file
-curl --silent -k -X GET -H "authorization: Bearer $bearerToken" "https://${IP}:443/com/ibm/event/api/v1/oltp/certificate" -o ${KEYDB_PATH}/clientkeystore
+curl --silent -k -X GET -H "authorization: Bearer $bearerToken" "https://${IP}:443/com/ibm/event/api/v1/oltp/keystore" -o ${KEYDB_PATH}/clientkeystore
 [ $? -ne 0 ] && echo "Not able to get clientkeystore file" && exit 3
 
 # get clientkeystore password
-KEYDB_PASSWORD=$(curl --silent -k -i -X GET -H "authorization: Bearer $bearerToken" "https://${IP}:443/com/ibm/event/api/v1/oltp/certificate_password" | tail -1)
+KEYDB_PASSWORD=$(curl --silent -k -i -X GET -H "authorization: Bearer $bearerToken" "https://${IP}:443/com/ibm/event/api/v1/oltp/keystore_password" | tail -1)
 [ $? -ne 0 ] && echo "Not able to get clientkeystore password" && exit 4
+# get server certificate
+curl -k -X GET -H "authorization: Bearer $bearerToken" "https://${IP}:443/com/ibm/event/api/v1/oltp/certificate" -o ${KEYDB_PATH}/eventstore.pem
+[ $? -ne 0 ] && echo "Not able to get server certificate" && exit 5
 
 mkdir -p /bluspark/external_conf/
 touch /bluspark/external_conf/bluspark.conf
@@ -97,14 +100,16 @@ internal.client.security.plugin true
 internal.client.security.pluginName IBMIAMauth
 security.SSLEnabled true
 EOL
-[ $? -ne 0 ] && echo "/bluspark/external_conf/bluspark.conf set up failed" && exit 5
+[ $? -ne 0 ] && echo "/bluspark/external_conf/bluspark.conf set up failed" && exit 6
 echo -e "\nFinished setting up SSL information at /bluspark/external_conf/bluspark.conf.\n"
 
 # export the KEYDB_PATH and KEYDB_PASSWORD only if it's in a container.
 if [ -f "/.dockerenv" ]; then
     sed -i "/export KEYDB_PASSWORD=/d" ~/.bashrc
     sed -i "/export KEYDB_PATH=/d" ~/.bashrc
+    sed -i "/export SERVER_CERT_PATH=/d" ~/.bashrc
     echo "export KEYDB_PASSWORD=${KEYDB_PASSWORD}" >> ~/.bashrc
     echo "export KEYDB_PATH=${KEYDB_PATH}/clientkeystore" >> ~/.bashrc
+    echo "export SERVER_CERT_PATH=${KEYDB_PATH}/eventstore.pem" >> ~/.bashrc
     source ~/.bashrc
 fi

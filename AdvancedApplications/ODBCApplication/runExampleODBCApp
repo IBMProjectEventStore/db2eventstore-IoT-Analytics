@@ -2,14 +2,47 @@
 # Script: runExampleODBCApp
 # Usage: runExampleODBCApp <ODBC_CLIENT_PATH>
 
+CLEAN_ONLY=0
+
+function usage()
+{
+cat <<-USAGE #| fmt
+Description:
+This script builds the example C client that uses odbc library.
+-----------
+Usage: $0 ODBC_CLIENT_PATH [--clean]
+=======
+--clean     clean the build files of the example client.
+USAGE
+}
+
 if [ -z $1 ]; then
    echo "Please provide the directory path of your ODBC/CLI client" >&2
-   echo "Usage: runExampleODBCApp <ODBC_CLIENT_PATH>" >&2
+   usage >&2
    exit 1
 fi
 
-# Set ODBC path to where odbc client package is downloaded
-ODBCPATH=$1
+
+if ! [ -z $1 ]; then
+   if [ "$1" == "--clean" ]; then
+      # clean the build files and exit 
+      CLEAN_ONLY=1
+   elif [[ "$1" == -* ]]; then
+      echo "Unknown option: $1"
+      usage >&2
+      exit 1
+   else
+      # Set ODBC path to where odbc client package is downloaded
+      ODBCPATH=$1
+   fi
+fi
+
+# clean the build files
+rm -rf *.o
+rm -rf ExampleODBCApp
+if [ $CLEAN_ONLY -eq 1 ]; then
+   exit 0
+fi
 
 # ODBC library path under ODBC client package
 LIB="lib"
@@ -63,10 +96,10 @@ EXTRA_LFLAG="-Wl,-rpath,$ODBCPATH/$LIB"
 
 
 # Compile the error-checking utility.
-# gcc $EXTRA_C_FLAGS -I$ODBCPATH/include -c utilcli.c
+gcc $EXTRA_C_FLAGS -I$ODBCPATH/include -c utilcli.c
 
 # Compile the program.
 gcc $EXTRA_C_FLAGS -I$ODBCPATH/include -c ExampleODBCApp.c
 
 # Link the program.
-gcc $EXTRA_C_FLAGS -o ExampleODBCApp ExampleODBCApp.o  $EXTRA_LFLAG -L$ODBCPATH/$LIB -ldb2
+gcc $EXTRA_C_FLAGS -g -o ExampleODBCApp ExampleODBCApp.o utilcli.o $EXTRA_LFLAG -L$ODBCPATH/$LIB -ldb2

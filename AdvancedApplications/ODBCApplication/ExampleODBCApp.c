@@ -62,14 +62,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sqlcli1.h>
-//#include "utilcli.h" /* Header file for CLI sample code */
+#include "utilcli.h" /* Header file for CLI sample code */
 
 int DbDriverConnect(SQLHANDLE, SQLHANDLE *, char *, char *, char *, char *, char *, char *);
 int DbDriverDisconnect(SQLHANDLE *, char *);
 
 int main(int argc, char *argv[])
 {
-  printf ("hello");
   SQLRETURN cliRC = SQL_SUCCESS;
   int rc = 0;
   SQLHANDLE henv; /* environment handle */
@@ -89,36 +88,44 @@ int main(int argc, char *argv[])
   char port[] = "18730";
   /* Server certificate file path locally within container */
   char serverCertPath [255] = "";
+  /* string pointer to env variables */
+  char *envp;
  
   /* get user name from environment variable EVENT_USER */
-  strncpy( user, getenv("EVENT_USER"), MAX_UID_LENGTH + 1 );
-  if ( user[0] == '\0' )
+  envp = getenv("EVENT_USER");
+  if (envp == NULL)
   {
-     printf("\n--Could not find env variable EVENT_USER for db username.\n");
+     printf("Error: could not find env variable EVENT_USER for db username.\n");
      return 1; 
   }
-  /* get password from environment variable EVENT_PASSWORD */
-  strncpy( pswd, getenv("EVENT_PASSWORD"), MAX_PWD_LENGTH + 1 );
-  if ( pswd[0] == '\0' )
-  {
-     printf("\n--Could not find env variable EVENT_PASSWORD for db password.\n");
-     return 1; 
-  }
-  /* get database up from environment variable IP */
-  strncpy( ip, getenv("IP"), MAX_IP_LENGTH + 1 );
-  if ( ip[0] == '\0' )
-  {
-     printf("\n--Could not find env variable IP for db host ip.\n");
-     return 1; 
-  }
-  /* get database certificate from environment variable SERVER_CERT_PATH */
-  strncpy( serverCertPath, getenv("SERVER_CERT_PATH"), 255 + 1 );
-  if ( serverCertPath[0] == '\0' )
-  {
-     printf("\n--Could not find env variable SERVER_CERT_PATH for db certificate.\n");
-     return 1; 
-  }
+  strncpy( user, envp, MAX_UID_LENGTH + 1 );
 
+  /* get password from environment variable EVENT_PASSWORD */
+  envp = getenv("EVENT_PASSWORD");
+  if (envp == NULL)
+  {
+     printf("Error: could not find env variable EVENT_PASSWORD for db password.\n");
+     return 1; 
+  }
+  strncpy( pswd, envp, MAX_PWD_LENGTH + 1 );
+
+  /* get database up from environment variable IP */
+  envp = getenv("IP"); 
+  if (envp == NULL)
+  {
+     printf("Error: could not find env variable IP for db host ip.\n");
+     return 1; 
+  }
+  strncpy( ip, envp, MAX_IP_LENGTH + 1 );
+
+  /* get database certificate from environment variable SERVER_CERT_PATH */
+  envp = getenv("SERVER_CERT_PATH");
+  if (envp == NULL)
+  {
+     printf("Error: could not find env variable SERVER_CERT_PATH for db certificate.\n");
+     return 1; 
+  }
+  strncpy( serverCertPath, getenv("SERVER_CERT_PATH"), 255 + 1 );
 
   printf("\nTHIS SAMPLE SHOWS ");
   printf("HOW TO CONNECT TO AND DISCONNECT FROM A DATABASE.\n");
@@ -139,7 +146,7 @@ int main(int argc, char *argv[])
                      SQL_ATTR_ODBC_VERSION,
                      (void *)SQL_OV_ODBC3,
                      0);
-  //ENV_HANDLE_CHECK(henv, cliRC);
+  ENV_HANDLE_CHECK(henv, cliRC);
 
   /* connect to a database with SQLDriverConnect() */
   rc = DbDriverConnect(henv, &hdbc, dbAlias, user, pswd, ip, port, serverCertPath);
@@ -162,8 +169,9 @@ int main(int argc, char *argv[])
 
   /* free the environment handle */
   cliRC = SQLFreeHandle(SQL_HANDLE_ENV, henv);
-  //ENV_HANDLE_CHECK(henv, cliRC);
-
+  ENV_HANDLE_CHECK(henv, cliRC);
+  
+  printf("\n");
   return 0;
 } /* main */
 
@@ -192,7 +200,7 @@ int DbDriverConnect(SQLHANDLE henv,
 
   /* allocate a database connection handle */
   cliRC = SQLAllocHandle(SQL_HANDLE_DBC, henv, hdbc);
-  //ENV_HANDLE_CHECK(henv, cliRC);
+  ENV_HANDLE_CHECK(henv, cliRC);
 
   printf("\n  Connecting to the database %s ...\n", dbAlias);
 
@@ -213,7 +221,7 @@ int DbDriverConnect(SQLHANDLE henv,
                            0,
                            NULL,
                            SQL_DRIVER_NOPROMPT);
-  //DBC_HANDLE_CHECK(*hdbc, cliRC);
+  DBC_HANDLE_CHECK(*hdbc, cliRC);
 
   printf("  Connected to the database %s.\n", dbAlias);
   return 0;
@@ -229,13 +237,13 @@ int DbDriverDisconnect(SQLHANDLE *hdbc, char dbAlias[])
 
   /* disconnect from the database */
   cliRC = SQLDisconnect(*hdbc);
-  //DBC_HANDLE_CHECK(*hdbc, cliRC);
+  DBC_HANDLE_CHECK(*hdbc, cliRC);
 
   printf("  Disconnected from the database %s.\n", dbAlias);
 
   /* free the connection handle */
   cliRC = SQLFreeHandle(SQL_HANDLE_DBC, *hdbc);
-  //DBC_HANDLE_CHECK(*hdbc, cliRC);
+  DBC_HANDLE_CHECK(*hdbc, cliRC);
 
   return 0;
 } 
