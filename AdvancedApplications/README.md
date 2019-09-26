@@ -5,6 +5,8 @@
 This document provides the information to set up your system and run the IBM Streams application
 and remote acess appplications on Event Store. 
 
+> Note: You don't have to manually set up the run-time environment in the eventstore_demo container, where everything is pre-configured.
+
 In this section we included mutiple directories, each with sample applications and step by step instructions to start ingesting data using IBM Streams and follow that with running external applications from your favourite access method. including Python, Java, Scala, or directly using JDBC. 
 
 Follow these links to get to each of the sample applications:
