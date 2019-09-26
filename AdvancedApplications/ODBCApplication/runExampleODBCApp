@@ -1,0 +1,72 @@
+#! /bin/bash
+# Script: runExampleODBCApp
+# Usage: runExampleODBCApp <ODBC_CLIENT_PATH>
+
+if [ -z $1 ]; then
+   echo "Please provide the directory path of your ODBC/CLI client" >&2
+   echo "Usage: runExampleODBCApp <ODBC_CLIENT_PATH>" >&2
+   exit 1
+fi
+
+# Set ODBC path to where odbc client package is downloaded
+ODBCPATH=$1
+
+# ODBC library path under ODBC client package
+LIB="lib"
+
+# Default flags
+EXTRA_C_FLAGS=""
+
+# Figure out which Linux architecture we are on
+HARDWAREPLAT=`uname -m`
+
+# Default to native bitwidth for the platform
+if [ "$HARDWAREPLAT" = "x86_64" ] || [ "$HARDWAREPLAT" = "ppc64" ] ||
+   [ "$HARDWAREPLAT" = "s390x" ] || [ "$HARDWAREPLAT" = "ia64" ] ||
+   [ "$HARDWAREPLAT" = "ppc64le" ]
+then
+  BITWIDTH=64
+else
+  # x86 is the only native 32-bit platform
+  BITWIDTH=32
+fi
+
+# Set flags for 32-bit compilation on non-native 32-bit platforms
+if [ $BITWIDTH = "32" ]
+then
+  if [ "$HARDWAREPLAT" = "s390x" ]
+  then
+    EXTRA_C_FLAGS="-m31"
+  else
+    if [ "$HARDWAREPLAT" = "ia64" ]
+    then
+      # DB2 does not support 32-bit applications on Linux on IA64
+      BITWIDTH=64
+    else
+      EXTRA_C_FLAGS="-m32"
+    fi
+  fi
+fi
+
+# Set flags for 64-bit compilation
+if [ $BITWIDTH = "64" ]
+then
+  if [ "$HARDWAREPLAT" != "ia64" ]
+  then
+    # gcc on ia64 does not support the -m64 flag
+    EXTRA_C_FLAGS="-m64"
+  fi
+fi
+
+# Setup the embedded library path
+EXTRA_LFLAG="-Wl,-rpath,$ODBCPATH/$LIB"
+
+
+# Compile the error-checking utility.
+# gcc $EXTRA_C_FLAGS -I$ODBCPATH/include -c utilcli.c
+
+# Compile the program.
+gcc $EXTRA_C_FLAGS -I$ODBCPATH/include -c ExampleODBCApp.c
+
+# Link the program.
+gcc $EXTRA_C_FLAGS -o ExampleODBCApp ExampleODBCApp.o  $EXTRA_LFLAG -L$ODBCPATH/$LIB -ldb2
