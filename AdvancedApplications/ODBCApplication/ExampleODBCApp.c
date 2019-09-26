@@ -18,7 +18,7 @@
 ** such damages.
 *****************************************************************************
 **
-** SOURCE FILE NAME: dbconn.c
+** SOURCE FILE NAME: ExampleODBCApp.c
 **
 ** SAMPLE: How to connect to and disconnect from a database
 **
