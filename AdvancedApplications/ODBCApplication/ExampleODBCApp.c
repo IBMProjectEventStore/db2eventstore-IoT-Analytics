@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
   strncpy( serverCertPath, getenv("SERVER_CERT_PATH"), 255 + 1 );
 
   printf("\nTHIS SAMPLE SHOWS ");
-  printf("HOW TO CONNECT TO AND DISCONNECT FROM A DATABASE.\n");
+  printf("HOW TO CONNECT TO, QUERY AND DISCONNECT FROM EVENTSTORE.\n");
 
   /* allocate an environment handle */
   cliRC = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &henv);
@@ -157,7 +157,90 @@ int main(int argc, char *argv[])
 
   /*********   Start using the connection  *************************/
   
+  SQLHANDLE hstmt; /* statement handle */
+  /* SQL statements buffer */
+  SQLCHAR stmt[512] = "";
 
+  printf("\n-----------------------------------------------------------");
+  printf("\nUSE THE CLI FUNCTIONS\n");
+  printf("  SQLSetConnectAttr\n");
+  printf("  SQLAllocHandle\n");
+  printf("  SQLExecDirect\n");
+  printf("  SQLFreeHandle\n");
+  printf("TO EXECUTE SQL STATEMENTS DIRECTLY:\n");
+
+  /* set AUTOCOMMIT on */
+  cliRC = SQLSetConnectAttr(hdbc,
+                            SQL_ATTR_AUTOCOMMIT,
+                            (SQLPOINTER)SQL_AUTOCOMMIT_ON,
+                            SQL_NTS);
+  DBC_HANDLE_CHECK(hdbc, cliRC);
+
+  /* allocate a statement handle */
+  cliRC = SQLAllocHandle(SQL_HANDLE_STMT, hdbc, &hstmt);
+  DBC_HANDLE_CHECK(hdbc, cliRC);
+
+  /******************** directly execute statement ****************/
+
+  /* drop table if exist */
+  rc =  DropTableIfExists(tableName, hdbc, hstmt);
+  if (rc != 0) return rc;
+
+  /* create table */
+  sprintf((char *)stmt,
+           "create table %s "
+           "(DEVICEID INTEGER NOT NULL, "
+           "SENSORID INTEGER NOT NULL, "
+            "TS BIGINT NOT NULL, "
+            "AMBIENT_TEMP DOUBLE NOT NULL, "
+            "POWER DOUBLE NOT NULL, "
+            "TEMPERATURE DOUBLE NOT NULL, "
+            "CONSTRAINT \"TEST1INDEX\" "
+            "PRIMARY KEY(DEVICEID, SENSORID, TS) "
+            "include(TEMPERATURE)) "
+            "DISTRIBUTE BY HASH (DEVICEID, SENSORID) "
+            "organize by column stored as parquet",
+            tableName); 
+  printf("\n  Directly execute %s.\n", stmt);
+  cliRC = SQLExecDirect(hstmt, stmt, SQL_NTS);
+  STMT_HANDLE_CHECK(hstmt, hdbc, cliRC);
+
+  /* insert rows */
+  sprintf((char *)stmt, 
+          "INSERT INTO %s "
+          "VALUES (99,48,1541019342393,25.983183481618322,14.65874116573845,48.908846094198)",
+          tableName);  
+  printf("\n  Directly execute %s.\n", stmt);
+  cliRC = SQLExecDirect(hstmt, stmt, SQL_NTS);
+  STMT_HANDLE_CHECK(hstmt, hdbc, cliRC);
+
+  sprintf((char *)stmt,
+          "INSERT INTO %s "
+          "VALUES (99,24,1541019343497,22.54544424024718,9.834894630821138,39.065559149361725)",
+          tableName);
+  printf("\n  Directly execute %s.\n", stmt);
+  cliRC = SQLExecDirect(hstmt, stmt, SQL_NTS);
+  STMT_HANDLE_CHECK(hstmt, hdbc, cliRC); 
+
+  sprintf((char *)stmt,
+          "INSERT INTO %s "
+          "VALUES (99,39,1541019344356,24.3246538655206,14.100638100780325,44.398837306747936)",
+          tableName);
+  printf("\n  Directly execute %s.\n", stmt);
+  cliRC = SQLExecDirect(hstmt, stmt, SQL_NTS);
+  STMT_HANDLE_CHECK(hstmt, hdbc, cliRC); 
+
+  sprintf((char *)stmt,
+          "INSERT INTO %s "
+          "VALUES (99,1,1541019345216,25.658280957413456,14.24313156331591,45.29125502970843)",
+          tableName);
+  printf("\n  Directly execute %s.\n", stmt);
+  cliRC = SQLExecDirect(hstmt, stmt, SQL_NTS);
+  STMT_HANDLE_CHECK(hstmt, hdbc, cliRC); 
+
+  /* free the statement handle */
+  cliRC = SQLFreeHandle(SQL_HANDLE_STMT, hstmt);
+  STMT_HANDLE_CHECK(hstmt, hdbc, cliRC);
 
   /*********   Stop using the connection  **************************/
 
@@ -194,9 +277,7 @@ int DbDriverConnect(SQLHANDLE henv,
   printf("\nUSE THE CLI FUNCTIONS\n");
   printf("  SQLAllocHandle\n");
   printf("  SQLDriverConnect\n");
-  printf("  SQLDisconnect\n");
-  printf("  SQLFreeHandle\n");
-  printf("TO CONNECT TO AND DISCONNECT FROM A DATABASE:\n");
+  printf("TO CONNECT TO EVENTSTORE:\n");
 
   /* allocate a database connection handle */
   cliRC = SQLAllocHandle(SQL_HANDLE_DBC, henv, hdbc);
@@ -229,6 +310,12 @@ int DbDriverConnect(SQLHANDLE henv,
 
 int DbDriverDisconnect(SQLHANDLE *hdbc, char dbAlias[])
 { 
+  printf("\n-----------------------------------------------------------");
+  printf("\nUSE THE CLI FUNCTIONS\n");
+  printf("  SQLDisconnect\n");
+  printf("  SQLFreeHandle\n");
+  printf("TO DISCONNECT FROM EVENTSTORE:\n");
+
   printf("\n  Disconnecting from the database %s...\n", dbAlias);
 
   /* setup return code */
@@ -246,4 +333,47 @@ int DbDriverDisconnect(SQLHANDLE *hdbc, char dbAlias[])
   DBC_HANDLE_CHECK(*hdbc, cliRC);
 
   return 0;
-} 
+}
+
+int DropTableIfExists(char tableName[], /* table name to drop */
+                      SQLHANDLE hdbc, /* connection handle */
+                      SQLHANDLE hstmt /* statement handle */)
+{
+  SQLRETURN cliRC = SQL_SUCCESS;
+  int rc = 0;
+  SQLCHAR stmt[255] = "";
+  sprintf((char *)stmt,"DROP TABLE %s", tableName);
+  
+  printf("\n  Dropping table %s if exists...\n", tableName);
+  cliRC = SQLExecDirect(hstmt, stmt, SQL_NTS);
+
+  if (cliRC != SQL_SUCCESS) { 
+    /* skip diagnostic if the error is due to non existence of table */
+    SQLCHAR message[SQL_MAX_MESSAGE_LENGTH + 1];
+    SQLINTEGER sqlcode;
+    SQLSMALLINT length, i;
+    i=1;
+    /* get multiple field settings of diagnostic record */
+    if (SQLGetDiagRec(SQL_HANDLE_STMT,
+                      hstmt,
+                      i,
+                      NULL,
+                      &sqlcode,
+                      message,
+                      SQL_MAX_MESSAGE_LENGTH + 1,
+                      &length) == SQL_SUCCESS)
+    {
+      if (sqlcode == -204) 
+      {
+        printf("  %s", message);
+        printf("  Skip dropping table.\n");
+        return 0;
+      }
+      else 
+        STMT_HANDLE_CHECK(hstmt, hdbc, cliRC); 
+    }
+  }
+
+  printf("  Dropped table %s.\n", tableName);
+  return 0;
+} /* DropTableIfExists */
