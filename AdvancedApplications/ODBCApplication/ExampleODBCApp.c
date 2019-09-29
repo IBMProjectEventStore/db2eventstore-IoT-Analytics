@@ -1,49 +1,35 @@
 /****************************************************************************
-** (c) Copyright IBM Corp. 2007 All rights reserved.
-** 
-** The following sample of source code ("Sample") is owned by International 
-** Business Machines Corporation or one of its subsidiaries ("IBM") and is 
-** copyrighted and licensed, not sold. You may use, copy, modify, and 
-** distribute the Sample in any form without payment to IBM, for the purpose of 
-** assisting you in the development of your applications.
-** 
-** The Sample code is provided to you on an "AS IS" basis, without warranty of 
-** any kind. IBM HEREBY EXPRESSLY DISCLAIMS ALL WARRANTIES, EITHER EXPRESS OR 
-** IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
-** MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. Some jurisdictions do 
-** not allow for the exclusion or limitation of implied warranties, so the above 
-** limitations or exclusions may not apply to you. IBM shall not be liable for 
-** any damages you suffer as a result of using, copying, modifying or 
-** distributing the Sample, even if IBM has been advised of the possibility of 
-** such damages.
-*****************************************************************************
-**
 ** SOURCE FILE NAME: ExampleODBCApp.c
 **
-** SAMPLE: How to connect to and disconnect from a database
+** SAMPLE: How to connect to query, and disconnect from a eventstore
 **
 ** CLI FUNCTIONS USED:
 **         SQLAllocHandle -- Allocate Handle
-**         SQLBrowseConnect -- Get Required Attributes to Connect
-**                             to a Data Source
-**         SQLConnect -- Connect to a Data Source
+**         SQLSetConnectAttr -- Set Connection Attributes
+**         SQLDriverConnect -- Connect to a Data Source with 
+**							   explicitly defined connection string
+**         SQLGetDiagRec -- Get Multiple Fields Settings of Diagnostic Record
+**         SQLExecDirect -- Execute a Statement Directly
+**         SQLBindCol -- Bind a Column to an Application Variable or
+**         SQLFetch -- Fetch Next Row
 **         SQLDisconnect -- Disconnect from a Data Source
-**         SQLDriverConnect -- Connect to a Data Source (Expanded)
 **         SQLFreeHandle -- Free Handle Resources
 **
-** OUTPUT FILE: dbconn.out (available in the online documentation)
+** OUTPUT FILE: ExampleODBCApp
+**
 *****************************************************************************
 **
-** For more information on the sample programs, see the README file.
+** To compile this example, run ./runExampleODBCApp <install_path_of_odbc> 
+** To clean the compiler gererated files, run ./runExampleODBCApp --clean
 **
-** For information on developing CLI applications, see the CLI Guide
-** and Reference.
+** For more info on how to setup the odbc environment, see the README file.
+**
+** For information on developing CLI apps, visit the DB2 knowledge center:
+**       https://www.ibm.com/support/knowledgecenter/SSEPGG_11.5.0/com.ibm.db2.
+**       luw.apdv.cli.doc/doc/c0007944.html?pos=2
 **
 ** For information on using SQL statements, see the SQL Reference.
 **
-** For the latest information on programming, building, and running DB2 
-** applications, visit the DB2 application development website: 
-**     http://www.software.ibm.com/data/db2/udb/ad
 ****************************************************************************/
 
 #define MAX_UID_LENGTH 18
@@ -168,19 +154,21 @@ int main(int argc, char *argv[])
   printf("  SQLExecDirect\n");
   printf("  SQLFreeHandle\n");
   printf("TO EXECUTE SQL STATEMENTS DIRECTLY:\n");
-
-  /* set AUTOCOMMIT on */
+ 
+  /* set ISOLATION LEVEL such that the data will be queriable immediately */
+  /* after it is inserted. Note that this setting is for demonstration    */
+  /* purpose and should not be used against a real eventstore instance.   */
   cliRC = SQLSetConnectAttr(hdbc,
-                            SQL_ATTR_AUTOCOMMIT,
-                            (SQLPOINTER)SQL_AUTOCOMMIT_ON,
+                            SQL_ATTR_TXN_ISOLATION,
+                            (SQLPOINTER)SQL_TXN_READ_UNCOMMITTED,
                             SQL_NTS);
   DBC_HANDLE_CHECK(hdbc, cliRC);
-
+  
   /* allocate a statement handle */
   cliRC = SQLAllocHandle(SQL_HANDLE_STMT, hdbc, &hstmt);
   DBC_HANDLE_CHECK(hdbc, cliRC);
 
-  /******************** directly execute statement ****************/
+  /************* Initialize table on source database ****************/
 
   /* drop table if exist */
   rc =  DropTableIfExists(tableName, hdbc, hstmt);
@@ -191,19 +179,20 @@ int main(int argc, char *argv[])
            "create table %s "
            "(DEVICEID INTEGER NOT NULL, "
            "SENSORID INTEGER NOT NULL, "
-            "TS BIGINT NOT NULL, "
-            "AMBIENT_TEMP DOUBLE NOT NULL, "
-            "POWER DOUBLE NOT NULL, "
-            "TEMPERATURE DOUBLE NOT NULL, "
-            "CONSTRAINT \"TEST1INDEX\" "
-            "PRIMARY KEY(DEVICEID, SENSORID, TS) "
-            "include(TEMPERATURE)) "
-            "DISTRIBUTE BY HASH (DEVICEID, SENSORID) "
-            "organize by column stored as parquet",
-            tableName); 
+           "TS BIGINT NOT NULL, "
+           "AMBIENT_TEMP DOUBLE NOT NULL, "
+           "POWER DOUBLE NOT NULL, "
+           "TEMPERATURE DOUBLE NOT NULL, "
+           "CONSTRAINT \"TEST1INDEX\" "
+           "PRIMARY KEY(DEVICEID, SENSORID, TS) "
+           "include(TEMPERATURE)) "
+           "DISTRIBUTE BY HASH (DEVICEID, SENSORID) "
+           "organize by column stored as parquet", tableName); 
   printf("\n  Directly execute %s.\n", stmt);
   cliRC = SQLExecDirect(hstmt, stmt, SQL_NTS);
   STMT_HANDLE_CHECK(hstmt, hdbc, cliRC);
+
+  /****************** Insert data to target table *******************/
 
   /* insert rows */
   sprintf((char *)stmt, 
@@ -236,14 +225,84 @@ int main(int argc, char *argv[])
           tableName);
   printf("\n  Directly execute %s.\n", stmt);
   cliRC = SQLExecDirect(hstmt, stmt, SQL_NTS);
+  STMT_HANDLE_CHECK(hstmt, hdbc, cliRC);
+
+  /* insert from external tables */
+  char extCSVPath[] = "/root/db2eventstore-IoT-Analytics/data/sample_IOT_table.csv";
+  sprintf ((char *)stmt,
+            "INSERT INTO %s "
+            "SELECT * FROM external '%s' LIKE %s "
+            "USING (delimiter ',' MAXERRORS 10 SOCKETBUFSIZE 30000 REMOTESOURCE 'JDBC')",
+            tableName, extCSVPath, tableName);
+   printf("\n  Directly execute %s.\n", stmt);
+   cliRC = SQLExecDirect(hstmt, stmt, SQL_NTS);
+   STMT_HANDLE_CHECK(hstmt, hdbc, cliRC);
+
+  /*************** Fetch data from table ***************************/
+
+  printf("\n-----------------------------------------------------------");
+  printf("\nUSE THE CLI FUNCTIONS\n");
+  printf("  SQLExecDirect\n");
+  printf("  SQLBindCol\n");
+  printf("  SQLFetch\n");
+  printf("TO PROCESS SQL QUERY RESULT SET:\n");
+
+
+  SQLINTEGER deviceID, sensorID; 
+  SQLBIGINT ts;
+  SQLDOUBLE ambientTemp, power, temperature; 
+   
+  /* select the rows from the source table */
+  sprintf((char *)stmt, "SELECT * FROM %s FETCH FIRST 10 ROWS ONLY", tableName);
+  printf("\n  Directly execute %s.\n", stmt);
+  cliRC = SQLExecDirect(hstmt, stmt, SQL_NTS);
   STMT_HANDLE_CHECK(hstmt, hdbc, cliRC); 
+
+  /* bind the columns of the source table */
+  cliRC = SQLBindCol(hstmt, 1, SQL_C_LONG, &deviceID, 0, NULL);
+  STMT_HANDLE_CHECK(hstmt, hdbc, cliRC);
+
+  cliRC = SQLBindCol(hstmt, 2, SQL_C_LONG, &sensorID, 0, NULL);
+  STMT_HANDLE_CHECK(hstmt, hdbc, cliRC);   
+
+  cliRC = SQLBindCol(hstmt, 3, SQL_C_SBIGINT, &ts, 0, NULL);
+  STMT_HANDLE_CHECK(hstmt, hdbc, cliRC);   
+
+  cliRC = SQLBindCol(hstmt, 4, SQL_C_DOUBLE, &ambientTemp, 0, NULL);
+  STMT_HANDLE_CHECK(hstmt, hdbc, cliRC);   
+
+  cliRC = SQLBindCol(hstmt, 5, SQL_C_DOUBLE, &power, 0, NULL);
+  STMT_HANDLE_CHECK(hstmt, hdbc, cliRC);   
+
+  cliRC = SQLBindCol(hstmt, 6, SQL_C_DOUBLE, &temperature, 0, NULL);
+  STMT_HANDLE_CHECK(hstmt, hdbc, cliRC);
+
+  /* fetch next row */
+  cliRC = SQLFetch(hstmt);
+  STMT_HANDLE_CHECK(hstmt, hdbc, cliRC);
+
+  printf("\n");
+  if (cliRC == SQL_NO_DATA_FOUND)
+  {
+    printf("  Data not found.\n");
+  }
+  while (cliRC != SQL_NO_DATA_FOUND)
+  {
+    printf("  %ld %ld %lld %.15f %.15f %.15f\n",
+	        deviceID, sensorID, ts, ambientTemp, power, temperature);
+
+    /* fetch next row */
+    cliRC = SQLFetch(hstmt);
+    STMT_HANDLE_CHECK(hstmt, hdbc, cliRC);
+  } 
+
+  /*********   Stop using the connection  **************************/
 
   /* free the statement handle */
   cliRC = SQLFreeHandle(SQL_HANDLE_STMT, hstmt);
   STMT_HANDLE_CHECK(hstmt, hdbc, cliRC);
-
-  /*********   Stop using the connection  **************************/
-
+   
+  /* disconnect from database */
   rc = DbDriverDisconnect(&hdbc, dbAlias);
   if (rc != 0)
   {
@@ -276,6 +335,7 @@ int DbDriverConnect(SQLHANDLE henv,
   printf("\n-----------------------------------------------------------");
   printf("\nUSE THE CLI FUNCTIONS\n");
   printf("  SQLAllocHandle\n");
+  printf("  SQLSetConnectAttr\n");
   printf("  SQLDriverConnect\n");
   printf("TO CONNECT TO EVENTSTORE:\n");
 
