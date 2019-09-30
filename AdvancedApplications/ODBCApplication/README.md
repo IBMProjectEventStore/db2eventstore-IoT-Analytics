@@ -9,7 +9,7 @@ If not running within the docker container, run the script to configure SSL that
 ### To run the example app [`ExampleODBCApp.c`](ExampleODBCApp.c), follow these steps:
 1. Compile the app by running [`./bldExampleODBCApp.c`](bldExampleODBCApp)`<odbc_client_path>`. The `<odbc_client_path>` is where you have unpacked your ODBC client at the environment setup stage.
     * The script will then do the following for you:
-       * Find the ODBC headers under `<odbc_client_path>/include` and compile the main app [`ExampleODBCApp.c`](ExampleODBCApp.c) and a helper ['utilcli.c'](utilcli.c) which will check for errors and return the diagnostic messages
+       * Find the ODBC headers under `<odbc_client_path>/include` and compile the main app [`ExampleODBCApp.c`](ExampleODBCApp.c) and a helper [`utilcli.c`](utilcli.c) which will check for errors and return the diagnostic messages
        * Link the db2 library under `<odbc_client_path>/lib`.
 2. Run the executable `./ExampleODBCApp`
 
