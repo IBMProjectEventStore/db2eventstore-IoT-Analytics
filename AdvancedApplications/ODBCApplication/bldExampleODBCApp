@@ -1,6 +1,5 @@
 #! /bin/bash
-# Script: runExampleODBCApp
-# Usage: runExampleODBCApp <ODBC_CLIENT_PATH>
+# Script: bldExampleODBCApp
 
 CLEAN_ONLY=0
 
