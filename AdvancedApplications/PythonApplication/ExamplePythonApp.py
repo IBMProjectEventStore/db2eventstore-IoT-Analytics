@@ -17,6 +17,15 @@ ConfigurationReader.setConnectionTimeout(2)
 ConfigurationReader.setEventUser(os.environ['EVENT_USER']);
 ConfigurationReader.setEventPassword(os.environ['EVENT_PASSWORD']);
 
+# set SSL credentials
+ConfigurationReader.setSslTrustStoreLocation(os.environ['KEYDB_PATH']);
+ConfigurationReader.setSslTrustStorePassword(os.environ['KEYDB_PASSWORD']);
+ConfigurationReader.setSslKeyStoreLocation(os.environ['KEYDB_PATH']);
+ConfigurationReader.setSslKeyStorePassword(os.environ['KEYDB_PASSWORD']);
+ConfigurationReader.setClientPlugin(True);
+ConfigurationReader.setClientPluginName("IBMIAMauth");
+ConfigurationReader.setSSLEnabled(True);
+
 # connect to db2
 sparkSession = SparkSession.builder.appName("EventStore in Python").getOrCreate()
 dbName="EVENTDB";

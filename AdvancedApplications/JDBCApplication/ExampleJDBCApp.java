@@ -24,13 +24,17 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
    /** Virtual IP of database server*/
    private static final String IP = System.getenv("IP");
 
+   /** SSL Keystore localtion */
+   private static final String KEYDB_PATH= System.getenv("KEYDB_PATH");
+
+   /** SSL Keystore localtion */
+   private static final String KEYDB_PASSWORD = System.getenv("KEYDB_PASSWORD");
+
    public static void main(String[] args) {
        String driverName = "com.ibm.db2.jcc.DB2Driver";
        Connection conn = null;
        Statement stmt = null;
        ResultSet rs = null;
-       String KEYDB_PASSWORD = null;
-       String KEYDB_PATH = null;
        try {
            try {
                    Class.forName(driverName);
@@ -38,23 +42,6 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
            } catch(Exception ex) {
                    System.out.println("Could not find the driver class");
            }
-
-        File bluspark =new File("/bluspark/external_conf/bluspark.conf");
-        Scanner in = null;
-        try {
-            in = new Scanner(bluspark);
-            while(in.hasNext())
-            {
-                String line=in.nextLine();
-                if(line.contains("sslKeyStorePassword"))
-                    { KEYDB_PASSWORD = line.split(" ")[1];}
-                if(line.contains("sslKeyStoreLocation"))
-                { KEYDB_PATH = line.split(" ")[1];}
-            }
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
 
            // Step 1: Allocate a database 'Connection' object
            System.out.println("Connecting to a selected database...");
