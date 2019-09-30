@@ -24,4 +24,4 @@ If not running within the docker container, run the script to configure SSL that
    * `<server_certificate_path>` is the path that you obtained above using the rest API/setup script, or the environment variable `$SERVER_CERT_PATH` if configured SSL through the setup script mentioned above.
    * `<IP>`  is the IP address of your eventstore cluster, or the environment variable `$IP`.
    * `<username>`and `<password>` is your eventstore user credentials, or the environment variables `$EVENT_USER` `EVENT_PASSWORD`.
-3. The command will open an interactive shell like user interface. Run queries on it!
+3. The command will open an interactive user interface. Run queries on it!
