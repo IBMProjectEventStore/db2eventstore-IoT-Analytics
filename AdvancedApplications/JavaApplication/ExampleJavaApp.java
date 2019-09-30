@@ -54,8 +54,14 @@
       /** Password of database account */
       private static final String PASSWORD = System.getenv("EVENT_PASSWORD");
    
-      /** Virtual IP of database server*/
+      /** Virtual IP of database server */
       private static final String IP = System.getenv("IP");
+
+      /** SSL Keystore localtion */
+      private static final String KEYSTORE_PATH = System.getenv("KEYDB_PATH");
+
+      /** SSL Keystore localtion */
+      private static final String KEYSTORE_PASS = System.getenv("KEYDB_PASSWORD");
 
       public static void main(String args[]) {
 
@@ -64,6 +70,14 @@
           // Set user credential
           ConfigurationReader.setEventUser(USERNAME);
           ConfigurationReader.setEventPassword(PASSWORD);
+          // Set ssl credential
+          ConfigurationReader.setSslTrustStoreLocation(KEYSTORE_PATH);
+          ConfigurationReader.setSslTrustStorePassword(KEYSTORE_PASS);
+          ConfigurationReader.setSslKeyStoreLocation(KEYSTORE_PATH);
+          ConfigurationReader.setSslKeyStorePassword(KEYSTORE_PASS);
+          ConfigurationReader.setClientPlugin(true);
+          ConfigurationReader.setClientPluginName("IBMIAMauth");
+          ConfigurationReader.setSSLEnabled(true);
           // Define schema of table as SparkSQL StructType
           StructField[] tabFields = new StructField[] {
               DataTypes.createStructField("deviceID", DataTypes.IntegerType, false),

@@ -18,10 +18,17 @@ object ExampleScalaApp {
     ConfigurationReader.setConnectionTimeout(2)
     
     // set user credential
-    val username = sys.env("EVENT_USER")
-    val password = sys.env("EVENT_PASSWORD")
-    ConfigurationReader.setEventUser(username)
-    ConfigurationReader.setEventPassword(password)
+    ConfigurationReader.setEventUser(sys.env("EVENT_USER"))
+    ConfigurationReader.setEventPassword(sys.env("EVENT_PASSWORD"))
+
+    // set ssl credentials
+    ConfigurationReader.setSslTrustStoreLocation(sys.env("KEYDB_PATH"))
+    ConfigurationReader.setSslTrustStorePassword(sys.env("KEYDB_PASSWORD"))
+    ConfigurationReader.setSslKeyStoreLocation(sys.env("KEYDB_PATH"))
+    ConfigurationReader.setSslKeyStorePassword(sys.env("KEYDB_PASSWORD"))
+    ConfigurationReader.setClientPlugin(true)
+    ConfigurationReader.setClientPluginName("IBMIAMauth")
+    ConfigurationReader.setSSLEnabled(true)
 
     // database information
     val dbName = "EVENTDB"

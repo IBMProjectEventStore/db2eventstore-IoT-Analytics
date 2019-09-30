@@ -89,20 +89,6 @@ KEYDB_PASSWORD=$(curl --silent -k -i -X GET -H "authorization: Bearer $bearerTok
 curl -k -X GET -H "authorization: Bearer $bearerToken" "https://${IP}:443/com/ibm/event/api/v1/oltp/certificate" -o ${KEYDB_PATH}/eventstore.pem
 [ $? -ne 0 ] && echo "Not able to get server certificate" && exit 5
 
-mkdir -p /bluspark/external_conf/
-touch /bluspark/external_conf/bluspark.conf
-cat > /bluspark/external_conf/bluspark.conf <<EOL 
-internal.client.security.sslTrustStoreLocation ${KEYDB_PATH}/clientkeystore 
-internal.client.security.sslTrustStorePassword ${KEYDB_PASSWORD}
-internal.client.security.sslKeyStoreLocation ${KEYDB_PATH}/clientkeystore 
-internal.client.security.sslKeyStorePassword ${KEYDB_PASSWORD}
-internal.client.security.plugin true
-internal.client.security.pluginName IBMIAMauth
-security.SSLEnabled true
-EOL
-[ $? -ne 0 ] && echo "/bluspark/external_conf/bluspark.conf set up failed" && exit 6
-echo -e "\nFinished setting up SSL information at /bluspark/external_conf/bluspark.conf.\n"
-
 # export the KEYDB_PATH and KEYDB_PASSWORD only if it's in a container.
 if [ -f "/.dockerenv" ]; then
     sed -i "/export KEYDB_PASSWORD=/d" ~/.bashrc
