@@ -83,6 +83,23 @@ To setup the python environment
 
 Or refer to the script used for the [container setup](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-python.sh)
 
+### ODBC/DB2CLI Setup
+
+To setup the ODBC client environment
+
+* Download the 11.5 GA version IBM Data Server Client Package according to your host platform from:
+  https://www.ibm.com/support/pages/download-initial-version-115-clients-and-drivers
+> Note: Download this version **IBM Data Server Driver Package (Linux AMD64 and Intel EM64T)** if setting up for the [demo container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container)
+* Unpack the package at any location
+   * `tar -xvf ibm_data_server_driver_package_linuxx64_v11.5.tar.gz -C <ds_driver_path>`
+* Unpack the odbc client to under the server package to any location.
+   * `tar -xvf <ds_driver_path>/dsdriver/odbc_cli_driver/linuxamd64(or your own platform)/ibm_data_server_driver_for_odbc_cli.tar.gz -C <odbc_path>`
+* Copy the gssplugin libraries from the IBM Data Server Driver Package to the directory where you unpacked your odbc client.
+   * `cp -r <ds_driver_path>/<security32|security64> <odbc_path>/`
+   * the gssplugin libraries will be used by ODBC client to connect to Eventstore.
+   * The plugin will not be picked up by the ODBC client if you move it to other directories under the ODBC client directory. 
+* Remember the `odbc_path` if you later wish to run [the ODBC example APP](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications/ODBCApplication)
+
 ### Downloading the IBM Db2 Event Store client JAR
 
 To get the client jar go to the following and download the jar:
