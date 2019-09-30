@@ -1,6 +1,6 @@
 # Instructions on How to Run ODBC Applications And DB2CLI For IBM Db2 Event Store
 
-## Python Remote Application Execution Steps:
+## ODBC Remote Application / DB2CLI Execution Steps:
 
 This assumes that you have set up the environment to run a ODBC/DB2CLI application. If you haven't yet done this step, [please follow the instructions here](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications#odbcdb2cli-setup) to set up your environment. 
 
@@ -16,7 +16,7 @@ If not running within the docker container, run the script to configure SSL that
 ### To clean up the compiler generated files, run:
 [`./runExampleODBCApp.c`](runExampleODBCApp) --clean
 
-### To interactively run the db2cli utility, follow these steps:
+### To run the DB2 interactive CLI, follow these steps:
 1. Go to ODBC client bin directory
 `cd <odbc_client_path>/bin`
 2. Run the following command
