@@ -7,7 +7,7 @@
 **         SQLAllocHandle -- Allocate Handle
 **         SQLSetConnectAttr -- Set Connection Attributes
 **         SQLDriverConnect -- Connect to a Data Source with 
-**							   explicitly defined connection string
+**                             explicitly defined connection string
 **         SQLGetDiagRec -- Get Multiple Fields Settings of Diagnostic Record
 **         SQLExecDirect -- Execute a Statement Directly
 **         SQLBindCol -- Bind a Column to an Application Variable or
