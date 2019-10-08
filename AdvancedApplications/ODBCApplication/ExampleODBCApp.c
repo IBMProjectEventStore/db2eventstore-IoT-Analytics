@@ -155,9 +155,21 @@ int main(int argc, char *argv[])
   printf("  SQLFreeHandle\n");
   printf("TO EXECUTE SQL STATEMENTS DIRECTLY:\n");
  
-  /* set ISOLATION LEVEL such that the data will be queriable immediately */
-  /* after it is inserted. Note that this setting is for demonstration    */
-  /* purpose and should not be used against a real eventstore instance.   */
+  /* By default, IBM Db2 Event Store runs queries using the SnapshotAny 
+   * isolation level, or the equivalent in DB2's Cursor stability (CS), 
+   * which returns the most recent consistent snapshot in the shared 
+   * storage without waiting for any of the data in the log to be persisted
+   * to the shared storage. The Read Uncommitted (RU) isolation level 
+   * (or its equivalents SnapshotNone) also queries the log zone, which 
+   * returns a view that contains the data from the most recent consistent 
+   * snapshot and any data that is in the log at the time the query is run. 
+   * This means that the view contains all the available data, but that it 
+   * might also contain duplicates. This is because duplicate elimination 
+   * (by means of primary key lookup) takes place when the data is moved to 
+   * the shared zone. For more info regarding the data flow for eventstore, 
+   * please refer:
+   * https://www.ibm.com/support/knowledgecenter/en/SSGNPV_2.0.0/local/architecture.html
+   */
   cliRC = SQLSetConnectAttr(hdbc,
                             SQL_ATTR_TXN_ISOLATION,
                             (SQLPOINTER)SQL_TXN_READ_UNCOMMITTED,
