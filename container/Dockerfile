@@ -17,6 +17,7 @@ RUN yum install -y \
     make \
     sudo \
     zlib-devel \
+    openssl-devel \
     && yum clean all \
     && rm -rf /var/cache/yum
 
