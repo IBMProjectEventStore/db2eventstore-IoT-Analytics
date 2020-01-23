@@ -133,7 +133,7 @@ esac
 
 if [ -z ${IPREST} ]; then
    printf "Rest Deployment IP (--IPR) not specified, using the (--IP) endpoint: $IP\n"
-   IPR=$IP
+   IPREST=$IP
 fi
 
 mkdir -p ${USER_VOLUME}
