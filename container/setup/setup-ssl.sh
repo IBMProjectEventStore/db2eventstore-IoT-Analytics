@@ -8,12 +8,12 @@ Pre-requisite:
 - This script requires the SSL certificate to be the default self-signed certificate
 - You have the REST endpoint of the target Event Store 2.0 (or greater) server
 - You have the username and password of the target cluster
-- You have the service name of the target cluster
+- You have the deployment ID of the target cluster
 -- Note this is only required for cp4d (IBM Cloud Pak for Data) Event Store deployments
 ========
 Description:
-This script will use the REST endpoint, user, password, and optionally the service name
-of the target Event Store server to retrieve the clientkeystore file and password. Environment variables
+This script will use the REST endpoint, user, password, and optionally the deployment ID
+of the target Db2 Event Store instance to retrieve the clientkeystore file and password. Environment variables
 (and the bashrc) will be setup so applications can use the required parameters for SSL connections.
 
 -----------
@@ -23,7 +23,7 @@ OPTIONS:
 --IP  Rest endpoint of the target cluster
 --user User name of the target cluster
 --password Password of the target cluster
---serviceName the service name of the target cluster
+--deploymentID the deployment ID name of the target cluster
    This is only applicable for cp4d (IBM Cloud Pak for Data) Event Store deployments
 USAGE
 }
@@ -45,8 +45,8 @@ while [ -n "$1" ]; do
         EVENT_PASSWORD="$2"
         shift 2
         ;;
-    --serviceName)
-        SERVICE_NAME="$2"
+    --deploymentID)
+        DEPLOYMENT_ID="$2"
         shift 2
         ;;
     *)
@@ -77,11 +77,11 @@ if [ -z ${EVENT_PASSWORD} ]; then
 fi
 
 # Construct the URL path, this will vary if this is a Cp4d or DSX cluster.
-# The presence of the service name indicates this is a Cp4d cluster.
+# The presence of the deployment ID indicates this is a Cp4d cluster.
 URLPATH="com/ibm/event/api/v1"
 
-if [ ! -z ${SERVICE_NAME} ]; then
-   URLPATH="icp4data-databases/${SERVICE_NAME}/zen/com/ibm/event/api/v1"
+if [ ! -z ${DEPLOYMENT_ID} ]; then
+   URLPATH="icp4data-databases/${DEPLOYMENT_ID}/zen/com/ibm/event/api/v1"
 fi
 
 # target path to store client ssl key

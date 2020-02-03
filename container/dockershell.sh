@@ -6,8 +6,8 @@ USER_VOLUME=${HOME}/eventstore_demo_volume
 
 # Deployment type constants, default to cp4d
 declare -r deployTypeCp4d="cp4d"
-declare -r deployTypeDsx="dsx"
-declare -r deployTypeStandalone="standalone"
+declare -r deployTypeWsl="wsl"
+declare -r deployTypeDeveloper="developer"
 declare -r defaultDeployType=$deployTypeCp4d
 
 if [ -f ${HOME}/.user_info ]; then
@@ -23,7 +23,7 @@ cat <<-USAGE #| fmt
 
 Description:
 This script is the entrypoint of the eventstore_demo container. The script takes
-target Event Store server's public IP, optionally the target Event Store server's REST
+target Event Store server's public IP or dns name, optionally the target Event Store server's REST
 endpoint (required if it differs from the public IP), optionally the target Event Store
 server's deployment type, and the deployment's user and password.
 
@@ -33,22 +33,22 @@ image: eventstore_demo:latest.
 Usage: $0 [OPTIONS] [arg]
 OPTIONS:
 ========
---IP        Public IP address or DNS name of the target Event Store server
---IPR       The REST endpoint IP or DNS name of the Event Store server.
-            This is to be used when the REST endpoint differs from the Public IP
-            (i.e. --IP) ... typically the case for cp4d deployments
+--endpoint     Public endpoint address or DNS name of the target Event Store server used by the SDKs to connect to the database
+--endpointRest The REST endpoint IP or DNS name of the Event Store server.
+               This is to be used when the REST endpoint differs from the Public IP
+               (i.e. --endpoint) ... typically the case for cp4d deployments
 --deploymentType
-            The deployment type of the Event Store server, valid options include (default is cp4d):
-               cp4d (Cloud Pak for Data deployments)
-               dsx (DSX/WSL deployments)
-               standalone (standalone/desktop container deployments)
---serviceName
-            cp4d deployments utilize a per database service name that must be specified.
-            This can be found in the database details page on the IBM Cloud Pak for Data UI console.
-            This field is only required for cp4d deployment types.
-               e.g. "db2eventstore-1578174815082"
---user      User name of the Event Store server
---password  Password of the Event Store server
+               The deployment type of the Event Store server, valid options include (default is cp4d):
+                  cp4d (Cloud Pak for Data deployments)
+                  wsl (WSL deployments)
+                  developer (developer container deployments)
+--deploymentID
+               cp4d deployments utilize a per database deployment ID that must be specified.
+               This can be found in the database details page on the IBM Cloud Pak for Data UI console.
+               This field is only required for cp4d deployment types.
+                  e.g. "db2eventstore-1578174815082"
+--user         User name of the Event Store server
+--password     Password of the Event Store server
 -----------
 USAGE
 }
@@ -59,20 +59,20 @@ while [ -n "$1" ]; do
         usage >&2
         exit 0
         ;;
-    --IP)
-        IP="$2"
+    --endpoint)
+        ENDPOINT="$2"
         shift 2
         ;;
-    --IPR)
-        IPREST="$2"
+    --endpointRest)
+        ENDPOINT_REST="$2"
         shift 2
         ;;
     --deploymentType)
-        DTYPE="$2"
+        DEPLOYMENT_TYPE="$2"
         shift 2
         ;;
-    --serviceName)
-        SERVICE_NAME="$2"
+    --deploymentID)
+        DEPLOYMENT_ID="$2"
         shift 2
         ;;
     --user)
@@ -84,56 +84,56 @@ while [ -n "$1" ]; do
         shift 2
         ;;
     *)
-        printf "Unknown option:$1"
+        printf "Unknown option: '$1'"
         usage >&2
         exit 1
     esac
 done
 
 if [ -z ${EVENT_USER} ]; then
-    printf "Error: Please provide the cluster user name with --user flag\n"
+    printf "Error: Please provide Db2 Event Store instance user name with --user flag\n" >&2
     usage >&2
     exit 1
 fi
 
 if [ -z ${EVENT_PASSWORD} ]; then
-    printf "Error: Please provide the cluster password with --password flag\n"
+    printf "Error: Please provide Db2 Event Store instance password with --password flag\n" >&2
     usage >&2
     exit 1
 fi
 
-if [ -z ${IP} ]; then
-    printf "Error: Please provide the Event Store server's public IP with --IP flag\n"
+if [ -z ${ENDPOINT} ]; then
+    printf "Error: Please provide the Event Store server's public endpoint with --endpoint flag\n" >&2
     usage >&2
     exit 1
 fi
 
-if [ -z ${DTYPE} ]; then
+if [ -z ${DEPLOYMENT_TYPE} ]; then
     printf "DeploymentType (--deploymentType) not specified, defaulting too: $defaultDeployType\n"
-    DTYPE=$defaultDeployType
+    DEPLOYMENT_TYPE=$defaultDeployType
 fi
 
-case "$DTYPE" in
+case "$DEPLOYMENT_TYPE" in
    $deployTypeCp4d)
-      if [ -z ${SERVICE_NAME} ]; then
-         printf "Error: cp4d deployment types require a service name (i.e. --service_name) as input\n"
+      if [ -z ${DEPLOYMENT_ID} ]; then
+         printf "Error: cp4d deployment types require a deployment ID (i.e. --deploymentID) as input\n" >&2
          usage >&2
          exit 1
       fi
       ;;
-   $deployTypeDsx)
+   $deployTypeWsl)
       ;;
-   $deployTypeStandalone)
+   $deployTypeDeveloper)
       ;;
    *)
-      printf "Deployment type \"$DTYPE\" not supported!\n"
+      printf "Deployment type \"$DEPLOYMENT_TYPE\" not supported!\n" >&2
       usage >&2
       exit 1
 esac
 
-if [ -z ${IPREST} ]; then
-   printf "Rest Deployment IP (--IPR) not specified, using the (--IP) endpoint: $IP\n"
-   IPREST=$IP
+if [ -z ${ENDPOINT_REST} ]; then
+   printf "Rest Deployment (--endpointRest) not specified, using the (--endpoint) endpoint: $ENDPOINT\n"
+   ENDPOINT_REST=$ENDPOINT
 fi
 
 mkdir -p ${USER_VOLUME}
@@ -141,14 +141,14 @@ mkdir -p ${USER_VOLUME}
 
 entryPoint="env && ${SETUP_PATH}/setup-ssl.sh && ${SETUP_PATH}/entrypoint_msg.sh && bash --login"
 
-# For standalone deployment types there SSL is not enabled so do not execute the
+# For developer deployment types there SSL is not enabled so do not execute the
 # corresponding setup.
-if [ $DTYPE = $deployTypeStandalone ]; then
+if [ $DEPLOYMENT_TYPE = $deployTypeDeveloper ]; then
    entryPoint="${SETUP_PATH}/entrypoint_msg.sh && bash --login"
 fi
 
 docker run -it --name eventstore_demo_${EVENT_USER} -v ${USER_VOLUME}:/root/user_volume \
-    -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWORD=${EVENT_PASSWORD} -e IP=${IP} -e IPREST=${IPREST} -e DTYPE=${DTYPE} -e SERVICE_NAME=${SERVICE_NAME}\
+    -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWORD=${EVENT_PASSWORD} -e IP=${ENDPOINT} -e IPREST=${ENDPOINT_REST} -e DEPLOYMENT_TYPE=${DEPLOYMENT_TYPE} -e DEPLOYMENT_ID=${DEPLOYMENT_ID}\
     eventstore_demo:latest bash -c "$entryPoint"
 
 printf "Cleaning up dangling images and/or exited containers"
