@@ -45,7 +45,7 @@ tar -xzvf ${SPARK_MEDIA}.tar.gz
 mv ${SPARK_MEDIA}/* $SPARK_HOME
 
 wget -q -O scopt_2.11-${SCOPT_211_VERSION}.jar \
-   http://central.maven.org/maven2/com/github/scopt/scopt_2.11/${SCOPT_211_VERSION}/scopt_2.11-${SCOPT_211_VERSION}.jar
+   https://repo1.maven.org/maven2/com/github/scopt/scopt_2.11/${SCOPT_211_VERSION}/scopt_2.11-${SCOPT_211_VERSION}.jar
 mv scopt_2.11-${SCOPT_211_VERSION}.jar $SPARK_HOME/jars
 chown -R 500:500 $SPARK_HOME/jars/scopt_2.11-${SCOPT_211_VERSION}.jar
 
