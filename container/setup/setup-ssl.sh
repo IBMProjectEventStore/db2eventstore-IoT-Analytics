@@ -1,31 +1,32 @@
 #!/bin/bash
+set -x
 
 function usage()
 {
 cat <<-USAGE #| fmt
 Pre-requisite:
 - This script requires the SSL certificate to be the default self-signed certificate
-- This currently only run on Event Store 2.0 installed with Watson Studio Local
-- You have the public IP of the target Event Store 2.0 server
-- You have the username and password of the Watson Studio Local on the Event Store server
+- You have the REST endpoint of the target Event Store 2.0 (or greater) server
+- You have the username and password of the target cluster
+- You have the deployment ID of the target cluster
+-- Note this is only required for cp4d (IBM Cloud Pak for Data) Event Store deployments
 ========
 Description:
-This script will receive the argument of public IP of target Event Store 2.0 server,
-user and password of the Watson Studio Local on the Event Store 2.0 server.
-Then it will retrieve the clientkeystore file and it's password for the SSL connection
-with Event Store 2.0. The /bluspark/external_conf/bluspark.conf file be created
-with above information.
+This script will use the REST endpoint, user, password, and optionally the deployment ID
+of the target Db2 Event Store instance to retrieve the clientkeystore file and password. Environment variables
+(and the bashrc) will be setup so applications can use the required parameters for SSL connections.
 
 -----------
 Usage: $0 [OPTIONS] [arg]
 OPTIONS:
 ========
---IP  Public IP of target cluster.
---user User name of Watson Studio Local user
---password Password of Watson Studio Local user
+--IP  Rest endpoint of the target cluster
+--user User name of the target cluster
+--password Password of the target cluster
+--deploymentID the deployment ID name of the target cluster
+   This is only applicable for cp4d (IBM Cloud Pak for Data) Event Store deployments
 USAGE
 }
-
 while [ -n "$1" ]; do
     case "$1" in
     -h|--help)
@@ -33,7 +34,7 @@ while [ -n "$1" ]; do
         exit 0
         ;;
     --IP)
-        IP="$2"
+        IPREST="$2"
         shift 2
         ;;
     --user)
@@ -42,6 +43,10 @@ while [ -n "$1" ]; do
         ;;
     --password)
         EVENT_PASSWORD="$2"
+        shift 2
+        ;;
+    --deploymentID)
+        DEPLOYMENT_ID="$2"
         shift 2
         ;;
     *)
@@ -53,40 +58,49 @@ done
 
 # IP, Evnet_User, Event_Password can be read from the environment variable set by `docker run -e`
 
-if [ -z ${IP} ]; then
-   echo "Error: Please pass in the public IP of your cluster using flag --IP" >&2
+if [ -z ${IPREST} ]; then
+   echo "Error: Please pass in the REST endpoint of your cluster using flag --IP" >&2
    usage >&2
    exit 1
 fi
 
 if [ -z ${EVENT_USER} ]; then
-    echo "Error: Please pass in the Watson Studio Local user name using flag --user" >&2
+    echo "Error: Please pass in the user name using flag --user" >&2
     usage >&2
     exit 1
 fi
 
 if [ -z ${EVENT_PASSWORD} ]; then
-    echo "Error: Please pass in the Watson Studio Local's password name using flag --password" >&2
+    echo "Error: Please pass in the password name using flag --password" >&2
     usage >&2
     exit 1
+fi
+
+# Construct the URL path, this will vary if this is a Cp4d or DSX cluster.
+# The presence of the deployment ID indicates this is a Cp4d cluster.
+URLPATH="com/ibm/event/api/v1"
+
+if [ ! -z ${DEPLOYMENT_ID} ]; then
+   URLPATH="icp4data-databases/${DEPLOYMENT_ID}/zen/com/ibm/event/api/v1"
 fi
 
 # target path to store client ssl key
 KEYDB_PATH="/var/lib/eventstore"
 mkdir -p ${KEYDB_PATH}
 # get bearerToken
-bearerToken=`curl --silent -k -X GET https://${IP}/v1/preauth/validateAuth -u ${EVENT_USER}:${EVENT_PASSWORD} | python -c "import sys, json; print(json.load(sys.stdin)['accessToken'])"`
+bearerToken=`curl --silent -k -X GET https://${IPREST}/v1/preauth/validateAuth -u ${EVENT_USER}:${EVENT_PASSWORD} | python -c "import sys, json; print(json.load(sys.stdin)['accessToken'])"`
 [ $? -ne 0 ] && echo "Not able to get bearerToken" && exit 2
 
 # get clientkeystore file
-curl --silent -k -X GET -H "authorization: Bearer $bearerToken" "https://${IP}:443/com/ibm/event/api/v1/oltp/keystore" -o ${KEYDB_PATH}/clientkeystore
+curl --silent -k -X GET -H "authorization: Bearer $bearerToken" "https://${IPREST}:443/${URLPATH}/oltp/keystore" -o ${KEYDB_PATH}/clientkeystore
 [ $? -ne 0 ] && echo "Not able to get clientkeystore file" && exit 3
 
 # get clientkeystore password
-KEYDB_PASSWORD=$(curl --silent -k -i -X GET -H "authorization: Bearer $bearerToken" "https://${IP}:443/com/ibm/event/api/v1/oltp/keystore_password" | tail -1)
+KEYDB_PASSWORD=$(curl --silent -k -i -X GET -H "authorization: Bearer $bearerToken" "https://${IPREST}:443/${URLPATH}/oltp/keystore_password" | tail -1)
 [ $? -ne 0 ] && echo "Not able to get clientkeystore password" && exit 4
+
 # get server certificate
-curl -k -X GET -H "authorization: Bearer $bearerToken" "https://${IP}:443/com/ibm/event/api/v1/oltp/certificate" -o ${KEYDB_PATH}/eventstore.pem
+curl -k -X GET -H "authorization: Bearer $bearerToken" "https://${IPREST}:443/${URLPATH}/oltp/certificate" -o ${KEYDB_PATH}/eventstore.pem
 [ $? -ne 0 ] && echo "Not able to get server certificate" && exit 5
 
 # export the KEYDB_PATH and KEYDB_PASSWORD only if it's in a container.
@@ -99,3 +113,4 @@ if [ -f "/.dockerenv" ]; then
     echo "export SERVER_CERT_PATH=${KEYDB_PATH}/eventstore.pem" >> ~/.bashrc
     source ~/.bashrc
 fi
+
