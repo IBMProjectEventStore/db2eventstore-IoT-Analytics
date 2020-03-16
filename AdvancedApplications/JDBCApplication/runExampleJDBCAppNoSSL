@@ -1,0 +1,11 @@
+echo "Compile java code"
+if [ -z ${ESLIB} ]; then
+ESLIB=${SPARK_HOME}/jars/ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar
+fi
+
+rm -f ExampleJDBCAppNoSSL.class
+javac ExampleJDBCAppNoSSL.java -classpath ${ESLIB}
+
+echo "execute app:" 
+
+java -cp .:${ESLIB} ExampleJDBCAppNoSSL
