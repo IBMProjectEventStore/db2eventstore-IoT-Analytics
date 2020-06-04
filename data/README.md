@@ -18,3 +18,8 @@ Both files are used in the `Event_Store*.ipynb` Jupyter Notebooks as sample data
 - csv_10000000_realtime.csv
 
 Both files are used in the `Advanced-SQL-TimeSeries-Performance.ipynb` notebook. They have different number of rows indicated by the name.
+
+---
+- raster_meta.csv
+Contains geospatial sample data used in the notebooks under /notebooks_with_result/Geospatial_Scala_Spark_Notebooks/ directory.
+
