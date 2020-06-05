@@ -23,6 +23,9 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
 
    /** Virtual IP of database server*/
    private static final String IP = System.getenv("IP");
+   
+   /** Db2 port for jdbc client */
+   private static final String DB2_PORT = System.getenv("DB2_PORT");
 
    public static void main(String[] args) {
        String driverName = "com.ibm.db2.jcc.DB2Driver";
@@ -62,11 +65,11 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
            // Establish connection with ssl and user credentials
            conn =
            DriverManager.getConnection(
-                    "jdbc:db2://" + IP + ":18730/" + DATABASE_NAME + ":" +
+                    "jdbc:db2://" + IP + ":" + DB2_PORT + "/" + DATABASE_NAME + ":" +           
                     "securityMechanism=15;" +
                     "pluginName=IBMPrivateCloudAuth;" + 
                     "sslConnection=true;" +
-	   	    "sslTrustStoreLocation="+ KEYDB_PATH + ";" +
+	   	            "sslTrustStoreLocation="+ KEYDB_PATH + ";" +
                     "sslTrustStorePassword="+ KEYDB_PASSWORD + ";",
                     USERNAME, PASSWORD);
 

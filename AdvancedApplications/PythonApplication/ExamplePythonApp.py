@@ -9,8 +9,10 @@ import os
 
 # set connection endpoint
 ip = os.environ['IP'];
+db2port = os.environ['DB2_PORT'];
+esport = os.environ['ES_PORT'];
 print("Connecting to {}".format(ip))
-ConfigurationReader.setConnectionEndpoints("{}:18730;{}:1101".format(ip,ip))
+ConfigurationReader.setConnectionEndpoints("{}:{};{}:{}".format(ip,db2port,ip,esport))
 ConfigurationReader.setConnectionTimeout(2)
 
 # set user credential

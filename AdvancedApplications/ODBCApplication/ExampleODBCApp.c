@@ -37,6 +37,7 @@
 #define MAX_STMT_LEN 255
 #define MAX_COLUMNS 255
 #define MAX_IP_LENGTH 15
+#define MAX_PORT_LENGTH 5
 #define MAX_TABLE_NAME 128
 #ifdef DB2WIN
 #define MAX_TABLES 50
@@ -70,8 +71,8 @@ int main(int argc, char *argv[])
   char pswd[MAX_PWD_LENGTH + 1] = "";
   /* IP of database to connect */
   char ip[MAX_IP_LENGTH + 1] = "";
-  /* Port name of connection endpoint */
-  char port[] = "18730";
+  /* Port number of connection endpoint */
+  char port[MAX_PORT_LENGTH + 1] = "";
   /* Server certificate file path locally within container */
   char serverCertPath [255] = "";
   /* string pointer to env variables */
@@ -95,7 +96,7 @@ int main(int argc, char *argv[])
   }
   strncpy( pswd, envp, MAX_PWD_LENGTH + 1 );
 
-  /* get database up from environment variable IP */
+  /* get database ip from environment variable IP */
   envp = getenv("IP"); 
   if (envp == NULL)
   {
@@ -103,6 +104,15 @@ int main(int argc, char *argv[])
      return 1; 
   }
   strncpy( ip, envp, MAX_IP_LENGTH + 1 );
+
+  /* get database port from environment variable DB2_PORT */
+  envp = getenv("DB2_PORT");
+  if (envp == NULL)
+  {
+     printf("Error: could not find env variable DB2_PORT for jdbc port.\n");
+     return 1;
+  }
+  strncpy( port, envp, MAX_PORT_LENGTH + 1 );
 
   /* get database certificate from environment variable SERVER_CERT_PATH */
   envp = getenv("SERVER_CERT_PATH");

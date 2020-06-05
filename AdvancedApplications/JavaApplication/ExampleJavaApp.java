@@ -56,6 +56,12 @@
    
       /** Virtual IP of database server */
       private static final String IP = System.getenv("IP");
+      
+      /** Db2 port for jdbc client */
+      private static final String DB2_PORT = System.getenv("DB2_PORT");
+      
+      /** Eventstore port for ingest client */
+      private static final String ES_PORT = System.getenv("ES_PORT");      
 
       /** SSL Keystore localtion */
       private static final String KEYSTORE_PATH = System.getenv("KEYDB_PATH");
@@ -66,7 +72,7 @@
       public static void main(String args[]) {
 
           // Set connection endpoints
-          ConfigurationReader.setConnectionEndpoints( IP + ":18730;" + IP + ":1101");
+          ConfigurationReader.setConnectionEndpoints( IP + ":" + DB2_PORT + ";" + IP + ":" + ES_PORT);
           // Set user credential
           ConfigurationReader.setEventUser(USERNAME);
           ConfigurationReader.setEventPassword(PASSWORD);
