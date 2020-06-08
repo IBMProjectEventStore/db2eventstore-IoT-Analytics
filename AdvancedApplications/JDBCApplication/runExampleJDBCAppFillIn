@@ -1,6 +1,6 @@
 echo "Compile java code"
 if [ -z ${ESLIB} ]; then
-ESLIB=${SPARK_HOME}/jars/ibm-event_2.11-1.0.jar
+ESLIB=${SPARK_HOME}/jars/ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar
 fi
 
 rm -f ExampleJDBCAppFillIn.class

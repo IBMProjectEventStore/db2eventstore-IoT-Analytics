@@ -3,7 +3,7 @@ echo "Compile java code"
 #2. download & install scala 2.11.8 
 #3. set SPARK_HOME = < spark 2.0.2 or spark 2.1 installation path>
 
-ESLIB=${SPARK_HOME}/jars/ibm-event_2.11-1.0.jar
+ESLIB=${SPARK_HOME}/jars/ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar
 
 rm -f ExampleJavaApp.class
 javac -cp "${ESLIB}:${SPARK_HOME}/jars/*" ExampleJavaApp.java
