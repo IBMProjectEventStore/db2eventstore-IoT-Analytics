@@ -15,6 +15,9 @@ public class ExampleJDBCAppFillIn {   // Save as "ExampleJDBCApp.java"
    private static final String EXTERNAL_CSV_PATH = "/root/db2eventstore-IoT-Analytics/data/sample_IOT_table.csv";
    /** User name of database account */
    private static final String USERNAME = System.getenv("EVENT_USER");
+   
+   /** Db2 port for jdbc client */
+   private static final String DB2_PORT = System.getenv("DB2_PORT");
 
    /** SSL Keystore localtion */
    private static final String KEYDB_PATH= System.getenv("KEYDB_PATH");
@@ -42,10 +45,10 @@ public class ExampleJDBCAppFillIn {   // Save as "ExampleJDBCApp.java"
            // Establish connection with ssl and user credentials
            conn =
            DriverManager.getConnection(
-                    "jdbc:db2://" + IP + ":18730/" + DATABASE_NAME + ":" +
+                    "jdbc:db2://" + IP + ":" + DB2_PORT + "/" + DATABASE_NAME + ":" +
                     "sslConnection=true;" +
-	   	    "sslTrustStoreLocation="+ KEYDB_PATH + ";" +
-	   	    "sslKeyStoreLocation="+ KEYDB_PATH + ";" +
+	   	            "sslTrustStoreLocation="+ KEYDB_PATH + ";" +
+	   	            "sslKeyStoreLocation="+ KEYDB_PATH + ";" +
                     "sslKeyStorePassword="+ KEYDB_PASSWORD + ";" +
                     "sslTrustStorePassword="+ KEYDB_PASSWORD + ";" +
                     "securityMechanism=15;" +
@@ -57,7 +60,7 @@ public class ExampleJDBCAppFillIn {   // Save as "ExampleJDBCApp.java"
 
            // Connect to database
            stmt = conn.createStatement();
-	   System.out.println("Connected database successfully...");
+	       System.out.println("Connected database successfully...");
            
            // Step 2: delete old table if exist
            System.out.println("Deleting table in given database...");

@@ -13,8 +13,10 @@ object ExampleScalaAppNoSSL {
   def main(args: Array[String]): Unit = {
     // set db2 connection endpoint
     val ip = sys.env("IP")
+    val db2port = sys.env("DB2_PORT")
+    val esport = sys.env("ES_PORT")
     println(s"Connecting to $ip;")
-    ConfigurationReader.setConnectionEndpoints(s"$ip:18730;$ip:1101")
+    ConfigurationReader.setConnectionEndpoints(s"$ip:$db2port;$ip:$esport")
     ConfigurationReader.setConnectionTimeout(2)
     
     // set user credential

@@ -37,6 +37,8 @@ OPTIONS:
 --endpointRest The REST endpoint IP or DNS name of the Event Store server.
                This is to be used when the REST endpoint differs from the Public IP
                (i.e. --endpoint) ... typically the case for cp4d deployments
+--db2-port     The db2 port for the Event Store jdbc client
+--es-port      The Event Store port for ingest client
 --deploymentType
                The deployment type of the Event Store server, valid options include (default is cp4d):
                   cp4d (Cloud Pak for Data deployments)
@@ -67,6 +69,14 @@ while [ -n "$1" ]; do
         ENDPOINT_REST="$2"
         shift 2
         ;;
+    --db2-port)
+        DB2_PORT="$2"
+        shift 2
+        ;;
+    --es-port)
+        ES_PORT="$2"
+        shift 2
+        ;;                 
     --deploymentType)
         DEPLOYMENT_TYPE="$2"
         shift 2
@@ -104,6 +114,18 @@ fi
 
 if [ -z ${ENDPOINT} ]; then
     printf "Error: Please provide the Event Store server's public endpoint with --endpoint flag\n" >&2
+    usage >&2
+    exit 1
+fi
+
+if [ -z ${DB2_PORT} ]; then
+    printf "Error: Please provide the DB2 Event Store port for jdbc client with --db2-port flag\n" >&2
+    usage >&2
+    exit 1
+fi
+
+if [ -z ${ES_PORT} ]; then
+    printf "Error: Please provide the Event Store port for ingest client with --es-port flag\n" >&2
     usage >&2
     exit 1
 fi
@@ -148,7 +170,7 @@ if [ $DEPLOYMENT_TYPE = $deployTypeDeveloper ]; then
 fi
 
 docker run -it --name eventstore_demo_${EVENT_USER} -v ${USER_VOLUME}:/root/user_volume \
-    -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWORD=${EVENT_PASSWORD} -e IP=${ENDPOINT} -e IPREST=${ENDPOINT_REST} -e DEPLOYMENT_TYPE=${DEPLOYMENT_TYPE} -e DEPLOYMENT_ID=${DEPLOYMENT_ID}\
+    -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWORD=${EVENT_PASSWORD} -e IP=${ENDPOINT} -e IPREST=${ENDPOINT_REST} -e DB2_PORT=${DB2_PORT} -e ES_PORT=${ES_PORT} -e DEPLOYMENT_TYPE=${DEPLOYMENT_TYPE} -e DEPLOYMENT_ID=${DEPLOYMENT_ID}\
     eventstore_demo:latest bash -c "$entryPoint"
 
 printf "Cleaning up dangling images and/or exited containers"

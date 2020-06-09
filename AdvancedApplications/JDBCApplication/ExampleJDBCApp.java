@@ -23,7 +23,10 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
 
    /** Virtual IP of database server*/
    private static final String IP = System.getenv("IP");
-
+   
+   /** Db2 port for jdbc client */
+   private static final String DB2_PORT = System.getenv("DB2_PORT");
+      
    /** SSL Keystore localtion */
    private static final String KEYDB_PATH= System.getenv("KEYDB_PATH");
 
@@ -49,7 +52,7 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
            // Establish connection with ssl and user credentials
            conn =
            DriverManager.getConnection(
-                    "jdbc:db2://" + IP + ":18730/" + DATABASE_NAME + ":" +
+                    "jdbc:db2://" + IP + ":" + DB2_PORT + "/" + DATABASE_NAME + ":" +                                      
                     "sslConnection=true;" +
                     "sslTrustStoreLocation="+ KEYDB_PATH + ";" +
                     "sslKeyStoreLocation="+ KEYDB_PATH + ";" +

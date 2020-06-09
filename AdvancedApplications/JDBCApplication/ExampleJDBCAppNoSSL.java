@@ -23,6 +23,9 @@ public class ExampleJDBCAppNoSSL {   // Save as "ExampleJDBCAppNoSSL.java"
 
    /** Virtual IP of database server*/
    private static final String IP = System.getenv("IP");
+   
+   /** Db2 port for jdbc client */
+   private static final String DB2_PORT = System.getenv("DB2_PORT");
 
    public static void main(String[] args) {
        String driverName = "com.ibm.db2.jcc.DB2Driver";
@@ -43,7 +46,7 @@ public class ExampleJDBCAppNoSSL {   // Save as "ExampleJDBCAppNoSSL.java"
            // Establish connection with ssl and user credentials
            conn =
            DriverManager.getConnection(
-                    "jdbc:db2://" + IP + ":18730/" + DATABASE_NAME + ":" +
+                    "jdbc:db2://" + IP + ":" + DB2_PORT + "/" + DATABASE_NAME + ":" +
                     "sslConnection=false;",
                     USERNAME, PASSWORD);
 
@@ -52,7 +55,7 @@ public class ExampleJDBCAppNoSSL {   // Save as "ExampleJDBCAppNoSSL.java"
 
            // Connect to database
            stmt = conn.createStatement();
-	   System.out.println("Connected database successfully...");
+	       System.out.println("Connected database successfully...");
            
            // Step 2: delete old table if exist
            System.out.println("Deleting table in given database...");
