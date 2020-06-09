@@ -19,11 +19,12 @@ This script will execute multiple REST APIs to:
 Usage: $0 [OPTIONS] [arg]
 OPTIONS:
 ========
---IP  Public IP of any cluster node.
---user User name of Watson Studio Local user who created the IOT_TEMP table
-       [Default: ${EVENT_USER} shell environment variable]
+--IP       IP of Eventstore Rest Endpoint.
+--PORT     Listening port of Eventstore Rest Endpoint
+--user     User name of Watson Studio Local user who created the IOT_TEMP table
+           [Default: ${EVENT_USER} shell environment variable]
 --password Password of Watson Studio Local user who created the IOT_TEMP table
-       [Default: ${EVENT_PASSWORD} shell environment variable]
+           [Default: ${EVENT_PASSWORD} shell environment variable]
 
 USAGE
 }
@@ -38,6 +39,10 @@ while [ -n "$1" ]; do
         IP="$2"
         shift 2
         ;;
+    --port)
+        PORT="$2"
+        shift 2
+        ;;        
     --user)
         EVENT_USER="$2"
         shift 2
@@ -71,4 +76,10 @@ if [ -z ${IP} ]; then
     exit 1
 fi
 
-node test.js --engine=$IP:1101 --server=https://$IP:443 --user=$EVENT_USER --password=$EVENT_PASSWORD
+if [ -z ${PORT} ]; then
+    echo "Error: Please provide the Event Store Rest Endpoint port with --port flag"
+    usage >&2
+    exit 1
+fi
+
+node test.js --engine=$IP:$PORT --server=https://$IP:443 --user=$EVENT_USER --password=$EVENT_PASSWORD
