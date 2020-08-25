@@ -7,7 +7,7 @@
 
 if [ -z "$SPARK_VERSION" ]
 then
-   SPARK_VERSION="2.2.1"
+   SPARK_VERSION="2.4.6"
    echo "SPARK_VERSION not defined. Using local version SPARK_VERSION=${SPARK_VERSION}"
 fi
 if [ -z "$HADOOP_VERSION" ]
