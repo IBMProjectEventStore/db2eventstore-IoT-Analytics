@@ -25,14 +25,14 @@ Follow these links to get to each of the sample applications:
 
 ### Spark Setup
 
-To get Spark 2.2.1 on your system, follow these steps:
+To get Spark 2.4.6 on your system, follow these steps:
 
-* Go to: https://archive.apache.org/dist/spark/spark-2.2.1/ to download Spark release "2.2.1"
-* From that folder, download spark-2.2.1-bin-hadoop2.6.tgz that is built for Hadoop 2.6
-* Wherever you stored the tired file above (e.g. under "/home/<userid>), open the archive using: tar -xvf spark-2.0.2-bin-hadoop2.7.tgz
+* Go to: https://archive.apache.org/dist/spark/spark-2.4.6/ to download Spark release "2.4.6"
+* From that folder, download spark-2.4.6-bin-hadoop2.6.tgz that is built for Hadoop 2.6
+* Wherever you stored the tired file above (e.g. under "/home/<userid>), open the archive using: tar -xvf spark-2.4.6-bin-hadoop2.6.tgz
 * In the window you want to execute remote applications, set the SPARK_HOME using the directory where you untared (e.g., /home/<userid>) and set:
-   * `export SPARK_HOME=<directory where untared>/spark-2.2.1-bin-hadoop2.6`
-   * E.g., `export SPARK_HOME=/home/<userid>/spark-2.2.1-bin-hadoop2.6`
+   * `export SPARK_HOME=<directory where untared>/spark-2.4.6-bin-hadoop2.6`
+   * E.g., `export SPARK_HOME=/home/<userid>/spark-2.4.6-bin-hadoop2.6`
 
 Or refer to the script used for the [container setup](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh)
 
