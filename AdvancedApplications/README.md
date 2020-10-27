@@ -2,14 +2,12 @@
 
 ## Introduction 
 
-This document provides the information to set up your system and run the IBM Streams application
-and remote acess appplications on Event Store. 
+This document provides information to set up and environment in which you can run the IBM Streams application
+and remote acess appplications on Event Store. You have the option of either manually setting up the run-time environment or creating a container called eventstore_demo container in which everything is pre-configured.
 
-> Note: You don't have to manually set up the run-time environment in the eventstore_demo container, where everything is pre-configured.
+The following directories contain step by step instructions on ingesting data using IBM Streams and running external applications using several access methods including Python, Java, Scala, and directly using JDBC. 
 
-In this section we included mutiple directories, each with sample applications and step by step instructions to start ingesting data using IBM Streams and follow that with running external applications from your favourite access method. including Python, Java, Scala, or directly using JDBC. 
-
-Follow these links to get to each of the sample applications:
+Follow these links to get to specifics for each sample application:
 
 * [Scala sample application to ingest and query](ScalaApplication/README.md)
 * [IBM Streams sample application for ingesting](IngestUsingIBMStreams/README.md)
@@ -17,90 +15,94 @@ Follow these links to get to each of the sample applications:
 * [Python sample application](PythonApplication/README.md)
 * [JDBC sample application](JDBCApplication/README.md)
 
-## Setup your environment to run these sample applications
+## Environment setup to run sample applications
 
-> Note the following assumes you are running these examples from a RedHat / CentOS environment. Use these as a guidance to complete your setup if you are running from a different environment.
+You have the option of either setting up the environment in a docker container for all applications or picking a specific appliciaton. It is assumed you are running in a RedHat / CentOS environment. If that is not true, use this material as guidance to complete your setup.
 
-> Note that this repository allows you to build a docker container following the instructions in the [container folder in this repository](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/container) that already has all of the environment set up to run all sample applications.
+### Docker container option
 
-### Spark Setup
+Instructions to build a docker container are found [her](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/container). The container is configured to run all sample applications.
 
-To get Spark 2.4.6 on your system, follow these steps:
+### Specific applicaition option
 
-* Go to: https://archive.apache.org/dist/spark/spark-2.4.6/ to download Spark release "2.4.6"
-* From that folder, download spark-2.4.6-bin-hadoop2.6.tgz that is built for Hadoop 2.6
-* Wherever you stored the tired file above (e.g. under "/home/<userid>), open the archive using: tar -xvf spark-2.4.6-bin-hadoop2.6.tgz
-* In the window you want to execute remote applications, set the SPARK_HOME using the directory where you untared (e.g., /home/<userid>) and set:
-   * `export SPARK_HOME=<directory where untared>/spark-2.4.6-bin-hadoop2.6`
-   * E.g., `export SPARK_HOME=/home/<userid>/spark-2.4.6-bin-hadoop2.6`
+#### Spark Setup
 
-Or refer to the script used for the [container setup](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh)
+To install Spark 2.4.6, follow these steps:
 
-### Java Setup
+* Go to https://archive.apache.org/dist/spark/spark-2.4.6/
+* Download spark-2.4.6-bin-hadoop2.6.tgz (suggest using  "/home/<userid>)
+* Where the tar file was downloaded to open the archive using
+  `tar -xvf spark-2.4.6-bin-hadoop2.6.tgz`
+* In the terminal session the remote application(s) will be run, set the SPARK_HOME variable using the directory where the archived was untarred (e.g., /home/<userid>).
+`export SPARK_HOME=/home/<userid>/spark-2.4.6-bin-hadoop2.6`
+
+You can also refer to the script used to set up the [container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh) if yuu would like to see the details of what was run.
+
+#### Java Setup
 
 To set up java (for java 1.8) use: 
 
-* `sudo yum install java`
-* `sudo yum install java-devel`
+`sudo yum install java`
+`sudo yum install java-devel`
 
-Or refer to the script used for the [container setup](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-java.sh)
+You can also refer to the script used to set up the [container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-java.sh) f yuu would like to see the details of what was run.
 
-### Scala Setup
+#### Scala Setup
 
 To set up scala use:
 
-* `wget http://downloads.typesafe.com/scala/2.11.8/scala-2.11.8.rpm`
-* `sudo rpm -ihv scala-2.11.8.rpm`
+`wget http://downloads.typesafe.com/scala/2.11.8/scala-2.11.8.rpm`
+`sudo rpm -ihv scala-2.11.8.rpm`
 
-Or refer to the script used for the [container setup](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-scala.sh)
+You can also refer to the script used to set up the [container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-scala.sh) f yuu would like to see the details of what was run.
 
-### SBT Setup
+#### SBT Setup
 
 To set up SBT use:
 
-* `curl https://bintray.com/sbt/rpm/rpm | sudo tee /etc/yum.repos.d/bintray-sbt-rpm.repo`
-* `sudo yum install sbt-launcher-packaging`
-* You can see the version with: `sbt sbtVersion`
+`curl https://bintray.com/sbt/rpm/rpm | sudo tee /etc/yum.repos.d/bintray-sbt-rpm.repo`
+`sudo yum install sbt-launcher-packaging`
 
-Or refer to the script used for the [container setup](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-scala.sh)
+To find the version use 
 
-### Python Setup
+`sbt sbtVersion`
 
-To setup the python environment
+You can also refer to the script used to set up the [container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-scala.sh) yuu would like to see the details of what was run.
 
-* Download and setup Python 3.6.8 
-   * Download the package from https://www.python.org/ftp/python/3.6.8 and open the archive
-   * Run the following to configure the downloaded package and install it 
-      * ```./configure --enable-optimizations```
-      * ```make altinstall```
-* You will need to have pandas and numpy installed to execute the generate.sh locally so you should run the following (for Centos Linux):
-   * `sudo yum install python-pip`
-   * `sudo pip install numpy`
-   * `sudo pip install pandas`
-* Get pip3 follow: https://www.liquidweb.com/kb/how-to-install-pip-on-centos-7/
-   * Install any additional required modules. For this application, you need the PySpark module:
-      * `pip3 install pyspark`
+#### Python Setup
 
-Or refer to the script used for the [container setup](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-python.sh)
+To setup the Python 3.6.8 environment do the following. You will need to have pandas and numpy installed to execute the generate.sh locally(for Centos Linux) .
 
-### ODBC/DB2CLI Setup
+* Download the package from https://www.python.org/ftp/python/3.6.8
+* Open the archive
+`cd /<directory archived was tarred into>
+`./configure --enable-optimizations`
+`make altinstall`
+`sudo yum install python-pip`
+`sudo pip install numpy`
+`sudo pip install pandas`
+* Install pip3 following thes instructins: https://www.liquidweb.com/kb/how-to-install-pip-on-centos-7/
+* Install the PySpark module
+`pip3 install pyspark`
+
+You can also refer to the script used to set up the [container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-python.sh) yuu would like to see the details of what was run.
+
+#### ODBC/DB2CLI Setup
 
 To setup the ODBC client environment
 
-* Download the 11.5 GA version IBM Data Server Client Package according to your host platform from:
+* Download the 11.5 GA version IBM Data Server Client Package from the following site that is for your host platform. You maybe required to have an IBM id in order to download. After the file is downloaded you may need to copy it to your host. 
   https://www.ibm.com/support/pages/download-initial-version-115-clients-and-drivers
 > Note: Download this version **IBM Data Server Driver Package (Linux AMD64 and Intel EM64T)** if setting up for the [demo container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container)
-* Unpack the package at any location
-   * `tar -xvf ibm_data_server_driver_package_linuxx64_v11.5.tar.gz -C <ds_driver_path>`
-* Unpack the odbc client to under the server package to any location.
-   * `tar -xvf <ds_driver_path>/dsdriver/odbc_cli_driver/linuxamd64(or your own platform)/ibm_data_server_driver_for_odbc_cli.tar.gz -C <odbc_path>`
-* Copy the gssplugin libraries from the IBM Data Server Driver Package to the directory where you unpacked your odbc client.
-   * `cp -r <ds_driver_path>/<security32|security64> <odbc_path>/`
-   * the gssplugin libraries will be used by ODBC client to connect to Eventstore.
-   * The plugin will not be picked up by the ODBC client if you move it to other directories under the ODBC client directory. 
-* Remember the `odbc_path` if you later wish to run [the ODBC example APP](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications/ODBCApplication)
+* Go the location where the IBM Data Server Driver Package was saved on your host and unpack it. 
+`tar -xvf ibm_data_server_driver_package_linuxx64_v11.5.tar.gz -C <ds_driver_path>`
+* Unpack the odbc client which is in the odbc_cli_driver directory under the package you just unpacked. For example, the client file ibm_data_server_driver_for_odbc_cli.tar.gz might be found at /root/dsdriver/odbc_cli_driver/linuxamd64 if you packed in /rot/dsdriver. The directory you specify in <odbc_path> must exist. If you use /root the underlying directories will be created. 
+`tar -xvf <ds_driver_path>/odbc_cli_driver/<your platform>/ibm_data_server_driver_for_odbc_cli.tar.gz -C <odbc_path>`
+* The gssplugin libraries must be copied from the secuity32 or security64 directory (depending on your host) which is in the IBM Data Server Driver Package to the directory where you unpacked your odbc client. The gssplugin libraries are used by the ODBC client to connect to Eventstore. The plugin will not be picked up by the ODBC client if you move it to other directories under the ODBC client directory.
+`cp -r <ds_driver_path>/<security directory> <odbc_path>`
+* You will need the `odbc_path` if you want to run [the ODBC example application](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications/ODBCApplication),
 
-### Downloading the IBM Db2 Event Store client JAR
+#### Downloading the IBM Db2 Event Store client JAR
 
 To get the client jar go to the following and download the jar:
 
@@ -112,7 +114,7 @@ To get the JDBC client jar go to the following and download the jar:
   
 * https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.2.1
 
-### Downloading the IBM Db2 Event Store Python package
+#### Downloading the IBM Db2 Event Store Python package
 
 To get the IBM Db2 Event Store python package follow these instructions: 
 
