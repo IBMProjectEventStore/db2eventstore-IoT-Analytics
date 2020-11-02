@@ -91,16 +91,24 @@ You can also refer to the script used to set up the [container](https://github.c
 
 To setup the ODBC client environment
 
-* Download version 11.5 GA of the IBM Data Server Client Package from the following site whic is for your host platform. You may be required to have an IBM id in order to download. After the file is downloaded you may need to copy it to your host. 
+* Download version 11.5 GA of the IBM Data Server Driver Package (including the ODBC driver) or IBM Data Server Driver for ODBC and CLI from the site below, selecting your host platform. You are required to have an IBM id in order to download this package. After the file is downloaded you need to copy it to the host or the container from where you intend to run your ODBC application. 
+
   https://www.ibm.com/support/pages/download-initial-version-115-clients-and-drivers
-> Note: Download this version **IBM Data Server Driver Package (Linux AMD64 and Intel EM64T)** if setting up for the [demo container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container)
+  
+> Note: Download this version **IBM Data Server Driver Package (Linux AMD64 and Intel EM64T)** if setting up for the [demo container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container) and copy this within the container.
+
 * Go the location where the IBM Data Server Driver Package was saved on your host and unpack it.
 
 `tar -xvf ibm_data_server_driver_package_linuxx64_v11.5.tar.gz -C <ds_driver_path>`
-* Go to the package you just Unpacked and unpack the odbc client in the odbc_cli_driver directory.  For example, ibm_data_server_driver_for_odbc_cli.tar.gz might in /root/dsdriver/odbc_cli_driver/linuxamd64. The directory you specify in <odbc_path> must exist. 
-`tar -xvf <ds_driver_path>/odbc_cli_driver/<your platform>/ibm_data_server_driver_for_odbc_cli.tar.gz -C <odbc_path>`
-* The gssplugin libraries must be copied from the secuity32 or security64 directory (depending on your host) which is in the IBM Data Server Driver Package to the directory where you unpacked your odbc client. The gssplugin libraries are used by the ODBC client to connect to Eventstore. The plugin will not be picked up by the ODBC client if you move it to other directories under the ODBC client directory.
-`cp -r <ds_driver_path>/<security directory> <odbc_path>`
+
+* Go to the package you just Unpacked and unpack the ODBC client in the `odbc_cli_driver` directory. For example, `ibm_data_server_driver_for_odbc_cli.tar.gz` might be in `/root/dsdriver/odbc_cli_driver/linuxamd64` (that is `<ds_driver_path>/odbc_cli_driver/<your platform>/ibm_data_server_driver_for_odbc_cli.tar.gz`). The directory you specify in `<odbc_path>` must be created before trying to unpack the ODBC client (for example `mkdir odbcpath`). 
+
+`tar -xvf dsdriver/odbc_cli_driver/linuxamd64/ibm_data_server_driver_for_odbc_cli.tar.gz -C odbcpath`
+
+* The gssplugin libraries must be copied from the `security32` or `security64` directory (depending on your host) within the IBM Data Server Driver Package (for example `<ds_driver_path>/security64`)to the directory where you unpacked your odbc client (`<odbc_path>`). The gssplugin libraries are used by the ODBC client to connect to Eventstore. The plugin will not be picked up by the ODBC client if you move it to other directories under the ODBC client directory.
+
+`cp -r dsdriver/security64/* odbcpath`
+
 * You will need the `odbc_path` if you want to run [the ODBC example application](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications/ODBCApplication),
 
 #### Downloading the IBM Db2 Event Store client JAR
