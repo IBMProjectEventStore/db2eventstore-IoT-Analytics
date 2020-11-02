@@ -24,7 +24,7 @@ IBM Cloud Pak For Data (cp4d) // Default deployment type
 - This requires the user and password options
 - For example
 
-`./dockershell.sh --endpoint 9.30.68.83 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.es-cp4d-r9.os.fyre.ibm.com --user admin --password password --deploymentType cp4d --deploymentID db2eventstore-1604331070225254
+`./dockershell.sh --endpoint 9.30.68.83 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.es-cp4d-r9.os.fyre.ibm.com --user admin --password password --deploymentType cp4d --deploymentID db2eventstore-1604331070225254`
 
 Watson Studio Local (wsl)
 - Generally the eventstore server endpoint and the rest endpoint are the same, implying you only need to specify --endpoint
