@@ -2,12 +2,12 @@
 
 ## Introduction 
 
-This document provides information to set up and environment in which you can run the IBM Streams application
-and remote acess appplications on Event Store. You have the option of either manually setting up the run-time environment or creating a container called eventstore_demo container in which everything is pre-configured.
+This document provides information to set up an environment in which you can run the IBM Streams application
+and remote acess appplications on Event Store. You have the option of either manually setting up the run-time environment or creating a container called eventstore_demo which has everything pre-configured.
 
-The following directories contain step by step instructions on ingesting data using IBM Streams and running external applications using several access methods including Python, Java, Scala, and directly using JDBC. 
+The following directories contain step by step instructions on ingesting data using IBM Streams and running external applications using several access methods. 
 
-Follow these links to get to specifics for each sample application:
+Follow these links to get the specifics for each sample application:
 
 * [Scala sample application to ingest and query](ScalaApplication/README.md)
 * [IBM Streams sample application for ingesting](IngestUsingIBMStreams/README.md)
@@ -17,11 +17,11 @@ Follow these links to get to specifics for each sample application:
 
 ## Environment setup to run sample applications
 
-You have the option of either setting up the environment in a docker container for all applications or picking a specific appliciaton. It is assumed you are running in a RedHat / CentOS environment. If that is not true, use this material as guidance to complete your setup.
+You have the option of either setting up the environment in a docker container for applications above or picking a specific appliciaton and setting up that specific environment. It is assumed you are running in a RedHat / CentOS environment. If that is not true, use this material as guidance to complete your setup.
 
 ### Docker container option
 
-Instructions to build a docker container are found [her](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/container). The container is configured to run all sample applications.
+Instructions to build a docker container are found [here](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/container). The container is configured to run all sample applications.
 
 ### Specific applicaition option
 
