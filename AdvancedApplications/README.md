@@ -109,7 +109,7 @@ To setup the ODBC client environment
 
 `cp -r dsdriver/security64/* odbcpath`
 
-* You will need the `odbc_path` if you want to run [the ODBC example application](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications/ODBCApplication),
+* You will need the `<odbc_path>` (in the exampl, `odbcpath`) if you want to run [the ODBC example application](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications/ODBCApplication),
 
 #### Downloading the IBM Db2 Event Store client JAR
 
