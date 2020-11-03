@@ -107,7 +107,7 @@ To setup the ODBC client environment
 
 * Then copy the gssplugin libraries from the `security32` or `security64` directory (depending on your architecture) within the IBM Data Server Driver Package (for example `<ds_driver_path>/security64`) to the directory where you unpacked your odbc client (`<odbc_path>`). The gssplugin libraries are used by the ODBC client to connect to Db2 Event Store. The plugin will not be picked up by the ODBC client if you move it to other directories under the ODBC client directory.
 
-`cp -r <ds_driver_path>/security64/* <odbc_path>`
+`cp -r <ds_driver_path>/security64 <odbc_path>/clidriver`
 
 * You will need the `<odbc_path>` if you want to run [the ODBC example application](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications/ODBCApplication).
 
