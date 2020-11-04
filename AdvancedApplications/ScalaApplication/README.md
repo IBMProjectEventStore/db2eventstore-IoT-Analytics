@@ -1,6 +1,4 @@
-# Instructions to run IBM Streams and remote applications for IBM Db2 Event Store
-
-## Scala remote application setup
+# Scala remote application setup
 
 The simplest option is to use the Docker container provided in this repository that is configured to run the application. 
 
@@ -16,6 +14,7 @@ To run a Scala example with SBT, cd to the [`sbtproj`](sbtproj/README.md) direct
 
 The application will create a table, insert a small number of rows and query the inserted rows. To run the Scala example, follow these steps:
 
-1. In [runscalaExample](runscalaExample), change the client jar defined with `ESLIB` to the directory where the client Spark jar file, for example ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar, is located. The Spark jar file was obtained from Maven earlier from [here](https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.2.1)).
+1. In [runscalaExample](runscalaExample), change the client jar defined with `ESLIB` to the directory where the client Spark jar file, for example ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar, is located. The Spark jar file was obtained from Maven earlier [here](https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.2.1).
 2. Run the Scala application by executing the following script from the command line
+
 `./runscalaExample`
