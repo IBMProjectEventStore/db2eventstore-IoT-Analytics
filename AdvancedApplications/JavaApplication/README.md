@@ -2,7 +2,7 @@
 
 The simplest option is to use the [docker container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container) provided in this repository which is preconfigured to run the application. 
 
-Alternatively, you can use the script used to set up Java in the Docker container to set up your environment. The script can be found in the [here](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-java.sh). You will also need to run the script to configure SSL that can be found [here](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-ssl.sh). You will also need to set up the environment variables
+Alternatively, you can use the script used to set up Java in the Docker container to set up your environment. The script can be found [here](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-java.sh). You will also need to run the script to configure SSL that can be found [here](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-ssl.sh). You will also need to set up the environment variables
 * IP with the cluster IP address
 * EVENT_USER with the user name
 * EVENT_PASSWORD with the user password 
