@@ -1,6 +1,15 @@
-# Instructions on How to Run the IBM Streams and Remote Applications For IBM Db2 Event Store
+# Using the sample JDBC Remote Application
 
-## Using the sample JDBC Remote Application
+The simplest option is to use the Docker container provided in this repository that is configured to run the application.  The JCBC application creates the table ADMIN.IOT_TEMP, inserts a number of rows from a csv file and queries the first 10 rows. 
+
+## Container option
+
+1. In runExampleJDBCApp change the client jar defined with ESLIB to the directory where the client Spark jar file, for example ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar, is located. The Spark file was obtained from Maven earlier [here](https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.2.1)). This JAR includes the Db2 Standard JDBC client. Alternatively, you can download the Db2 JDBC client driver from the IBM Data Server Client Packages page under the IBM Support [website](https://www-01.ibm.com/support/docview.wss?uid=swg21385217).
+6. Run the JDBC java application by running the following script from the command line:
+
+`./runJDBCExample`
+
+## Manual setup option
 
 Follow these steps for running the JDBC java sample application ExampleJDBCApp.java:
 1. First we will need to know the external IP and port to be used for JDBC connections. To do this, login to the master node 1 of the installed Db2 Event Store system and run: `kubectl get sac -n dsx`
