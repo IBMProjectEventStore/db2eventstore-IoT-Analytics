@@ -23,7 +23,7 @@ You have the option of either setting up the environment in a docker container f
 
 Instructions to build a docker container are found [here](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/container). The container is configured to run all sample applications.
 
-### Specific applicaition option
+### Specific application option
 
 #### Spark Setup
 
