@@ -35,9 +35,9 @@ To open an interactive user interface that can be used to run queries, complete 
 
 2. Before running the following command a number of parameters must be substituted.
 
-  * `<server_certificate_path>` is the path that you obtained above using the rest API/setup script, or the environment variable $SERVER_CERT_PATH
-   * `<IP>`  is the IP address of your eventstore cluster, or the environment variable $IP
-   * `<Db2_port>` is the port used for Db2 (can be found in the Clould Pak for Data UI)
-   * `<username>`and `<password>` is your eventstore user credentials, or the environment variables $EVENT_USER and $EVENT_PASSWORD
+  * <server_certificate_path> is the path that you obtained above using the rest API/setup script, or the environment variable $SERVER_CERT_PATH
+   * <IP>  is the IP address of your eventstore cluster, or the environment variable $IP
+   * <Db2_port> is the port used for Db2 (can be found in the Clould Pak for Data UI)
+   * <username> and <password> is your eventstore user credentials, or the environment variables $EVENT_USER and $EVENT_PASSWORD
 
 `./db2cli execsql -connstring "DATABASE=eventdb; Protocol=tcpip; Authentication=GSSPLUGIN; Security=ssl; SSLServerCertificate=<server_certificate_path>; HOSTNAME=<IP>; PORT=<Db2_port>; UID=<username>; PWD=<password>"`
