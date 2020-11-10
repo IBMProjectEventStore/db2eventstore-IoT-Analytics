@@ -13,7 +13,7 @@ db2port = os.environ['DB2_PORT'];
 esport = os.environ['ES_PORT'];
 print("Connecting to {}".format(ip))
 ConfigurationReader.setConnectionEndpoints("{}:{};{}:{}".format(ip,db2port,ip,esport))
-ConfigurationReader.setConnectionTimeout(2)
+ConfigurationReader.setConnectionTimeout(10)
 
 # set user credential
 ConfigurationReader.setEventUser(os.environ['EVENT_USER']);

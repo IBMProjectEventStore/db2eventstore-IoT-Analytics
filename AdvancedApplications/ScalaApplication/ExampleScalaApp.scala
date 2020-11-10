@@ -17,7 +17,7 @@ object ExampleScalaApp {
     val esport = sys.env("ES_PORT")
     println(s"Connecting to $ip;")
     ConfigurationReader.setConnectionEndpoints(s"$ip:$db2port;$ip:$esport")
-    ConfigurationReader.setConnectionTimeout(2)
+    ConfigurationReader.setConnectionTimeout(10)
     
     // set user credential
     ConfigurationReader.setEventUser(sys.env("EVENT_USER"))
