@@ -11,7 +11,7 @@ Regardless if you are running inside the Docker container or creating your own e
 * EVENT_PASSWORD with the Event Store user password
 * SERVER_CERT_PATH with the server cetificate path which is set when SSL is configured in the Docker container. If not running in the Docker container you must set the variable
 
-## Running the example app ExampleODBCApp.c
+## Running the example app ExampleODBCApp
 
 1. Compile the app by executing the following. The <odbc_client_path> is where the ODBC client was unpacked during the environment setup. The script finds the ODBC headers under `<odbc_client_path>/include`, compiles the main app ExampleODBCApp.c, a helper utilcli.c which checks for errors and returns diagnostic message and links the db2 library under <odbc_client_path>/lib
 
