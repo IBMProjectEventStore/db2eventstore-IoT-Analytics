@@ -1,8 +1,8 @@
 # ODBC Remote Application / DB2CLI Execution Steps:
 
-Prior to running the ODBC sample application you must first set up the ODBC/DB2CLI environment. If you are using the Docker container, the ODBC/DB2CLI Setup instructions are executed inside the container. The steps for the ODBC/DB2CLI Setup are found [here](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications#odbcdb2cli-setup).  
+Prior to running the ODBC sample application you must set up the ODBC/DB2CLI environment. If you are using the Docker container, the ODBC/DB2CLI Setup instructions that follow must be executed inside the container. The instructions for the ODBC/DB2CLI Setup are found [here](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications#odbcdb2cli-setup).  
 
-If you are not running in the Docker container, run the script used in the container setup which configures SSL, it can be found [here](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-ssl.sh). The script downloads the SSL server certificate through the REST API. This is necessary as Db2 Event Store is configured with SSL using a dynamically generated self signed certificate out of the box. 
+If you are not running in the Docker container, run the script found [here](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-ssl.sh) to download the SSL server certificate. This is necessary as Db2 Event Store is configured with SSL using a dynamically generated self signed certificate out of the box. 
 
 Regardless if you are running inside the Docker container or creating your own environment, the following environment variables must be set up prior to running the ODBC sample application. 
 
