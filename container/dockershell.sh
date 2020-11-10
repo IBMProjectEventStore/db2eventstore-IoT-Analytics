@@ -9,6 +9,7 @@ declare -r deployTypeCp4d="cp4d"
 declare -r deployTypeWsl="wsl"
 declare -r deployTypeDeveloper="developer"
 declare -r defaultDeployType=$deployTypeCp4d
+declare -r defaultNamespace="zen"
 
 if [ -f ${HOME}/.user_info ]; then
     printf "File: '.user-info' found in the current directory."
@@ -16,6 +17,8 @@ if [ -f ${HOME}/.user_info ]; then
     EVENT_USER=$(grep  "username" ${HOME}/.user_info |awk {'print $2'})
     EVENT_PASSWORD=$(grep  "password" ${HOME}/.user_info |awk {'print $2'})
 fi
+
+NAMESPACE=${defaultNamespace}
 
 function usage()
 {
@@ -44,6 +47,9 @@ OPTIONS:
                   cp4d (Cloud Pak for Data deployments)
                   wsl (WSL deployments)
                   developer (developer container deployments)
+--namespace
+               cp4d deployments could be installed on a user defined namespace. Use this
+               to override the default "zen" namespace.
 --deploymentID
                cp4d deployments utilize a per database deployment ID that must be specified.
                This can be found in the database details page on the IBM Cloud Pak for Data UI console.
@@ -79,6 +85,10 @@ while [ -n "$1" ]; do
         ;;                 
     --deploymentType)
         DEPLOYMENT_TYPE="$2"
+        shift 2
+        ;;
+    --namespace)
+        NAMESPACE="$2"
         shift 2
         ;;
     --deploymentID)
@@ -170,7 +180,7 @@ if [ $DEPLOYMENT_TYPE = $deployTypeDeveloper ]; then
 fi
 
 docker run -it --name eventstore_demo_${EVENT_USER} -v ${USER_VOLUME}:/root/user_volume \
-    -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWORD=${EVENT_PASSWORD} -e IP=${ENDPOINT} -e IPREST=${ENDPOINT_REST} -e DB2_PORT=${DB2_PORT} -e ES_PORT=${ES_PORT} -e DEPLOYMENT_TYPE=${DEPLOYMENT_TYPE} -e DEPLOYMENT_ID=${DEPLOYMENT_ID}\
+    -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWORD=${EVENT_PASSWORD} -e IP=${ENDPOINT} -e IPREST=${ENDPOINT_REST} -e DB2_PORT=${DB2_PORT} -e ES_PORT=${ES_PORT} -e DEPLOYMENT_TYPE=${DEPLOYMENT_TYPE} -e NAMESPACE=${NAMESPACE} -e DEPLOYMENT_ID=${DEPLOYMENT_ID}\
     eventstore_demo:latest bash -c "$entryPoint"
 
 printf "Cleaning up dangling images and/or exited containers"
