@@ -33,7 +33,7 @@ To open an interactive user interface that can be used to run queries, complete 
 
 `cd <odbc_client_path>/bin`
 
-2. Before running the following command a number of parameters must be substituted.
+2. Before running the following command a number of parameters must be provided.
 
   * server_certificate_path is the path that you obtained using the rest API/setup script, you could use the environment variable $SERVER_CERT_PATH
   * IP is the IP address of your Event Store cluster, you could use the environment variable $IP
