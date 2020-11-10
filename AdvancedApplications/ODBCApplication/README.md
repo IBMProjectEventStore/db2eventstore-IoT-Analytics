@@ -24,12 +24,19 @@ Regardless if you are running inside the Docker container or creating your own e
 
 `./bldExampleODBCApp --clean`
 
-### To run the DB2 interactive CLI, follow these steps:
+## Running the Db2 interactive CLI
+
+To open an interactive user interface that can be used to run queries, complete the following steps. 
+
 1. Go to ODBC client bin directory
+
 `cd <odbc_client_path>/bin`
-2. Run the following command
-`./db2cli execsql -connstring "DATABASE=eventdb; Protocol=tcpip; Authentication=GSSPLUGIN; Security=ssl; SSLServerCertificate=<server_certificate_path>; HOSTNAME=<IP>; PORT=18730; UID=<username>; PWD=<password>"`
-   * `<server_certificate_path>` is the path that you obtained above using the rest API/setup script, or the environment variable `$SERVER_CERT_PATH` if configured SSL through the setup script mentioned above.
-   * `<IP>`  is the IP address of your eventstore cluster, or the environment variable `$IP`.
-   * `<username>`and `<password>` is your eventstore user credentials, or the environment variables `$EVENT_USER` `EVENT_PASSWORD`.
-3. The command will open an interactive user interface. Run queries on it!
+
+2. Run this command after providing the information like the IP address of the cluster. You can find the port being used by Db2 in the Cloud Pak 4 Data user interface. 
+
+`./db2cli execsql -connstring "DATABASE=eventdb; Protocol=tcpip; Authentication=GSSPLUGIN; Security=ssl; SSLServerCertificate=<server_certificate_path>; HOSTNAME=<IP>; PORT=<Db2_port>; UID=<username>; PWD=<password>"`
+
+   * `<server_certificate_path>` is the path that you obtained above using the rest API/setup script, or the environment variable `$SERVER_CERT_PATH` if SSL was configured through the setup script mentioned above
+   * `<IP>`  is the IP address of your eventstore cluster, or the environment variable `$IP`
+   * `<Db2_port>` is the port used for Db2 (can be found in the Clould Pak for Data UI)
+   * `<username>`and `<password>` is your eventstore user credentials, or the environment variables `$EVENT_USER` `$EVENT_PASSWORD`
