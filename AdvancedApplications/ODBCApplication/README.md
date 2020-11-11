@@ -9,6 +9,7 @@ Regardless if you are running inside the Docker container or creating your own e
 * IP with the cluster's IP address
 * EVENT_USER with the Event Store user name
 * EVENT_PASSWORD with the Event Store user password
+* DB2_PORT with the port used by Db2
 * SERVER_CERT_PATH with the server cetificate path which is set when SSL is configured in the Docker container. If not running in the Docker container you must set the variable
 
 ## Running the example app ExampleODBCApp
@@ -37,7 +38,7 @@ To open an interactive user interface that can be used to run queries, complete 
 
   * server_certificate_path is the path that you obtained using the rest API/setup script, you could use the environment variable $SERVER_CERT_PATH
   * IP is the IP address of your Event Store cluster, you could use the environment variable $IP
-  * Db2_port is the port used for Db2 (can be found in the Clould Pak for Data UI)
+  * Db2_port is the port used for Db2 (can be found in the Clould Pak for Data UI), you could use the environment variable $DB2_PORT
   * username and password are your Event Store user credentials, you could use the environment variables $EVENT_USER and $EVENT_PASSWORD
 
 `./db2cli execsql -connstring "DATABASE=eventdb; Protocol=tcpip; Authentication=GSSPLUGIN; Security=ssl; SSLServerCertificate=<server_certificate_path>; HOSTNAME=<IP>; PORT=<Db2_port>; UID=<username>; PWD=<password>"`
