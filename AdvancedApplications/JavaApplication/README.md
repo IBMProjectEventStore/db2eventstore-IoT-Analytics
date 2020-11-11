@@ -10,7 +10,7 @@ Alternatively, you can use the script used to set up Java in the Docker containe
 # Running Java application
 The application creates a table, inserts batches of rows and executes a select statement from the table to retrieve all the rows inserted. To run the Java example follow these steps:
 
-1. In runjavaExample, change the client jar locatin defined by ESLIB to the directory where the client Spark jar file, for example ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar, is located.  The jar file was obtained from Maven earlier [here](https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.2.1).
+1. In runjavaExample, change the client jar location defined by ESLIB to the directory where the client Spark jar file, for example ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar, is located.  The jar file was obtained from Maven earlier [here](https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.2.1).
 2. Run the Java application by executing the following script from the command line
 
 [`./runjavaExample`](./runjavaExample)
