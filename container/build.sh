@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TAG="latest"
+TAG="V2.0.0.5"
 BRANCH="master"
 TIMESTAMP=`date "+%Y-%m-%d-%H:%M:%S"`
 
