@@ -1,8 +1,7 @@
 FROM registry.access.redhat.com/ubi7/ubi:latest
 LABEL maintainer "Chen Gao <Chen.Gao@.ibm.com>"
 
-ENV IOT_REPO_PATH=/root/db2eventstore-IoT-Analytics \
-    KAFKA_REPO_PATH=/root/db2eventstore-kafka
+ENV IOT_REPO_PATH=/root/db2eventstore-IoT-Analytics 
 ARG SETUP_AREA=${IOT_REPO_PATH}/container/setup
 ARG BRANCH=master
 
@@ -37,19 +36,11 @@ RUN echo -e 'startup_message off \nhardstatus on \nhardstatus alwayslastline \nv
 # Setup vim 
 RUN echo -e 'syntax enable \nset tabstop=4 \nset number \nset hlsearch \nset incsearch' > ${HOME}/.vimrc
 
-# Setup spark/scala/python/rest
+# Setup rest
 ENV SPARK_HOME="/spark_home"
 ENV PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
-RUN ${SETUP_AREA}/setup-java.sh
-RUN ${SETUP_AREA}/setup-spark.sh
-RUN ${SETUP_AREA}/setup-scala.sh
-RUN ${SETUP_AREA}/setup-python.sh
-RUN ${SETUP_AREA}/setup-kafka.sh
 RUN ${IOT_REPO_PATH}/rest/install.sh
 
-# Copy ES 2.0.1.0 client libraries
-RUN echo "Downloading Event Store 2.0.1.0 client libraries, it will take some time..."
-RUN wget -P ${SPARK_HOME}/jars/ https://repo1.maven.org/maven2/com/ibm/event/ibm-db2-eventstore-client-spark-2.4.6/2.0.1.0/ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar
 
 # Create client config file
 RUN mkdir -p /bluspark/external_conf/
