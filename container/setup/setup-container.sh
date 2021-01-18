@@ -7,6 +7,7 @@ else
    ES_VERSION=\"${1}\"
 fi
 
+USER_VOLUME=/root/user_volume
 
 # set the version variables
 SPARK_VERSION=$(jq -r .release.${ES_VERSION}.sparkversion $USER_VOLUME/es-releases.json)
@@ -18,9 +19,9 @@ SETUP_AREA=${IOT_REPO_PATH}/container/setup
 
 # comment out some of the setup so it runs faster during testing
 ${SETUP_AREA}/setup-java.sh
-# ${SETUP_AREA}/setup-spark.sh
+${SETUP_AREA}/setup-spark.sh
 ${SETUP_AREA}/setup-scala.sh
 ${SETUP_AREA}/setup-python.sh
 
-echo "Downloading Event Store $(ES_VERSION} client library, this may take some time please standby..."
-wget -P /spark_home/jars https://$SPARK_CLIENT
+echo "Downloading Event Store Spark client for selected version, this may take some time"
+wget -P ${SPARK_HOME}/jars https://$SPARK_CLIENT
