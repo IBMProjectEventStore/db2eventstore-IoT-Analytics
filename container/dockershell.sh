@@ -181,13 +181,19 @@ fi
 mkdir -p ${USER_VOLUME}
 # start container in interactive mode
 
-entryPoint="env && ${SETUP_PATH}/setup-ssl.sh && ${SETUP_PATH}/setup-container.sh  && ${SETUP_PATH}/entrypoint_msg.sh && bash --login"
+echo "setting the entrypoint variable"
+echo $SETUP_PATH
+entryPoint="env && ${SETUP_PATH}/setup-ssl.sh && ${SETUP_PATH}/setup-container.sh ${ES_VERSION} && ${SETUP_PATH}/entrypoint_msg.sh && bash --login"
+echo $entryPoint
 
 # For developer deployment types there SSL is not enabled so do not execute the
 # corresponding setup.
 if [ $DEPLOYMENT_TYPE = $deployTypeDeveloper ]; then
    entryPoint="${SETUP_PATH}/entrypoint_msg.sh && bash --login"
 fi
+
+# copy json file to mount in container
+RUN cp es-releases.json $USER_VOLUME
 
 docker run -it --name eventstore_demo_${EVENT_USER} -v ${USER_VOLUME}:/root/user_volume \
     -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWORD=${EVENT_PASSWORD} -e IP=${ENDPOINT} -e IPREST=${ENDPOINT_REST} -e DB2_PORT=${DB2_PORT} -e ES_PORT=${ES_PORT} -e DEPLOYMENT_TYPE=${DEPLOYMENT_TYPE} -e NAMESPACE=${NAMESPACE} -e DEPLOYMENT_ID=${DEPLOYMENT_ID}\
