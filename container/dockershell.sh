@@ -193,7 +193,7 @@ if [ $DEPLOYMENT_TYPE = $deployTypeDeveloper ]; then
 fi
 
 # copy json file to mount in container
-RUN cp es-releases.json ${HOME}/eventstore_demo_volume
+cp es-releases.json ${HOME}/eventstore_demo_volume
 
 docker run -it --name eventstore_demo_${EVENT_USER} -v ${USER_VOLUME}:/root/user_volume \
     -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWORD=${EVENT_PASSWORD} -e IP=${ENDPOINT} -e IPREST=${ENDPOINT_REST} -e DB2_PORT=${DB2_PORT} -e ES_PORT=${ES_PORT} -e DEPLOYMENT_TYPE=${DEPLOYMENT_TYPE} -e NAMESPACE=${NAMESPACE} -e DEPLOYMENT_ID=${DEPLOYMENT_ID}\
