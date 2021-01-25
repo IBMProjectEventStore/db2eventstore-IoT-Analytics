@@ -36,11 +36,14 @@ RUN echo -e 'startup_message off \nhardstatus on \nhardstatus alwayslastline \nv
 # Setup vim 
 RUN echo -e 'syntax enable \nset tabstop=4 \nset number \nset hlsearch \nset incsearch' > ${HOME}/.vimrc
 
-# Setup rest
 ENV SPARK_HOME="/spark_home"
 ENV PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
-RUN ${IOT_REPO_PATH}/rest/install.sh
 
+# copy json file to user_volume
+COPY ./es-releases.json /root/user_volume
+
+# run setup-container script to set up Java, Spark, Scala, Python, Kafka, Rest
+RUN  ${SETUP_AREA}/setup-container.sh
 
 # Create client config file
 RUN mkdir -p /bluspark/external_conf/

@@ -57,7 +57,7 @@ OPTIONS:
                   e.g. "db2eventstore-1578174815082"
 --user         User name of the Event Store server
 --password     Password of the Event Store server
---es-version   The Event Store version you want to install 
+--es-version   Event Store target cluster version 
 -----------
 USAGE
 }
@@ -104,10 +104,6 @@ while [ -n "$1" ]; do
         EVENT_PASSWORD="$2"
         shift 2
         ;;
-    --es-version)
-        ES_VERSION="$2"
-        shift 2
-        ;;
     *)
         printf "Unknown option: '$1'"
         usage >&2
@@ -150,11 +146,6 @@ if [ -z ${DEPLOYMENT_TYPE} ]; then
     DEPLOYMENT_TYPE=$defaultDeployType
 fi
 
-if [ -z ${ES_VERSION} ]; then
-    printf "Event Store version (--es-version) not specified, please provide"
-    DEPLOYMENT_TYPE=$defaultDeployType
-fi
-
 case "$DEPLOYMENT_TYPE" in
    $deployTypeCp4d)
       if [ -z ${DEPLOYMENT_ID} ]; then
@@ -181,10 +172,7 @@ fi
 mkdir -p ${USER_VOLUME}
 # start container in interactive mode
 
-echo "setting the entrypoint variable"
-echo $SETUP_PATH
 entryPoint="env && ${SETUP_PATH}/setup-ssl.sh && ${SETUP_PATH}/setup-container.sh ${ES_VERSION} && ${SETUP_PATH}/entrypoint_msg.sh && bash --login"
-echo $entryPoint
 
 # For developer deployment types there SSL is not enabled so do not execute the
 # corresponding setup.
