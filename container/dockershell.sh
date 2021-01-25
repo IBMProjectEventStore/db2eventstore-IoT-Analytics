@@ -104,6 +104,10 @@ while [ -n "$1" ]; do
         EVENT_PASSWORD="$2"
         shift 2
         ;;
+     --es-version)
+        ES_VERSION="$2"
+        shift 2
+        ;;
     *)
         printf "Unknown option: '$1'"
         usage >&2
@@ -180,12 +184,9 @@ if [ $DEPLOYMENT_TYPE = $deployTypeDeveloper ]; then
    entryPoint="${SETUP_PATH}/entrypoint_msg.sh && bash --login"
 fi
 
-# copy json file to mount in container
-cp es-releases.json ${HOME}/eventstore_demo_volume
-
 docker run -it --name eventstore_demo_${EVENT_USER} -v ${USER_VOLUME}:/root/user_volume \
     -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWORD=${EVENT_PASSWORD} -e IP=${ENDPOINT} -e IPREST=${ENDPOINT_REST} -e DB2_PORT=${DB2_PORT} -e ES_PORT=${ES_PORT} -e DEPLOYMENT_TYPE=${DEPLOYMENT_TYPE} -e NAMESPACE=${NAMESPACE} -e DEPLOYMENT_ID=${DEPLOYMENT_ID}\
-    -e ES-VERSION=${ES_VERSION} eventstore_demo:latest bash -c "$entryPoint"
+    -e ES-VERSION=${ES_VERSION} eventstore_demo:${ES_VERSION} bash -c "$entryPoint"
 
 printf "Cleaning up dangling images and/or exited containers"
 docker rmi $(docker images -q -f dangling=true) > /dev/null 2>&1

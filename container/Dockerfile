@@ -41,6 +41,8 @@ ENV PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
 
 # copy json file to user_volume
 COPY ./es-releases.json /root/user_volume
+RUN ls -R /root/user_volume
+
 
 # run setup-container script to set up Java, Spark, Scala, Python, Kafka, Rest
 RUN  ${SETUP_AREA}/setup-container.sh
