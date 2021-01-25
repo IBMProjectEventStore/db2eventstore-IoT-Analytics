@@ -1,7 +1,11 @@
 FROM registry.access.redhat.com/ubi7/ubi:latest
 LABEL maintainer "Chen Gao <Chen.Gao@.ibm.com>"
 
-ENV IOT_REPO_PATH=/root/db2eventstore-IoT-Analytics 
+ENV IOT_REPO_PATH=/root/db2eventstore-IoT-Analytics
+ENV KAFKA_REPO_PATH=/root/db2eventstore-kafka 
+ENV SPARK_HOME="/spark_home"
+ENV PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+ENV ES_VERSION=latest
 ARG SETUP_AREA=${IOT_REPO_PATH}/container/setup
 ARG BRANCH=master
 
@@ -36,15 +40,20 @@ RUN echo -e 'startup_message off \nhardstatus on \nhardstatus alwayslastline \nv
 # Setup vim 
 RUN echo -e 'syntax enable \nset tabstop=4 \nset number \nset hlsearch \nset incsearch' > ${HOME}/.vimrc
 
-ENV SPARK_HOME="/spark_home"
+# Setup java/spark/scala/python/kafka/rest
 ENV PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+RUN ${SETUP_AREA}/setup-java.sh
+RUN ${SETUP_AREA}/setup-spark.sh
+RUN ${SETUP_AREA}/setup-scala.sh
+RUN ${SETUP_AREA}/setup-python.sh
+RUN ${SETUP_AREA}/setup-kafka.sh
+RUN ${IOT_REPO_PATH}/rest/install.sh
 
 # copy json file to user_volume
 COPY ./es-releases.json /root/user_volume
 RUN ls -R /root/user_volume
 
-
-# run setup-container script to set up Java, Spark, Scala, Python, Kafka, Rest
+# run setup-container script to copy clients using variable values from json file
 RUN  ${SETUP_AREA}/setup-container.sh
 
 # Create client config file
