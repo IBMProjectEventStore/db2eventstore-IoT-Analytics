@@ -4,17 +4,18 @@ The Dockerfile in this directory will build a docker image named `eventstore_dem
 
 **Procedure:**
 **Step 1: Build the docker image**
-User need to run the shell script `build.sh` to build the docker image.
-The image size is around 3.3 GB, build takes around 30 mins, depending on the network condition.
+Run the shell script `build.sh` to build the docker image.
+The image size is around 3.3 GB, build takes around 30 mins, depending on network conditions.
+The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: 2.0.1.0 and 2.0.0.5.
 ```
-./build.sh
+./build.sh --es-version <release>
 ```
 
 **Step 2: Start the docker container**
-After the image is built, user can run the shell script `dockershell.sh` to start the container and run the examples.
-The script takes 3 mandatory arguments and 3 optional ones.
+After the image is built, run the shell script `dockershell.sh` to start the container and run the examples. The Event Store release identifies which tagged image to start.
+The script takes 4 mandatory arguments and 3 optional ones.
 
-`./dockershell.sh --endpoint <EventStore_Server_Endpoint> --db2-port <db2_port_number> --es-port <es_port_number> --endpointRest <EventStore_Rest_Endpoint> --user <EventStore_Username> --password <EventStore_Password> --deploymentType <deployment type> --deploymentID <deployment ID>`
+`./dockershell.sh --endpoint <EventStore_Server_Endpoint> --db2-port <db2_port_number> --es-port <es_port_number> --endpointRest <EventStore_Rest_Endpoint> --user <EventStore_Username> --password <EventStore_Password> --deploymentType <deployment type> --deploymentID <deployment ID> --es-version <release>`
 
 How to run with different deployment types:
 
@@ -25,7 +26,7 @@ IBM Cloud Pak For Data (cp4d) // Default deployment type
 - This optionally requires the namespace/project used for the specific deployment. The default namespace/project is zen.
 - For example
 
-`./dockershell.sh --endpoint 9.30.68.83 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.es-cp4d-r9.os.fyre.ibm.com --user admin --password password --deploymentType cp4d --deploymentID db2eventstore-1604331070225254`
+`./dockershell.sh --endpoint 9.30.68.83 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.es-cp4d-r9.os.fyre.ibm.com --user admin --password password --deploymentType cp4d --deploymentID db2eventstore-1604331070225254 --es-version 2.0.1.0`
 
 Watson Studio Local (wsl)
 - Generally the eventstore server endpoint and the rest endpoint are the same, implying you only need to specify --endpoint
