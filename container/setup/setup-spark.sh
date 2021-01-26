@@ -5,6 +5,9 @@
 ## spark
 ##
 
+echo $1
+SPARK_VERSION=$1
+
 if [ -z "$SPARK_VERSION" ]
 then
    SPARK_VERSION="2.4.6"
