@@ -43,5 +43,6 @@ done
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+echo ${ES_VERSION}  ${BRANCH
 mkdir -p ${DIR}/image_build_log/
 docker build --no-cache --build-arg BRANCH="${BRANCH}" -t eventstore_demo:"${ES_VERSION}" . | tee "${DIR}/image_build_log/image_build_${TIMESTAMP}.log"

@@ -5,9 +5,10 @@ ENV IOT_REPO_PATH=/root/db2eventstore-IoT-Analytics
 ENV KAFKA_REPO_PATH=/root/db2eventstore-kafka 
 ENV SPARK_HOME="/spark_home"
 ENV PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
-ENV ES_VERSION=latest
-ARG SETUP_AREA=${IOT_REPO_PATH}/container/setup
+ARG ES_VERSION=latest
+ENV ES_VERSION=$ES_VERSION
 ARG BRANCH=master
+ARG SETUP_AREA=${IOT_REPO_PATH}/container/setup
 
 # Install neccessary packages
 RUN yum install -y \
