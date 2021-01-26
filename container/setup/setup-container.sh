@@ -14,6 +14,7 @@ USER_VOLUME=/root/user_volume
 SPARK_VERSION=$(jq -r .release.${ES_VERSION}.sparkversion $USER_VOLUME/es-releases.json)
 SPARK_CLIENT=$(jq -r .release.${ES_VERSION}.sparkclient $USER_VOLUME/es-releases.json)
 
+${SETUP_AREA}/setup-spark.sh -SPARK_VERSION $SPARK_VERSION
 
 IOT_REPO_PATH="/root/db2eventstore-IoT-Analytics"
 SETUP_AREA=${IOT_REPO_PATH}/container/setup

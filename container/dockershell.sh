@@ -176,7 +176,7 @@ fi
 mkdir -p ${USER_VOLUME}
 # start container in interactive mode
 
-entryPoint="env && ${SETUP_PATH}/setup-ssl.sh && ${SETUP_PATH}/setup-container.sh ${ES_VERSION} && ${SETUP_PATH}/entrypoint_msg.sh && bash --login"
+entryPoint="env && ${SETUP_PATH}/setup-ssl.sh && ${SETUP_PATH}/entrypoint_msg.sh && bash --login"
 
 # For developer deployment types there SSL is not enabled so do not execute the
 # corresponding setup.

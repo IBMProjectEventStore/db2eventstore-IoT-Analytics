@@ -40,21 +40,19 @@ RUN echo -e 'startup_message off \nhardstatus on \nhardstatus alwayslastline \nv
 # Setup vim 
 RUN echo -e 'syntax enable \nset tabstop=4 \nset number \nset hlsearch \nset incsearch' > ${HOME}/.vimrc
 
-# Setup java/spark/scala/python/kafka/rest
-# RUN ${SETUP_AREA}/setup-java.sh
-RUN ${SETUP_AREA}/setup-spark.sh
-# RUN ${SETUP_AREA}/setup-scala.sh
-# RUN ${SETUP_AREA}/setup-python.sh
-# RUN ${SETUP_AREA}/setup-kafka.sh
-# RUN ${IOT_REPO_PATH}/rest/install.sh
+# Setup java/scala/python/kafka/rest
+ RUN ${SETUP_AREA}/setup-java.sh
+ RUN ${SETUP_AREA}/setup-scala.sh
+ RUN ${SETUP_AREA}/setup-python.sh
+ RUN ${SETUP_AREA}/setup-kafka.sh
+ RUN ${IOT_REPO_PATH}/rest/install.sh
 
 # copy json file to user_volume
 COPY ./es-releases.json /root/user_volume/
 RUN ls -R /root/user_volume
 
-# run setup-container script to copy clients using variable values from json file
+# get variabls from json and setup sparke
 RUN  ${SETUP_AREA}/setup-container.sh
-RUN echo $SPARK_VERSION
 
 # Create client config file
 RUN mkdir -p /bluspark/external_conf/
