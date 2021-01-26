@@ -9,6 +9,14 @@ ARG ES_VERSION=latest
 ARG BRANCH=master
 ARG SETUP_AREA=${IOT_REPO_PATH}/container/setup
 
+
+#breakpoints
+RUN echo "dockerfile break points" 
+RUN echo $ES_VERSION
+RUN echo $BRANCH
+RUN echo "end Dockerfile breakpoints"
+
+
 # Install neccessary packages
 RUN yum install -y \
     wget \
@@ -52,8 +60,6 @@ COPY ./es-releases.json /root/user_volume/
 RUN ls -R /root/user_volume
 
 # get variabls from json and setup sparke
-RUN echo $ES_VERSION
-RUN echo $BRANCH
 RUN ${SETUP_AREA}/setup-container.sh $ES_VERSION
 
 # Create client config file
