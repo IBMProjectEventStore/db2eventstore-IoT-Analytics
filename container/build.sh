@@ -43,13 +43,5 @@ done
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-
-echo "build breakpoints"
-echo $ES_VERSION
-echo $BRANCH
-echo "end bulld breakpoints"
-
-
-
 mkdir -p ${DIR}/image_build_log/
 docker build --no-cache --build-arg BRANCH="${BRANCH}" --build-arg ES_VERSION="${ES_VERSION}" -t eventstore_demo:"${ES_VERSION}" . | tee "${DIR}/image_build_log/image_build_${TIMESTAMP}.log"

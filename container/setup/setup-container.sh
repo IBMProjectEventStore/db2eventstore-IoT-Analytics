@@ -25,7 +25,12 @@ echo $SPARK_VERSION
 echo $SPARK_CLIENT
 echo "end variables breakpoints"
 
-# run setup spark script
+# Setup java/scala/python/kafka/rest/spark
+${SETUP_AREA}/setup-java.sh
+${SETUP_AREA}/setup-scala.sh
+${SETUP_AREA}/setup-python.sh
+${SETUP_AREA}/setup-kafka.sh
+${IOT_REPO_PATH}/rest/install.sh
 ${SETUP_AREA}/setup-spark.sh $SPARK_VERSION
 
 IOT_REPO_PATH="/root/db2eventstore-IoT-Analytics"

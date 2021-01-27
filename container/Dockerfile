@@ -9,14 +9,6 @@ ARG ES_VERSION=latest
 ARG BRANCH=master
 ARG SETUP_AREA=${IOT_REPO_PATH}/container/setup
 
-
-#breakpoints
-RUN echo "dockerfile break points" 
-RUN echo $ES_VERSION
-RUN echo $BRANCH
-RUN echo "end Dockerfile breakpoints"
-
-
 # Install neccessary packages
 RUN yum install -y \
     wget \
@@ -47,13 +39,6 @@ RUN echo -e 'startup_message off \nhardstatus on \nhardstatus alwayslastline \nv
 
 # Setup vim 
 RUN echo -e 'syntax enable \nset tabstop=4 \nset number \nset hlsearch \nset incsearch' > ${HOME}/.vimrc
-
-# Setup java/scala/python/kafka/rest
-RUN ${SETUP_AREA}/setup-java.sh
-RUN ${SETUP_AREA}/setup-scala.sh
-RUN ${SETUP_AREA}/setup-python.sh
-RUN ${SETUP_AREA}/setup-kafka.sh
-RUN ${IOT_REPO_PATH}/rest/install.sh
 
 # copy json file to user_volume
 COPY ./es-releases.json /root/user_volume/
