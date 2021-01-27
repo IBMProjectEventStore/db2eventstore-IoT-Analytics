@@ -49,11 +49,11 @@ RUN echo -e 'startup_message off \nhardstatus on \nhardstatus alwayslastline \nv
 RUN echo -e 'syntax enable \nset tabstop=4 \nset number \nset hlsearch \nset incsearch' > ${HOME}/.vimrc
 
 # Setup java/scala/python/kafka/rest
-# RUN ${SETUP_AREA}/setup-java.sh
-# RUN ${SETUP_AREA}/setup-scala.sh
-#  RUN ${SETUP_AREA}/setup-python.sh
-#  RUN ${SETUP_AREA}/setup-kafka.sh
-#  RUN ${IOT_REPO_PATH}/rest/install.sh
+RUN ${SETUP_AREA}/setup-java.sh
+RUN ${SETUP_AREA}/setup-scala.sh
+RUN ${SETUP_AREA}/setup-python.sh
+RUN ${SETUP_AREA}/setup-kafka.sh
+RUN ${IOT_REPO_PATH}/rest/install.sh
 
 # copy json file to user_volume
 COPY ./es-releases.json /root/user_volume/
