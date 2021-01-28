@@ -1,6 +1,9 @@
 #!/bin/bash
 set -x
 
+# default namespace/project is zen
+NAMESPACE=${NAMESPACE:-zen}
+
 function usage()
 {
 cat <<-USAGE #| fmt
@@ -21,6 +24,7 @@ Usage: $0 [OPTIONS] [arg]
 OPTIONS:
 ========
 --IP  Rest endpoint of the target cluster
+--namespace  (optional) Namespace where the database deployment is installed
 --user User name of the target cluster
 --password Password of the target cluster
 --deploymentID the deployment ID name of the target cluster
@@ -35,6 +39,10 @@ while [ -n "$1" ]; do
         ;;
     --IP)
         IPREST="$2"
+        shift 2
+        ;;
+    --namespace)
+        NAMESPACE="$2"
         shift 2
         ;;
     --user)
@@ -81,7 +89,7 @@ fi
 URLPATH="com/ibm/event/api/v1"
 
 if [ ! -z ${DEPLOYMENT_ID} ]; then
-   URLPATH="icp4data-databases/${DEPLOYMENT_ID}/zen/com/ibm/event/api/v1"
+   URLPATH="icp4data-databases/${DEPLOYMENT_ID}/${NAMESPACE}/com/ibm/event/api/v1"
 fi
 
 # target path to store client ssl key

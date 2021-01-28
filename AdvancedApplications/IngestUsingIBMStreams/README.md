@@ -4,7 +4,7 @@
 
 1. First setup docker on your system
 2. Follow the steps in https://hub.docker.com/r/ibmcom/streams-qse/ to set up a docker container that has the IBM Streams Quick Start Edition.
-For preparing this we used the version 4.2.4.0. Note thart we used the docker run command that maps a local directory inside the container using the -v option (as in the instructions)
+For preparing this we used the version 4.2.4.0. Note that we used the docker run command that maps a local directory inside the container using the -v option (as in the instructions)
   * Note that docker run may take a long time to finish
 3. If you want to ssh into the container, you need to use the streamsadmin userid and password passw0rd, with the following:
   * `ssh -p 4022 streamsadmin@localhost`

@@ -14,7 +14,7 @@ The image size is around 3.3 GB, build takes around 30 mins, depending on the ne
 After the image is built, user can run the shell script `dockershell.sh` to start the container and run the examples.
 The script takes 3 mandatory arguments and 3 optional ones.
 
-`./dockershell.sh --endpoint <EventStore_Server_Endpoint> --endpointRest <EventStore_Rest_Endpoint> --user <EventStore_Username> --password <EventStore_Password> --deploymentType <deployment type> --deploymentID <deployment ID>`
+`./dockershell.sh --endpoint <EventStore_Server_Endpoint> --db2-port <db2_port_number> --es-port <es_port_number> --endpointRest <EventStore_Rest_Endpoint> --user <EventStore_Username> --password <EventStore_Password> --deploymentType <deployment type> --deploymentID <deployment ID> --es-version <ES version>`
 
 How to run with different deployment types:
 
@@ -22,6 +22,10 @@ IBM Cloud Pak For Data (cp4d) // Default deployment type
 - Generally this requires you to specify --endpointRest as the rest endpoint differs from the eventstore server endpoint (i.e. --endpoint)
 - This requires the --deploymentID which is specific to the database and can be retrieved from the UI
 - This requires the user and password options
+- This optionally requires the namespace/project used for the specific deployment. The default namespace/project is zen.
+- For example
+
+`./dockershell.sh --endpoint 9.30.68.83 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.es-cp4d-r9.os.fyre.ibm.com --user admin --password password --deploymentType cp4d --deploymentID db2eventstore-1604331070225254` --es-version 2.0.1.0
 
 Watson Studio Local (wsl)
 - Generally the eventstore server endpoint and the rest endpoint are the same, implying you only need to specify --endpoint
