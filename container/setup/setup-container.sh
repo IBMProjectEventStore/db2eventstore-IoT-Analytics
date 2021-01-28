@@ -1,10 +1,5 @@
 #!/bin/bash
 
-echo "setup container entry breakpoints"
-echo $ES_VERSION
-echo "end entry breakpoints"
-
-
 # test if ES version supplied
 if [ -z $1 ]; then
    ES_VERSION='"2.0.1.0"'
@@ -18,12 +13,6 @@ USER_VOLUME=/root/user_volume
 # set the version variables
 SPARK_VERSION=$(jq -r .release.${ES_VERSION}.sparkversion $USER_VOLUME/es-releases.json)
 SPARK_CLIENT=$(jq -r .release.${ES_VERSION}.sparkclient $USER_VOLUME/es-releases.json)
-
-echo "jq variables breakpoints"
-echo $ES_VERSION
-echo $SPARK_VERSION
-echo $SPARK_CLIENT
-echo "end variables breakpoints"
 
 # Setup java/scala/python/kafka/rest/spark
 ${SETUP_AREA}/setup-java.sh

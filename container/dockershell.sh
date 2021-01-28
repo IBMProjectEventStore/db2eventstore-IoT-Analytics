@@ -57,7 +57,7 @@ OPTIONS:
                   e.g. "db2eventstore-1578174815082"
 --user         User name of the Event Store server
 --password     Password of the Event Store server
---es-version   Event Store target cluster version 
+--es-version   Event Store target cluster version used to tag image
 -----------
 USAGE
 }
