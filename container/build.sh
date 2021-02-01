@@ -1,5 +1,6 @@
 #!/bin/bash
-ES_VERSION="latest"
+
+ES_VERSION="2.0.1.0"
 BRANCH="master"
 TIMESTAMP=`date "+%Y-%m-%d-%H:%M:%S"`
 
