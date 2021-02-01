@@ -57,6 +57,7 @@ OPTIONS:
                   e.g. "db2eventstore-1578174815082"
 --user         User name of the Event Store server
 --password     Password of the Event Store server
+--es-version   Event Store target cluster version used to tag image
 -----------
 USAGE
 }
@@ -101,6 +102,10 @@ while [ -n "$1" ]; do
         ;;
     --password)
         EVENT_PASSWORD="$2"
+        shift 2
+        ;;
+     --es-version)
+        ES_VERSION="$2"
         shift 2
         ;;
     *)
@@ -181,7 +186,7 @@ fi
 
 docker run -it --name eventstore_demo_${EVENT_USER} -v ${USER_VOLUME}:/root/user_volume \
     -e EVENT_USER=${EVENT_USER} -e EVENT_PASSWORD=${EVENT_PASSWORD} -e IP=${ENDPOINT} -e IPREST=${ENDPOINT_REST} -e DB2_PORT=${DB2_PORT} -e ES_PORT=${ES_PORT} -e DEPLOYMENT_TYPE=${DEPLOYMENT_TYPE} -e NAMESPACE=${NAMESPACE} -e DEPLOYMENT_ID=${DEPLOYMENT_ID}\
-    eventstore_demo:latest bash -c "$entryPoint"
+    -e ES-VERSION=${ES_VERSION} eventstore_demo:${ES_VERSION} bash -c "$entryPoint"
 
 printf "Cleaning up dangling images and/or exited containers"
 docker rmi $(docker images -q -f dangling=true) > /dev/null 2>&1
