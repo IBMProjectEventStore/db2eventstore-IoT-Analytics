@@ -42,3 +42,25 @@ After the above commnand:
 - A docker container instance named `eventstore_demo_${user}` will be started. The container instance contains necessary run-time environments for running applications in Python, Java, JDBC, Scala, Kafka, REST (Node.js), and Spark.
 - The environment will be setup with the necessary configurations to establish SSL connection with the SDKs where applicable (i.e. when not using a developer deployment, which does not use SSL).
 - Mount hostpath `${HOME}/eventstore_demo_volume` to `/root/user_volume` inside the container.
+
+**Using the container**
+
+Once in the container, the various sample applications (e.g. jdbc, scala, ...) can be accessed here:
+```
+/root/db2eventstore-IoT-Analytics/AdvancedApplications:
+IngestUsingIBMStreams
+JDBCApplication
+JavaApplication
+ODBCApplication
+PythonApplication
+ScalaApplication
+```
+The instructions for each of these applications can be found here:
+[Advanced Applications Documentation](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications)
+
+
+The kafka sample application is contained in its own repository, which for convenience is cloned into the container in the following location:
+```
+/root/db2eventstore-kafka
+```
+The instruction for using the kafka application can be found in the README of the corresponding repository: [Kafka Repository](https://github.com/IBMProjectEventStore/db2eventstore-kafka)
