@@ -7,6 +7,9 @@ else
    ES_VERSION=\"${1}\"
 fi
 
+# construct tag for Kafka using ES version
+KAFKA_TAG=v$ES_VERSION
+
 # set user volume
 USER_VOLUME=/root/user_volume
 
@@ -18,7 +21,7 @@ SPARK_CLIENT=$(jq -r .release.${ES_VERSION}.sparkclient $USER_VOLUME/es-releases
 ${SETUP_AREA}/setup-java.sh
 ${SETUP_AREA}/setup-scala.sh
 ${SETUP_AREA}/setup-python.sh
-${SETUP_AREA}/setup-kafka.sh
+${SETUP_AREA}/setup-kafka.sh $KAFKA_TAG
 ${IOT_REPO_PATH}/rest/install.sh
 ${SETUP_AREA}/setup-spark.sh $SPARK_VERSION
 
