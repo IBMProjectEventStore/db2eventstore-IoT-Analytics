@@ -1,4 +1,4 @@
-KAFKA_TAG#!/bin/bash
+#!/bin/bash
 
 # test if ES version supplied
 if [ -z $1 ]; then
