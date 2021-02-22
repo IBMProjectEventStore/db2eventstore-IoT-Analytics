@@ -1,4 +1,4 @@
-#!/bin/bash
+KAFKA_TAG#!/bin/bash
 
 # test if ES version supplied
 if [ -z $1 ]; then
@@ -7,15 +7,13 @@ else
    ES_VERSION=\"${1}\"
 fi
 
-# construct tag for Kafka using ES version
-KAFKA_TAG=v$ES_VERSION
-
 # set user volume
 USER_VOLUME=/root/user_volume
 
 # set the version variables
 SPARK_VERSION=$(jq -r .release.${ES_VERSION}.sparkversion $USER_VOLUME/es-releases.json)
 SPARK_CLIENT=$(jq -r .release.${ES_VERSION}.sparkclient $USER_VOLUME/es-releases.json)
+KAFKA_TAG=$(jq -r .release.${ES_VERSION}.kafkatag $USER_VOLUME/es-releases.json)
 
 # Setup java/scala/python/kafka/rest/spark
 ${SETUP_AREA}/setup-java.sh
