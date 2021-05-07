@@ -34,6 +34,8 @@ IBM Cloud Pak For Data (cp4d) // Default deployment type
 
 `./dockershell.sh --endpoint 9.30.68.83 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.es-cp4d-r9.os.fyre.ibm.com --user user --password passw0rd --deploymentType cp4d --deploymentID db2eventstore-1604331070225254 --es-version 2.0.1.0`
 
+After the script is successfully run you are placed inside the conatiner. <br>
+
 Watson Studio Local (wsl)
 - Generally the eventstore server endpoint and the rest endpoint are the same, implying you only need to specify --endpoint
 - This requires the user and password options
@@ -49,9 +51,23 @@ After the above commnand:
 - The environment will be setup with the necessary configurations to establish SSL connection with the SDKs where applicable (i.e. when not using a developer deployment, which does not use SSL).
 - Mount hostpath `${HOME}/eventstore_demo_volume` to `/root/user_volume` inside the container.
 
-**Using the container**
+**Using the container** <br>
 
-Once in the container, the various sample applications (e.g. jdbc, scala, ...) can be accessed here:
+If you exit the container, here is how to re-enter it, from the host that is running the `evenstore_demo` container enter the following command
+```
+docker ps
+```
+this should give an output similar to what is shown below
+```
+CONTAINER ID   IMAGE                     COMMAND                  CREATED        STATUS        PORTS     NAMES
+2ed7b72a008a   eventstore_demo:2.0.1.0   "bash -c 'env && /ro…"   11 hours ago   Up 11 hours             eventstore_demo_admin
+```
+To enter the container run the following command (for your case replace `2ed7b72a008a` with your actual CONTAINER ID for your `evenstore_demo:<version> docker image
+```
+docker exec -it 0 2ed7b72a008a bash
+```
+
+This will place you back into the container.   Once in the container, the various sample applications (e.g. jdbc, scala, ...) can be accessed here:
 ```
 /root/db2eventstore-IoT-Analytics/AdvancedApplications:
 IngestUsingIBMStreams
