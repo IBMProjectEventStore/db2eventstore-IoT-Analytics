@@ -4,6 +4,7 @@ The Dockerfile in this directory will build a docker image named `eventstore_dem
 
 **Procedure:**
 **Step 1: Build the docker image**
+On a linux desktop or server (CentOS 7.9 works fine) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker.  <br>
 Run the shell script `build.sh` to build the docker image.
 The image size is around 3.3 GB, build takes around 30 mins, depending on network conditions.
 The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: 2.0.1.0 and 2.0.0.5.
@@ -21,7 +22,7 @@ How to run with different deployment types:
 
 IBM Cloud Pak For Data (cp4d) // Default deployment type
 - Generally this requires you to specify --endpointRest as the rest endpoint differs from the eventstore server endpoint (i.e. --endpoint)
-- This requires the --deploymentID which is specific to the database and can be retrieved from the UI
+- This requires the --deploymentID which is specific to the database and can be retrieved from the eventstore cloudpak for data UI at: Data ... Databases ... Details.  It will be a value that appears similar to: `db2eventstore-16043310702252545`
 - This requires the user and password options
 - This optionally requires the namespace/project used for the specific deployment. The default namespace/project is zen.
 - For example
