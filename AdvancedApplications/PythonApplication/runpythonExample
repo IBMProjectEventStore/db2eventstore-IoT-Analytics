@@ -1,1 +1,3 @@
+# edit the line below to refer to the correct version of the ibm db2 eventstore spark client jar file
+ESLIB=/spark_home/jars/ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar
 python ExamplePythonApp.py 
