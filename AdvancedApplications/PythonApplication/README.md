@@ -8,10 +8,14 @@ If not running within the docker container, run the script to configure SSL that
 
 For a python example [`ExamplePythonApp.py`](ExamplePythonApp.py), follow these steps:
 
-1. To get the IBM Db2 Event Store Python client package for the 2.0 edition, get the `python.zip` from the following github repository https://github.com/IBMProjectEventStore/db2eventstore-pythonpackages/
+1. To get the IBM Db2 Event Store Python client package for the 2.0 edition, get the `python.zip` from the following github repository https://github.com/IBMProjectEventStore/db2eventstore-pythonpackages/ (not needed if using [docker container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container))
 2. cd to the directory where [`ExamplePythonApp.py`](ExamplePythonApp.py) is located
-3. unzip the `python.zip` file you downloaded in the current directory, so that you see an `eventstore` directory where `ExamplePythonApp.py` is located containing the Python client package
-4. In [`runpythonExample`](runpythonExample), you may need to edit this line
+3. unzip the `python.zip` file you downloaded in the current directory, so that you see an `eventstore` directory where `ExamplePythonApp.py` is located containing the Python client package (not needed if using the [docker container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container))
+4. If using the [docker container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container), run this command
+```
+cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/PythonApplication
+```
+6. In [`runpythonExample`](runpythonExample), you may need to edit this line
    ```
    ESLIB=/spark_home/jars/ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar
    ```
