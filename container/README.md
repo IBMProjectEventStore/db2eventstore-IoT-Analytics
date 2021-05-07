@@ -62,7 +62,7 @@ this should give an output similar to what is shown below
 CONTAINER ID   IMAGE                     COMMAND                  CREATED        STATUS        PORTS     NAMES
 2ed7b72a008a   eventstore_demo:2.0.1.0   "bash -c 'env && /ro…"   11 hours ago   Up 11 hours             eventstore_demo_admin
 ```
-To enter the container run the following command (for your case replace `2ed7b72a008a` with your actual CONTAINER ID for your `evenstore_demo:<version> docker image
+To enter the container run the following command (for your case replace `2ed7b72a008a` with your actual CONTAINER ID for your `evenstore_demo:<version>` docker image
 ```
 docker exec -it 0 2ed7b72a008a bash
 ```
