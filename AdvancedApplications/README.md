@@ -81,7 +81,7 @@ To setup the Python 3.6.8 environment do the following. You will need to have pa
 `sudo yum install python-pip`
 `sudo pip install numpy`
 `sudo pip install pandas`
-* Install pip3 following thes instructins: https://www.liquidweb.com/kb/how-to-install-pip-on-centos-7/
+* Install pip3 following thes instructions: https://www.liquidweb.com/kb/how-to-install-pip-on-centos-7/
 * Install the PySpark module
 `pip3 install pyspark`
 
