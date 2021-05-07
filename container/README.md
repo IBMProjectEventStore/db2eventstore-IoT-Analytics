@@ -11,7 +11,7 @@ The Event Store release the IoT applications will use must be specified. The rel
 ```
 ./build.sh --es-version 2.0.1.0
 ```
-The format to run this for other (versions) releases of evenstore is:
+The format to run this for other (versions) releases of Event Store is:
 ```
 ./build.sh --es-version <eventstore-release>
 ```
