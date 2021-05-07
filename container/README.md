@@ -21,7 +21,7 @@ The script takes 4 mandatory arguments and 3 optional ones.
 How to run with different deployment types:
 
 IBM Cloud Pak For Data (cp4d) // Default deployment type
-- Generally this requires you to specify --endpointRest as the rest endpoint differs from the eventstore server endpoint (i.e. --endpoint)
+- Generally this requires you to specify --endpointRest as the REST endpoint differs from the eventstore server endpoint (i.e., --endpoint)
 - This requires the --deploymentID which is specific to the database and can be retrieved from the eventstore cloudpak for data UI at: Data ... Databases ... Details.  It will be a value that appears similar to: `db2eventstore-16043310702252545`
 - This requires the user and password options
 - This optionally requires the namespace/project used for the specific deployment. The default namespace/project is zen.
