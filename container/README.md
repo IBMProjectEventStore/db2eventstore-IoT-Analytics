@@ -11,6 +11,11 @@ The Event Store release the IoT applications will use must be specified. The rel
 ```
 ./build.sh --es-version 2.0.1.0
 ```
+The format to run this for other (versions) releaeses of evenstore is:
+```
+./build.sh --es-version <eventstore-release>
+```
+where `<eventstore-release>` is replaced with the actual eventstore-release number.
 
 **Step 2: Start the docker container**
 After the image is built, run the shell script `dockershell.sh` to start the container and run the examples. The Event Store release identifies which tagged image to start.
