@@ -43,7 +43,7 @@ RUN echo -e 'syntax enable \nset tabstop=4 \nset number \nset hlsearch \nset inc
 # copy json file to user_volume
 COPY ./es-releases.json /root/user_volume/
 
-# get variabls from json and setup sparke
+# get variables from json and setup spark
 RUN ${SETUP_AREA}/setup-container.sh $ES_VERSION
 
 # Create client config file
