@@ -24,7 +24,7 @@ IBM Cloud Pak For Data (cp4d) // Default deployment type
 - Generally this requires you to specify --endpointRest as the REST endpoint differs from the eventstore server endpoint` (i.e., --endpoint)
 - This requires the --deploymentID which is specific to the database and can be retrieved from the eventstore cloudpak for data User Interface (UI) at: `Data ... Databases ... Details`.  It will be a value that appears similar to: `db2eventstore-16043310702252545`
 - This requires the user and password options
-- This optionally requires the namespace/project used for the specific deployment. The default namespace/project is zen.
+- This optionally requires the Kubernetes namespace which is the OpenShift project that is used for the specific deployment. The default namespace/project is `zen`.
 - For example
 
 `./dockershell.sh --endpoint 9.30.68.83 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.es-cp4d-r9.os.fyre.ibm.com --user user --password passw0rd --deploymentType cp4d --deploymentID db2eventstore-1604331070225254 --es-version 2.0.1.0`
