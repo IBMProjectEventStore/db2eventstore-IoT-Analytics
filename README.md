@@ -51,7 +51,7 @@ When the reader has completed this code pattern, they will understand how to:
 * [Java](https://java.com/): A secure, object-oriented programming language for creating applications.
 * [Scala](https://www.scala-lang.org/): Scala combines object-oriented and functional programming in one concise, high-level language.
 * [IBM Streams](https://www.ibm.com/ca-en/marketplace/stream-computing): IBM® Streams® is an advanced stream processing platform that can ingest, filter, analyze and correlate massive volumes of continuous data streams, helping you make decisions while events are happening. 
-* [Apache Kafka](https://kafka.apache.org/):Apache Kafka is an open source streaming platform that is able to publish and subscribe to streams of records, similar to a message queue or enterprise messaging system, store streams of records in a fault-tolerant durable way and process streams of records as they occur.
+* [Apache Kafka](https://kafka.apache.org/): Apache Kafka is an open source streaming platform that is able to publish and subscribe to streams of records, similar to a message queue or enterprise messaging system, store streams of records in a fault-tolerant durable way and process streams of records as they occur.
 
 ## Featured technologies
 * [Databases](https://en.wikipedia.org/wiki/IBM_Information_Management_System#.22Full_Function.22_databases): Repository for storing and managing collections of data.
