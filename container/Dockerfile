@@ -1,5 +1,5 @@
 FROM registry.access.redhat.com/ubi7/ubi:latest
-LABEL maintainer "Chen Gao <Chen.Gao@.ibm.com>"
+LABEL maintainer "Chen Gao <Chen.Gao@ibm.com>"
 
 ENV IOT_REPO_PATH=/root/db2eventstore-IoT-Analytics
 ENV KAFKA_REPO_PATH=/root/db2eventstore-kafka 
