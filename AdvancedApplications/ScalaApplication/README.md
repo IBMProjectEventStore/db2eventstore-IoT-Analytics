@@ -12,8 +12,12 @@ To run a Scala example with SBT, cd to the [`sbtproj`](sbtproj/README.md) direct
 
 ## Running Scala example
 
-The application will create a table, insert a small number of rows and query the inserted rows. To run the Scala example, follow these steps:
-
+The application will create a table, insert a small number of rows and query the inserted rows. To run the Scala example within the docker container, run these two commands
+```
+cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/ScalaApplication
+./runscalaExample
+```
+If not in the docker container follow these steps: 
 1. In [runscalaExample](runscalaExample), change the client jar defined with `ESLIB` to the directory where the client Spark jar file, for example ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar, is located. The Spark jar file was obtained from Maven earlier [here](https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.2.1).
 2. Run the Scala application by executing the following script from the command line
 
