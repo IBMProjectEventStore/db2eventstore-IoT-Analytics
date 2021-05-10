@@ -58,7 +58,7 @@ You can also refer to the script used to set up the [container](https://github.c
 
 #### SBT Setup
 
-To set up Simple Build too (SBT) use:
+To set up Simple Build Tool (SBT) use:
 
 `curl https://bintray.com/sbt/rpm/rpm | sudo tee /etc/yum.repos.d/bintray-sbt-rpm.repo`
 `sudo yum install sbt-launcher-packaging`
