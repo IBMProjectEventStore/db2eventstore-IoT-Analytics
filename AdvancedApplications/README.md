@@ -97,11 +97,11 @@ To setup the ODBC client environment
   
 > Note: If setting up for the [demo container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container), download this version "**IBM Data Server Driver Package (Linux AMD64 and Intel EM64T)**"  and copy it within the container.
 
-* Go the location where the IBM Data Server Driver Package was saved on your host or container and unpack it onto a previusly created directory `<ds_driver_path>`.
+* Go the location where the IBM Data Server Driver Package was saved on your host or container and unpack it onto a previously created directory `<ds_driver_path>`.
 
 `tar -xvf ibm_data_server_driver_package_linuxx64_v11.5.tar.gz -C <ds_driver_path>`
 
-* Find the ODBC client package `ibm_data_server_driver_for_odbc_cli.tar.gz` within `<ds_driver_path>`. For example, it might be found under `dsdriver/odbc_cli_driver/linuxamd64`. Then proceed to unpack it onto a previusly created directory `<odbc_path>`. 
+* Find the ODBC client package `ibm_data_server_driver_for_odbc_cli.tar.gz` within `<ds_driver_path>`. For example, it might be found under `dsdriver/odbc_cli_driver/linuxamd64`. Then proceed to unpack it onto a previously created directory `<odbc_path>`. 
 
 `tar -xvf <ds_driver_path>/odbc_cli_driver/<your platform>/ibm_data_server_driver_for_odbc_cli.tar.gz -C <odbc_path>`
 
