@@ -13,12 +13,13 @@ USER_VOLUME=/root/user_volume
 # set the version variables
 SPARK_VERSION=$(jq -r .release.${ES_VERSION}.sparkversion $USER_VOLUME/es-releases.json)
 SPARK_CLIENT=$(jq -r .release.${ES_VERSION}.sparkclient $USER_VOLUME/es-releases.json)
+KAFKA_TAG=$(jq -r .release.${ES_VERSION}.kafkatag $USER_VOLUME/es-releases.json)
 
 # Setup java/scala/python/kafka/rest/spark
 ${SETUP_AREA}/setup-java.sh
 ${SETUP_AREA}/setup-scala.sh
 ${SETUP_AREA}/setup-python.sh
-${SETUP_AREA}/setup-kafka.sh
+${SETUP_AREA}/setup-kafka.sh $KAFKA_TAG
 ${IOT_REPO_PATH}/rest/install.sh
 ${SETUP_AREA}/setup-spark.sh $SPARK_VERSION
 
