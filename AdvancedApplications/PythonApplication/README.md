@@ -21,7 +21,7 @@ cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/PythonApplication
    ```
 and provide the correct directory to the `ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar` file (which you obtained from Maven earlier from [this link](https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.4.6))
 
-5. Run the python application using: [`./runpythonExample`](runpythonExample)
+5. Run the python application using: [`./runpythonExample`](runpythonExample).  If there were not tables created ignore the drop tables errors.
 6. The application will create the table "PYTHONTABLE", insert some rows into it and then query them to show the contents.
 7. Note if you look at [`runpythonExample`](runpythonExample), it's recommended to use `spark-submit` with Spark 2.0.2 since it easily processes python apps.
 
