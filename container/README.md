@@ -27,8 +27,14 @@ How to run with different deployment types:
 
 IBM Cloud Pak For Data (cp4d) // Default deployment type
 - Generally this requires you to specify --endpointRest as the REST endpoint differs from the eventstore server endpoint` (i.e., --endpoint)
+- endpoint on ibm fyre is the ip address of your instructure node
+- endpointRest is typically the dns name of the url you use to log into cloud pak for data, this often can be found while logged into the cluster and run these 2 commands
+   ```
+   oc project zen
+   oc get route  | grep -v 'HOST/PORT' | awk '{print $2}'
+   ```
 - This requires the --deploymentID which is specific to the database and can be retrieved from the eventstore cloudpak for data User Interface (UI) at: `Data ... Databases ... Details`.  It will be a value that appears similar to: `db2eventstore-16043310702252545`
-- This requires the user and password options
+- This requires the user and password options (normally what is used to log into Cloud Pak for data url)
 - This optionally requires the Kubernetes namespace which is the OpenShift project that is used for the specific deployment. The default namespace/project is `zen`.
 - For example
 
