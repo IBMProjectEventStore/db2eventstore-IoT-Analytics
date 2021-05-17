@@ -18,30 +18,13 @@ rm -f /tmp/scala-${SCALA_VERSION}.${PKGTYPE}
 
 
 ##
-## SBT (Simple Build Tool)
-##
+## SBT (Simple Build Tool), used with scala
+## dl.bintray.com is going away.  Installs version 1.4.9 of SBT from github.com.
 
-## if SBT Repo not in list, then add it
-# Not in CentOS (yum) repo list?
-if [[ -d /etc/yum.repos.d && ! -f /etc/yum.repos.d/bintray-sbt-rpm.repo ]]
-then
-   curl https://bintray.com/sbt/rpm/rpm \
-	| tee /etc/yum.repos.d/bintray-sbt-rpm.repo
+wget -O /tmp/sbt-1.4.9.tgz https://github.com/sbt/sbt/releases/download/v1.4.9/sbt-1.4.9.tgz
+tar xzvf /tmp/sbt-1.4.9.tgz -C /usr/share/
+ln -s /usr/share/sbt/bin/sbt /usr/bin/sbt
 
-# Not in Ubuntu (apt) repo list?
-elif [[ -d /etc/apt/sources.list.d && ! -f /etc/apt/sources.list.d/sbt.list ]]
-then
-   sbtlist=/etc/apt/sources.list.d/sbt.list
-   sbturl="https://dl.bintray.com/sbt/debian"
-   echo "deb $sbturl /" | tee -a $sbtlist
 
-   # Add repo key and install sbt
-   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 642AC823
-fi
-
-# install sbt from added repos
-apt-get update
-SBT_VERSION=""
-apt-get -y install sbt${SBT_VERSION}
 
 $(dirname $0)/setup-cleanup.sh
