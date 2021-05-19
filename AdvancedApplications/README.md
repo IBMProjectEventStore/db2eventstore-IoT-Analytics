@@ -58,16 +58,21 @@ You can also refer to the script used to set up the [container](https://github.c
 
 #### SBT Setup
 
-To set up Simple Build Tool (SBT) use:
-
-`curl https://bintray.com/sbt/rpm/rpm | sudo tee /etc/yum.repos.d/bintray-sbt-rpm.repo`
-`sudo yum install sbt-launcher-packaging`
+To set up Simple Build Tool (SBT), version 1.4.9, do the following as the root user.  
+  
+```
+wget -O /tmp/sbt-1.4.9.tgz https://github.com/sbt/sbt/releases/download/v1.4.9/sbt-1.4.9.tgz
+tar xzvf /tmp/sbt-1.4.9.tgz -C /usr/share/
+ln -s /usr/share/sbt/bin/sbt /usr/bin/sbt
+```
 
 To find the version use 
 
 `sbt sbtVersion`
 
 You can also refer to the script used to set up the [container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-scala.sh) yuu would like to see the details of what was run.
+  
+To install another version of SBT, browse the releases here https://github.com/sbt/sbt/releases/ and make changes to the wget and tar lines with the version you want.
 
 #### Python Setup
 
