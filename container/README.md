@@ -27,7 +27,7 @@ How to run with different deployment types:
 
 IBM Cloud Pak For Data (cp4d) // Default deployment type
 - Generally this requires you to specify --endpointRest as the REST endpoint differs from the eventstore server endpoint` (i.e., --endpoint)
-- endpoint on ibm fyre is the ip address of your instructure node
+- endpoint on ibm fyre with OpenShift installed via OCP+, the endpoint is the ip address of your infrastructure node
 - endpointRest is typically the dns name of the url you use to log into cloud pak for data, this often can be found while logged into the cluster and run these 2 commands
    ```
    oc project zen
