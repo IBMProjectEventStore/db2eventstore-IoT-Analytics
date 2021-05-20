@@ -7,9 +7,9 @@ The Dockerfile in this directory will build a docker image named `eventstore_dem
 On a linux desktop or server (CentOS 7.9 works fine) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker.  <br>
 Run the shell script `build.sh` to build the docker image.
 The image size is around 3.3 GB, build takes around 30 mins, depending on network conditions.
-The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: 2.0.1.0 and 2.0.0.5. To run this for release 2.0.1.0, the command would be:
+The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: `2.0.1.2`, `2.0.1.`0 and `2.0.0.5`. To run this for release 2.0.1.0, the command would be:
 ```
-./build.sh --es-version 2.0.1.0
+./build.sh --es-version 2.0.1.2
 ```
 The format to run this for other (versions) releases of Event Store is:
 ```
@@ -66,7 +66,7 @@ docker ps
 this should give an output similar to what is shown below
 ```
 CONTAINER ID   IMAGE                     COMMAND                  CREATED        STATUS        PORTS     NAMES
-2ed7b72a008a   eventstore_demo:2.0.1.0   "bash -c 'env && /ro…"   11 hours ago   Up 11 hours             eventstore_demo_admin
+2ed7b72a008a   eventstore_demo:2.0.1.2   "bash -c 'env && /ro…"   11 hours ago   Up 11 hours             eventstore_demo_admin
 ```
 To enter the container run the following command (for your case replace `2ed7b72a008a` with your actual CONTAINER ID for your `evenstore_demo:<version>` docker image
 ```
