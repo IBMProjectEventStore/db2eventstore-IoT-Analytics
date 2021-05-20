@@ -66,7 +66,7 @@ tar xzvf /tmp/sbt-1.4.9.tgz -C /usr/share/
 ln -s /usr/share/sbt/bin/sbt /usr/bin/sbt
 ```
 
-To find the version use 
+To determine the version in use, run this command: 
 
 `sbt sbtVersion`
 
