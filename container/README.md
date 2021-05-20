@@ -38,7 +38,7 @@ IBM Cloud Pak For Data (cp4d) // Default deployment type
 - This optionally requires the Kubernetes namespace which is the OpenShift project that is used for the specific deployment. The default namespace/project is `zen`.
 - For example
 
-`./dockershell.sh --endpoint 9.30.68.83 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.es-cp4d-r9.os.fyre.ibm.com --user user --password passw0rd --deploymentType cp4d --deploymentID db2eventstore-1604331070225254 --es-version 2.0.1.0`
+`./dockershell.sh --endpoint 9.30.68.83 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.es-cp4d-r9.os.fyre.ibm.com --user user --password passw0rd --deploymentType cp4d --deploymentID db2eventstore-1604331070225254 --es-version 2.0.1.2`
 
 After the script is successfully run you are placed inside the conatiner. <br>
 
