@@ -83,6 +83,12 @@ ODBCApplication
 PythonApplication
 ScalaApplication
 ```
+If you want to connect to a different Event Store environment you re-installed Event Store on an existing OpenShift environment you need to ensure the docker image is not running.  If you see the `eventstore_demo` image running when you run `docker ps`, do a `docker stop <CONTAINER ID>,` such as
+```
+docker stop 2ed7b72a008a
+```
+This will take a minute.  Then run the `./dockershell.sh` command again, don't forget to provide the new `--deploymentID ` value as that will change for each new deployment.  Also if using IBM fyre the db2 and eventstore ports will change (they are randomly created for each Event Store deployment) and the `/etc/haproxy/haproxy.cfg` on fyre infrastructure node will need to get updated and the haproxy will neeed to get restarted.
+
 The instructions for each of these applications can be found here:
 [Advanced Applications Documentation](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications)
 
