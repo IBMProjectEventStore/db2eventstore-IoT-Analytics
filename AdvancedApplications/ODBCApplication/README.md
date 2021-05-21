@@ -14,13 +14,51 @@ Regardless if you are running inside the Docker container or creating your own e
 
 ## Running the example app ExampleODBCApp
 
-1. Compile the app by executing the following. The <odbc_client_path> is where the ODBC client was unpacked during the environment setup. The script finds the ODBC headers under `<odbc_client_path>/include`, compiles the main app ExampleODBCApp.c, a helper utilcli.c which checks for errors and returns diagnostic message and links the db2 library under <odbc_client_path>/lib
+1. Compile the app by executing the following. The <odbc_client_path> is where the ODBC client was unpacked during the environment setup. The script finds the ODBC headers under `<odbc_client_path>/include`, compiles the main app ExampleODBCApp.c, a helper utilcli.c which checks for errors and returns diagnostic message and links the db2 library under <odbc_client_path>/lib.  If you are using the Docker container the `<odbc_client_path>` is `/clidriver` inside the Docker container
 
 `./bldExampleODBCApp <odbc_client_path>`
+If you running the docker demo container run this command:
+```
+cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/ODBCApplication
+./bldExampleODBCApp /clidriver
+```
+There is no noticable output from this command, it creates file called `ExampleODBCApp` in this `/root/db2eventstore-IoT-Analytics/AdvancedApplications/ODBCApplication` directory
  
 2. Run the executable created by the build
+```
+./ExampleODBCApp
+```
+Some of output at the end will look like
+```
+-----------------------------------------------------------
+USE THE CLI FUNCTIONS
+  SQLExecDirect
+  SQLBindCol
+  SQLFetch
+TO PROCESS SQL QUERY RESULT SET:
 
-`./ExampleODBCApp`
+  Directly execute SELECT * FROM IOT_TEMP FETCH FIRST 10 ROWS ONLY.
+
+  1 6 1541608808893 23.100081670190129 13.039762334338846 40.725704939741505
+  1 6 1541692063994 23.231144125868092 10.905764685605330 42.552486820314854
+  1 6 1541072557045 24.754846044565248 7.842973434366321 40.098125855881406
+  1 6 1541739758037 23.586596370324894 12.707494438552153 42.825719719249321
+  1 6 1541741409175 27.713916953170603 4.500360172227634 44.530580976342783
+  1 6 1541489785094 21.944065021121851 10.051196444228976 38.013755171543934
+  1 6 1541332982350 25.230894616915396 4.941043098535454 41.147460423219975
+  1 6 1541316155282 26.172570331182822 10.780627950616898 45.498515325155118
+  1 6 1541049754681 24.400766844283801 12.977732546098055 40.581683401949135
+  1 6 1541657205418 20.881357065156827 7.475510945569964 36.927511174461820
+
+-----------------------------------------------------------
+USE THE CLI FUNCTIONS
+  SQLDisconnect
+  SQLFreeHandle
+TO DISCONNECT FROM EVENTSTORE:
+
+  Disconnecting from the database EVENTDB...
+  Disconnected from the database EVENTDB.
+```
 
 3. To clean up compiler generated files
 
