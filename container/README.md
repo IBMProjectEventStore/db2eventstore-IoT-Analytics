@@ -83,12 +83,6 @@ ODBCApplication
 PythonApplication
 ScalaApplication
 ```
-If you want to connect to a different Event Store environment you re-installed Event Store on an existing OpenShift environment you need to ensure the docker image is not running.  If you see the `eventstore_demo` image running when you run `docker ps`, do a `docker stop <CONTAINER ID>,` such as
-```
-docker stop 2ed7b72a008a
-```
-This will take a minute.  Then run the `./dockershell.sh` command again, don't forget to provide the new `--deploymentID ` value as that will change for each new deployment.  Also if using IBM fyre the db2 and eventstore ports will change (they are randomly created for each Event Store deployment) and the `/etc/haproxy/haproxy.cfg` on fyre infrastructure node will need to get updated and the haproxy will neeed to get restarted.
-
 The instructions for each of these applications can be found here:
 [Advanced Applications Documentation](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications)
 
@@ -98,3 +92,28 @@ The kafka sample application is contained in its own repository, which for conve
 /root/db2eventstore-kafka
 ```
 The instruction for using the kafka application can be found in the README of the corresponding repository: [Kafka Repository](https://github.com/IBMProjectEventStore/db2eventstore-kafka)
+
+**Connect to a different Event Store environment** <br>
+If you want to connect to a different Event Store environment you re-installed Event Store on an existing OpenShift environment you need to ensure the docker image is not running.  If you see the `eventstore_demo` image running when you run `docker ps`, do a `docker stop <CONTAINER ID>,` such as
+```
+docker stop 2ed7b72a008a
+```
+This will take a minute.  Then run the `./dockershell.sh` command again, don't forget to provide the new `--deploymentID ` value as that will change for each new deployment.  Also if using IBM fyre the db2 and eventstore ports will change (they are randomly created for each Event Store deployment) and the `/etc/haproxy/haproxy.cfg` on fyre infrastructure node will need to get updated and the haproxy will neeed to get restarted.
+
+**Recreate the Docker Container** <br>
+If you want to rebuild the docker container after you have built it (for example there have been updates to the Docker Container), do the following
+1) Stop the Docker Containeer if it is running as descrigbed above via `docker stop`
+2) Delete the container by running 
+   ```
+   docker rmi <IMAGE ID>
+   ```
+  you obtain the <IMAGE ID> by running 
+   
+   ```
+   docker images
+   ```
+3) Do a `git pull` to ensure you have the latest files from github.com
+4) Follow the steps at the top of this page to build the container 
+```
+./build.sh --es-version 2.0.1.2
+```
