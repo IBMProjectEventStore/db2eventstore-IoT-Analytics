@@ -15,9 +15,10 @@ Regardless if you are running inside the Docker container or creating your own e
 ## Running the example app ExampleODBCApp
 
 1. Compile the app by executing the following. The <odbc_client_path> is where the ODBC client was unpacked during the environment setup. The script finds the ODBC headers under `<odbc_client_path>/include`, compiles the main app ExampleODBCApp.c, a helper utilcli.c which checks for errors and returns diagnostic message and links the db2 library under <odbc_client_path>/lib.  If you are using the Docker container the `<odbc_client_path>` is `/clidriver` inside the Docker container
-
-`./bldExampleODBCApp <odbc_client_path>`
-If you running the docker demo container run this command:
+```
+./bldExampleODBCApp <odbc_client_path>
+```
+If you running the docker demo container run these commands:
 ```
 cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/ODBCApplication
 ./bldExampleODBCApp /clidriver
