@@ -22,7 +22,7 @@ then
 fi
 
 git clone https://github.com/IBMProjectEventStore/db2eventstore-pythonpackages.git /db2eventstore-pythonpackages
-tar -C /var/lib -xvf /db2eventstore-pythonpackages/python.zip
+tar -C /var/lib -xvf /db2eventstore-pythonpackages/python.tar
 rm -rf /db2eventstore-pythonpackages
 
 PY4J_VERSION=$(ls ${SPARK_HOME}/python/lib | grep py4j)
