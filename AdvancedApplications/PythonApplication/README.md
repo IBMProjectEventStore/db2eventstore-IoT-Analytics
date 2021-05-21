@@ -15,7 +15,7 @@ For a python example [`ExamplePythonApp.py`](ExamplePythonApp.py), follow these 
 ```
 cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/PythonApplication
 ```
-6. In [`runpythonExample`](runpythonExample), you may need to edit this line
+6. In [`runpythonExample`](runpythonExample), you do not need to edit this line for Event Store `2.0.1.0` and `2.0.1.2`, but for other versions of Event Store you may have to edit this line to provide the correct spark jar file.
    ```
    ESLIB=/spark_home/jars/ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar
    ```
