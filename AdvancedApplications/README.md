@@ -78,18 +78,23 @@ To install another version of SBT, browse the releases here https://github.com/s
 
 To setup the Python 3.6.8 environment do the following. You will need to have pandas and numpy installed to execute the generate.sh locally(for Centos Linux) .
 
-* Download the package from https://www.python.org/ftp/python/3.6.8
-* Open the archive
-`cd /<directory archived was tarred into>`
-`./configure --enable-optimizations`
-`make altinstall`
-`sudo yum install python-pip`
-`sudo pip install numpy`
-`sudo pip install pandas`
-* Install pip3 following thes instructions: https://www.liquidweb.com/kb/how-to-install-pip-on-centos-7/
-* Install the PySpark module
-`pip3 install pyspark`
-
+Below we will ownload the package from https://www.python.org/ftp/python/3.6.8 and extract the file and perform installations. This will install python in your $HOME directory
+```
+cd 
+wget https://www.python.org/ftp/python/3.6.8/Python-3.6.8.tgz
+tar -xzvf tar -xzvf Python-3.6.8.tgz
+cd Python-3.6.8
+./configure --enable-optimizations
+make altinstall
+sudo yum install python-pip
+sudo pip install numpy
+sudo pip install pandas
+```
+Then install pip3 following thes instructions: https://www.liquidweb.com/kb/how-to-install-pip-on-centos-7/,
+Finally install the PySpark module with this command
+```
+pip3 install pyspark
+```
 You can also refer to the script used to set up the [container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-python.sh) yuu would like to see the details of what was run.
 
 #### ODBC/DB2CLI Setup
