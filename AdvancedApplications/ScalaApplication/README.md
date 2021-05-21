@@ -22,3 +22,9 @@ If not in the docker container follow these steps:
 2. Run the Scala application by executing the following script from the command line
 
 `./runscalaExample`
+
+3. Ignore this error
+```
+Table schema = ResolvedTableSchema(tableName=ADMINSCALATABLE, schemaName=ADMIN, tableID=0, tableGroupName=sys_ADMINSCALATABLE, tableGroupID=0, numShareds=36, schema=StructType(StructField(DEVICEID,IntegerType,false), StructField(SENSORID,IntegerType,false), StructField(TS,LongType,false), StructField(AMBIENT_TEMP,DoubleType,false), StructField(POWER,DoubleType,false), StructField(TEMPERATURE,DoubleType,false)),
+```
+As it is most likely because there are not tables to drop
