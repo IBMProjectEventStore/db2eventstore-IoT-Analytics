@@ -24,3 +24,30 @@ to reflect Spark client version (jar file) you are using.   You may need to chan
 3. Run the Java application by executing the following script from the command line
 
 [`./runjavaExample`](./runjavaExample)
+
+4. The end of successful output will look something like
+```
+21/05/21 22:57:18 INFO DAGScheduler: Job 0 finished: show at ExampleJavaApp.java:192, took 2.413213 s
++--------+--------+-------------+------------------+------------------+------------------+
+|DEVICEID|SENSORID|           TS|      AMBIENT_TEMP|             POWER|       TEMPERATURE|
++--------+--------+-------------+------------------+------------------+------------------+
+|       2|      20|1541019346515| 2.6836546274856E1|1.28415578392056E1|4.87001298794028E1|
+|       1|      48|1541019342393|2.59831834816183E1|1.46587411657384E1| 4.8908846094198E1|
+|       2|      39|1541019344356|2.43246538655206E1|1.41006381007803E1|4.43988373067479E1|
+|       1|      24|1541019343497|2.25454442402472E1|9.83489463082114E0|3.90655591493617E1|
+|       2|       1|1541019345216|2.56582809574135E1|1.42431315633159E1|4.52912550297084E1|
++--------+--------+-------------+------------------+------------------+------------------+
+
+done.
+21/05/21 22:57:18 INFO SparkContext: Invoking stop() from shutdown hook
+21/05/21 22:57:18 INFO SparkUI: Stopped Spark web UI at http://localhost:4040
+21/05/21 22:57:18 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+21/05/21 22:57:18 INFO MemoryStore: MemoryStore cleared
+21/05/21 22:57:18 INFO BlockManager: BlockManager stopped
+21/05/21 22:57:19 INFO BlockManagerMaster: BlockManagerMaster stopped
+21/05/21 22:57:19 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+21/05/21 22:57:19 INFO SparkContext: Successfully stopped SparkContext
+21/05/21 22:57:19 INFO ShutdownHookManager: Shutdown hook called
+21/05/21 22:57:19 INFO ShutdownHookManager: Deleting directory /tmp/spark-85c2903b-7043-48a4-862e-0b0dcd73d055
+21/05/21 22:57:19 INFO ShutdownHookManager: Deleting directory /tmp/spark-66f8c036-bbd0-48a9-afcd-931db91c4fa6
+```
