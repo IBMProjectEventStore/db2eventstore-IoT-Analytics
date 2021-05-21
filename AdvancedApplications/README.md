@@ -80,7 +80,7 @@ To setup the Python 3.6.8 environment do the following. You will need to have pa
 
 * Download the package from https://www.python.org/ftp/python/3.6.8
 * Open the archive
-`cd /<directory archived was tarred into>
+`cd /<directory archived was tarred into>`
 `./configure --enable-optimizations`
 `make altinstall`
 `sudo yum install python-pip`
