@@ -99,13 +99,16 @@ You can also refer to the script used to set up the [container](https://github.c
 
 #### ODBC/DB2CLI Setup
 
-To setup the ODBC client environment
+**If you are using the Docker container, skip this entire ODBC/DB2CLI setup**  The IBM Data Server Driver Package is included in the docker container.  In the Docker container the `<ds_driver_path>` is `/dsdriver` and the `<odbc_path>` is `/clidriver`.
+
+
+To setup the ODBC client environment (for non-Docker container) do the following:
 
 * Download version 11.5 GA of the IBM Data Server Driver Package (including the ODBC driver) or IBM Data Server Driver for ODBC and CLI from the site below, selecting your host platform. You are required to have an IBM id in order to download this package. After the file is downloaded you need to copy it to the host or the container from where you intend to run your ODBC application. 
 
   https://www.ibm.com/support/pages/download-initial-version-115-clients-and-drivers
   
-> Note: If setting up for the [demo container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container), download this version "**IBM Data Server Driver Package (Linux AMD64 and Intel EM64T)**"  and copy it within the container.
+> Note: If using the  [demo container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container), this "**IBM Data Server Driver Package (Linux AMD64 and Intel EM64T)**"  is already copied into the container and extracted to `/dsdriver` inside the container.
 
 * Go the location where the IBM Data Server Driver Package was saved on your host or container and unpack it onto a previously created directory `<ds_driver_path>`.
 
