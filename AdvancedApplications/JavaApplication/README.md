@@ -14,7 +14,7 @@ The application creates a table, inserts batches of rows and executes a select s
 ```
 cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/JavaApplication
 ```
-2. In [runjavaExample](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/AdvancedApplications/JavaApplication/runjavaExample), for the Event Store 2.0.1.0 you do not have to edit the line below, but for other releases of Event Store you may need to edit this line
+2. In [runjavaExample](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/AdvancedApplications/JavaApplication/runjavaExample), for the Event Store `2.0.1.0` or `2.0.1.2` you do not have to edit the line below, but for other releases of Event Store you may need to edit this line
 ```
 ESLIB=${SPARK_HOME}/jars/ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar
 ```
