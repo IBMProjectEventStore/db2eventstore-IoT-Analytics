@@ -18,7 +18,7 @@ cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/ScalaApplication
 ./runscalaExample
 ```
 If not in the docker container follow these steps: 
-1. In [runscalaExample](runscalaExample), change the client jar defined with `ESLIB` to the directory where the client Spark jar file, for the Event Store 2.0.1.0 release this is set to `ESLIB=${SPARK_HOME}/jars/ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar`, for the prior Event Store release it was set to ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar.  The Spark jar file was obtained from Maven earlier [here](https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.4.6) for the current release and [here](https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.2.1) for the prior release.
+1. In [runscalaExample](runscalaExample), change the client jar defined with `ESLIB` to the directory where the client Spark jar file, for the Event Store `2.0.1.0` and `2.0.1.2` releases this is set to `ESLIB=${SPARK_HOME}/jars/ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar`, for the prior Event Store release it was set to ibm-db2-eventstore-client-spark-2.2.1-2.0.0.jar.  The Spark jar file was obtained from Maven earlier [here](https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.4.6) for the current release and [here](https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.2.1) for the prior release.
 2. Run the Scala application by executing the following script from the command line
 
 `./runscalaExample`
