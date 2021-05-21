@@ -50,3 +50,8 @@ RUN ${SETUP_AREA}/setup-container.sh $ES_VERSION
 RUN mkdir -p /bluspark/external_conf/
 RUN touch /bluspark/external_conf/bluspark.conf
 WORKDIR /root
+
+# Install IBM Db2 data server drivers
+RUN tar -xvf /root/db2eventstore-IoT-Analytics/ibm_data_server_driver_package/ibm_data_server_driver_package_linuxx64_v11.5.tar.gz -C / \
+  && tar -xvf /dsdriver/odbc_cli_driver/linuxamd64/ibm_data_server_driver_for_odbc_cli.tar.gz -C / \
+  && cp -r /dsdriver/security64 /clidriver/
