@@ -145,8 +145,8 @@ To get the IBM Db2 Event Store python package follow these instructions: 
 
 * Obtain the Event Store client Python packages here and follow the README:
    * https://github.com/IBMProjectEventStore/db2eventstore-pythonpackages
-* Unzip the python.zip into your Python installation directory.
-   * For `example: unzip python.zip  -d /Library/Frameworks/Python.framework/Version/2.7.5/lib/python2.7/`
+* Untar the python.tar into your Python installation directory.
+   * For `example: tar -xvf python.tar  -C /Library/Frameworks/Python.framework/Version/2.7.5/lib/python2.7/`
 
 * Note that to run python, you will need the following in setup_env.sh
    * `export SPARK_HOME=/home/user1/spark-2.0.2-bin-hadoop2.6`
