@@ -99,7 +99,8 @@ You can also refer to the script used to set up the [container](https://github.c
 
 #### ODBC/DB2CLI Setup
 
-**If you are using the Docker container, skip this entire ODBC/DB2CLI setup**  The IBM Data Server Driver Package is included in the docker container.  In the Docker container the `<ds_driver_path>` is `/dsdriver` and the `<odbc_path>` is `/clidriver`.
+**If you are using the Docker container, skip this entire ODBC/DB2CLI setup**  <br>
+The IBM Data Server Driver Package is included in the docker container.  In the Docker container the `<ds_driver_path>` is `/dsdriver` and the `<odbc_path>` is `/clidriver`. <br>
 
 
 To setup the ODBC client environment (for non-Docker container) do the following:
