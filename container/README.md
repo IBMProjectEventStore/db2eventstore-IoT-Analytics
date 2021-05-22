@@ -107,7 +107,7 @@ If you want to rebuild the docker container after you have built it (for example
    ```
    docker rmi <IMAGE ID>
    ```
-  you obtain the <IMAGE ID> by running 
+  you obtain the `<IMAGE ID>` by running 
    
    ```
    docker images
