@@ -39,6 +39,30 @@ IBM Cloud Pak For Data (cp4d) // Default deployment type
 - For example
 
 `./dockershell.sh --endpoint 9.30.68.83 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.es-cp4d-r9.os.fyre.ibm.com --user user --password passw0rd --deploymentType cp4d --deploymentID db2eventstore-1604331070225254 --es-version 2.0.1.2`
+If this successfully connects to your Event Store the end of output of this script will look like:
+```
+==================================================================
+IP of target Event Store server:    9.46.100.48
+Username:    admin
+==================================================================
+
+You are now in the Event Store Demo container.
+
+You can find the pre-compiled Kafka example app at:
+    /root/db2eventstore-kafka
+
+You can find IoT Analytics example apps at:
+    /root/db2eventstore-IoT-Analytics
+
+Happy exploring!
+``` 
+If you see this at the very end
+```
+Happy exploring!
+
+bash: /html: No such file or directory
+```
+the `bash: /html: No such file or directory` indicates something is not correct, most likey the ports are not configured correctly in `/etc/haproxy/haproxy.cfg` or you have the wrong `--deploymentID` specified. <br>
 
 After the script is successfully run you are placed inside the conatiner. <br>
 
