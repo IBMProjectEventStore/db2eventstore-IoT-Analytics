@@ -6,12 +6,12 @@
 ## Set up python 3.6
 
 cd /usr/src
-wget https://www.python.org/ftp/python/3.6.8/Python-3.6.8.tgz
-tar xzf Python-3.6.8.tgz
-cd Python-3.6.8
+wget https://www.python.org/ftp/python/3.6.13/Python-3.6.13.tgz
+tar xzf Python-3.6.13.tgz
+cd Python-3.6.13
 ./configure --enable-optimizations
 make altinstall
-rm /usr/src/Python-3.6.8.tgz
+rm /usr/src/Python-3.6.13.tgz
 ln -fs /usr/local/bin/python3.6 /usr/local/bin/python
 
 ## set up EventStore python library
