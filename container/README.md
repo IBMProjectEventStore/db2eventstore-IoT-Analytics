@@ -56,7 +56,9 @@ You can find IoT Analytics example apps at:
 
 Happy exploring!
 ``` 
-If you see this at the very end
+After the script is successfully run you are placed inside the conatiner. <br>
+#### Troubleshooting & Instructions
+1.  If you see this at the very end
 ```
 Happy exploring!
 
@@ -64,7 +66,18 @@ bash: /html: No such file or directory
 ```
 the `bash: /html: No such file or directory` indicates something is not correct, most likey the ports are not configured correctly in `/etc/haproxy/haproxy.cfg` or you have the wrong `--deploymentID` specified. <br>
 
-After the script is successfully run you are placed inside the conatiner. <br>
+2. If you see this at the very end
+```
+KeyError: 'accessToken'
++ bearerToken=
++ '[' 1 -ne 0 ']'
++ echo 'Not able to get bearerToken'
+Not able to get bearerToken
+````
+This usually means you have either the wrong user name or password in `deploydocker.sh` command, specfically double check this section
+```
+--user user --password passw0rd
+```
 
 Watson Studio Local (wsl)
 - Generally the eventstore server endpoint and the rest endpoint are the same, implying you only need to specify --endpoint
