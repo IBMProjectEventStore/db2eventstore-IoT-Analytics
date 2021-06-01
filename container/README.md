@@ -38,7 +38,7 @@ IBM Cloud Pak For Data (cp4d) // Default deployment type
 - This optionally requires the Kubernetes namespace which is the OpenShift project that is used for the specific deployment. The default namespace/project is `zen`.
 - For example
 
-`./dockershell.sh --endpoint 9.30.68.83 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.es-cp4d-r9.os.fyre.ibm.com --user user --password passw0rd --deploymentType cp4d --deploymentID db2eventstore-1604331070225254 --es-version 2.0.1.2`
+`./dockershell.sh --endpoint 9.30.68.83 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.es-cp4d-r9.os.fyre.ibm.com --user admin --password password --deploymentType cp4d --deploymentID db2eventstore-1604331070225254 --es-version 2.0.1.2`
 If this successfully connects to your Event Store the end of output of this script will look like:
 ```
 ==================================================================
@@ -76,7 +76,7 @@ Not able to get bearerToken
 ````
 This usually means you have either the wrong user name or password in `deploydocker.sh` command, specfically double check this section
 ```
---user user --password passw0rd
+--user admin --password password
 ```
 
 Watson Studio Local (wsl)
