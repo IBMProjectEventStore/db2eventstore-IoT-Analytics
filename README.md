@@ -75,7 +75,7 @@ yum install -y git
 git clone https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics.git
 ```
 
-- It is useful to perform an `oc login` to the OpenShift custer running Event Store.  This requires the `oc` client tool installed, which is typically done with the installatio of OpenShift.  If your linux machine does not have the `oc` binary installed, for CentOS 7 & 8 and Red Hat 7 & 8, run these commands to install it
+- It is useful to perform an `oc login` to the OpenShift custer running Event Store.  This requires the `oc` client tool installed, which is typically done with the installatio of OpenShift.  If your linux machine does not have the `oc` binary installed, for CentOS 7 & 8 and Red Hat 7 & 8, run these as the commands as the `root` user to install it
 ```
 cd $HOME
 yum install -y wget
@@ -84,13 +84,13 @@ tar -xzvf openshift-client-linux-4.7.0-0.okd-2021-05-22-050008.tar.gz  -C /usr/b
 ```
 For Mac, Windows, & Linux here is a link to get the [`oc` client](https://github.com/openshift/okd/releases)
 
-- Optionally **strongly recommended** build the client docker container to be able quickly have an environment ready to run all remote applications in this code pattern, by following the instructions in the [container folder in this repository](container). This sets up the environment to run all examples in this code pattern, including Python, Java, JDBC, Scala, and even [Apache Kafka](https://github.com/IBMProjectEventStore/db2eventstore-kafka).
+- **Strongly Recommended** Optionally build the client docker container to be able quickly have an environment ready to run all remote applications in this code pattern, by following the instructions in the [container folder in this repository](container). This sets up the environment to run all examples in this code pattern, including Python, Java, JDBC, ODBC, Scala, and even [Apache Kafka](https://github.com/IBMProjectEventStore/db2eventstore-kafka).
 
 # Workflow
 
 ### 1. Prepare the sample IoT dataset
 
-This repository includes a generator to create a  sample IoT dataset in CSV format that contains 1 Million records. The sample CSV dataset can be found at `/data/sample_IOT_table.csv`.
+This repository includes a generator to create a sample IoT dataset in CSV format that contains 1 Million records. The sample CSV dataset can be found at `/data/sample_IOT_table.csv`.
 
 Alternatively, a CSV dataset containing user-specified number of record can be generated with the provided python script at `/data/generator.py`. A Python environment with Pandas and Numpy installed is required to run the script.
 
@@ -188,5 +188,5 @@ See the notebooks with example output here: [notebook examples with result](note
 # License
 [Apache 2.0](LICENSE)
 
-[@Frank Sun](https://twitter.com/sun_xi_frank), [IBM Db2 Event Store](https://www.ibm.com/products/db2-event-store)
+[IBM Db2 Event Store](https://www.ibm.com/products/db2-event-store)
 
