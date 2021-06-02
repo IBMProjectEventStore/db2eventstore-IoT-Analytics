@@ -2,8 +2,8 @@
 
 The Dockerfile in this directory will build a docker image named `eventstore_demo`. The image contains remote applications and runtime environment for Event Store demo. Users can build the docker image, run the docker container from the image built, and run the pre-loaded examples in the docker container.
 
-**Procedure:**
-**Step 1: Build the docker image**
+#### Procedure
+##### Step 1: Build the docker image
 On a linux desktop or server (CentOS 7.9 works fine) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker.  <br>
 Run the shell script `build.sh` to build the docker image.
 The image size is around 3.5 GB, build takes around 30 mins, depending on network conditions.
@@ -17,7 +17,7 @@ The format to run this for other (versions) releases of Event Store is:
 ```
 where `<eventstore-release>` is replaced with the actual eventstore-release number.
 
-**Step 2: Start the docker container**
+##### Step 2: Start the docker container
 After the image is built, run the shell script `dockershell.sh` to start the container and run the examples. The Event Store release identifies which tagged image to start.
 The script takes 4 mandatory arguments and 3 optional ones.
 
