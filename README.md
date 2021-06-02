@@ -71,7 +71,16 @@ The IBM Db2 Event Store Enterprise Edition is suggested to be installed in order
 Clone the `db2eventstore-IoT-Analytics` locally. In a terminal, run:
 
 ```bash
+yum install -y git
 git clone https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics.git
+```
+
+- It is useful to perform an `oc login` to the OpenShift custer running Event Store.  This requires the `oc` client tool installed, which is typically done with the installatio of OpenShift.  If your linux machine does not have the `oc` binary installed, for CentOS 7 & 8 and Red Hat 7 & 8, run these commands to install it
+```
+cd $HOME
+yum install -y wget
+wget https://github.com/openshift/okd/releases/download/4.7.0-0.okd-2021-05-22-050008/openshift-client-linux-4.7.0-0.okd-2021-05-22-050008.tar.gz
+tar -xzvf openshift-client-linux-4.7.0-0.okd-2021-05-22-050008.tar.gz  -C /usr/bin/
 ```
 
 - Optionally build the client docker container to be able quickly have an environment ready to run all remote applications in this code pattern, by following the instructions in the [container folder in this repository](container). This sets up the environment to run all examples in this code pattern, including Python, Java, JDBC, Scala, and even [Apache Kafka](https://github.com/IBMProjectEventStore/db2eventstore-kafka).
