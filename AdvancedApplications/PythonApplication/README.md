@@ -4,24 +4,13 @@
 
 This assumes that you have set up the environment to run a spark application. A simple option is to use the [docker container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container) provided in this repository that already contains all the environment necessary to run the application. Alternatively, you can use the script used to set up spark in the docker container to set up your environment, find this in the [setup folder in this repository](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh).
 
-If not running within the docker container, run the script to configure SSL that is provided in the container [set up folder in this repository](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-ssl.sh). Also set up the environment variables IP with the cluster IP address, EVENT_USER with the user name, and EVENT_PASSWORD with the user password. 
-
-For a python example [`ExamplePythonApp.py`](ExamplePythonApp.py), follow these steps:
-
-1. To get the IBM Db2 Event Store Python client package for the 2.0 edition, get the `python.tar` from the following github repository https://github.com/IBMProjectEventStore/db2eventstore-pythonpackages/ (not needed if using [docker container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container))
-2. cd to the directory where [`ExamplePythonApp.py`](ExamplePythonApp.py) is located
-3. untar (tar -xvf python.tar) the `python.tar` file you downloaded in the current directory, so that you see an `eventstore` directory where `ExamplePythonApp.py` is located containing the Python client package (not needed if using the [docker container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container))
-4. If using the [docker container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container), run this command
+1. If using the [docker container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container), run these commands
 ```
 cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/PythonApplication
+./runpythonExample
 ```
-6. In [`runpythonExample`](runpythonExample), you do not need to edit this line for Event Store `2.0.1.0` and `2.0.1.2`, but for other versions of Event Store you may have to edit this line to provide the correct spark jar file.
-   ```
-   ESLIB=/spark_home/jars/ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar
-   ```
-and provide the correct directory to the `ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar` file (which you obtained from Maven earlier from [this link](https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.4.6))
 
-5. Run the python application using: [`./runpythonExample`](runpythonExample).  If there were no tables created ignore the drop tables errors, ignore these errors
+2. If there were no tables created ignore the drop tables errors, ignore these errors
 ```
 An error occurred while calling o0.dropTable.
 : com.ibm.event.EventException: dropTable() : client request failed: DB2 SQL Error: SQLCODE=-204, SQLSTATE=42704, SQLERRMC=ADMIN.PYTHONTABLE, DRIVER=4.25.4
@@ -39,7 +28,7 @@ An error occurred while calling o0.dropTable.
         at py4j.GatewayConnection.run(GatewayConnection.java:238)
         at java.lang.Thread.run(Thread.java:748)
 ```
-7. The application will create the table "PYTHONTABLE", insert some rows into it and then query them to show the contents. The of the successful output will look like
+3 . The application will create the table "PYTHONTABLE", insert some rows into it and then query them to show the contents. The of the successful output will look like
 ```
 Inserting batch rows:
 {'deviceID': 1, 'sensorID': 48, 'ts': 1541019342393, 'ambient_temp': 25.983183481618322, 'power': 14.65874116573845, 'temperature': 48.908846094198}
@@ -72,7 +61,22 @@ Inserting batch rows:
 |       1|      24|1541019347200|2.49608683400373E1|1.17737284188528E1|4.21618297950746E1|
 |       1|       4|1541019350783|2.30122878342603E1|2.44768869161358E0|3.47966186885547E1|
 +--------+--------+-------------+------------------+------------------+------------------+
-
 ```
-9. Note if you look at [`runpythonExample`](runpythonExample), it's recommended to use `spark-submit` with Spark 2.0.2 since it easily processes python apps.
+
+If not running within the docker container, run the script to configure SSL that is provided in the container [set up folder in this repository](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-ssl.sh). Also set up the environment variables IP with the cluster IP address, EVENT_USER with the user name, and EVENT_PASSWORD with the user password. 
+
+For a python example [`ExamplePythonApp.py`](ExamplePythonApp.py), follow these steps:
+
+1. To get the IBM Db2 Event Store Python client package for the 2.0 edition, get the `python.tar` from the following github repository https://github.com/IBMProjectEventStore/db2eventstore-pythonpackages/ (not needed if using [docker container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container))
+2. cd to the directory where [`ExamplePythonApp.py`](ExamplePythonApp.py) is located
+3. untar (tar -xvf python.tar) the `python.tar` file you downloaded in the current directory, so that you see an `eventstore` directory where `ExamplePythonApp.py` is located containing the Python client package (not needed if using the [docker container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container))
+4. In [`runpythonExample`](runpythonExample), you do not need to edit this line for Event Store `2.0.1.0` and `2.0.1.2`, but for other versions of Event Store you may have to edit this line to provide the correct spark jar file.
+   ```
+   ESLIB=/spark_home/jars/ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar
+   ```
+and provide the correct directory to the `ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar` file (which you obtained from Maven earlier from [this link](https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.4.6))
+
+5. Run the python application using: [`./runpythonExample`](runpythonExample).  
+
+6. Note if you look at [`runpythonExample`](runpythonExample), it's recommended to use `spark-submit` with Spark 2.0.2 since it easily processes python apps.
 
