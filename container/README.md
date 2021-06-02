@@ -160,7 +160,7 @@ If you want to rebuild the docker container after you have built it (for example
    ```
    docker images
    ```
-3) Do a `git pull` to ensure you have the latest files from github.com
+3) Do a `git pull` under `db2eventstore-IoT-Analytics` diretory to ensure you have the latest files from github.com
 4) Follow the steps at the top of this page to build the container 
 ```
 ./build.sh --es-version 2.0.1.2
