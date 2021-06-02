@@ -1,9 +1,9 @@
-### Docker Image for Event Store 2.0 Demo
+## Docker Image for Event Store 2.0 Demo
 
 The Dockerfile in this directory will build a docker image named `eventstore_demo`. The image contains remote applications and runtime environment for Event Store demo. Users can build the docker image, run the docker container from the image built, and run the pre-loaded examples in the docker container.
 
-#### Procedure
-##### Step 1: Build the docker image
+### Procedure
+#### Step 1: Build the docker image
 On a linux desktop or server (CentOS 7.9 works fine) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker.  <br>
 Run the shell script `build.sh` to build the docker image.
 The image size is around 3.5 GB, build takes around 30 mins, depending on network conditions.
@@ -17,7 +17,7 @@ The format to run this for other (versions) releases of Event Store is:
 ```
 where `<eventstore-release>` is replaced with the actual eventstore-release number.
 
-##### Step 2: Start the docker container
+#### Step 2: Start the docker container
 After the image is built, run the shell script `dockershell.sh` to start the container and run the examples. The Event Store release identifies which tagged image to start.
 The script takes 4 mandatory arguments and 3 optional ones.
 
@@ -68,7 +68,7 @@ You can find IoT Analytics example apps at:
 Happy exploring!
 ``` 
 After the script is successfully run you are placed inside the conatiner. <br>
-#### Troubleshooting & Instructions
+### Troubleshooting & Instructions
 1.  If you see this at the very end
 ```
 Happy exploring!
@@ -105,7 +105,7 @@ After the above commnand:
 - The environment will be setup with the necessary configurations to establish SSL connection with the SDKs where applicable (i.e. when not using a developer deployment, which does not use SSL).
 - Mount hostpath `${HOME}/eventstore_demo_volume` to `/root/user_volume` inside the container.
 
-#### Using the container
+### Using the container
 
 If you exit the container, here is how to re-enter it, from the host that is running the `evenstore_demo` container enter the following command
 ```
@@ -141,14 +141,14 @@ The kafka sample application is contained in its own repository, which for conve
 ```
 The instruction for using the kafka application can be found in the README of the corresponding repository: [Kafka Repository](https://github.com/IBMProjectEventStore/db2eventstore-kafka)
 
-#### Connect to a different Event Store environment
+### Connect to a different Event Store environment
 If you want to connect to a different Event Store environment you re-installed Event Store on an existing OpenShift environment you need to ensure the docker image is not running.  If you see the `eventstore_demo` image running when you run `docker ps`, do a `docker stop <CONTAINER ID>,` such as
 ```
 docker stop 2ed7b72a008a
 ```
 This will take a minute.  Then run the `./dockershell.sh` command again, don't forget to provide the new `--deploymentID ` value as that will change for each new deployment.  Also if using IBM fyre the db2 and eventstore ports will change (they are randomly created for each Event Store deployment) and the `/etc/haproxy/haproxy.cfg` on fyre infrastructure node will need to get updated and the haproxy will neeed to get restarted.
 
-#### Recreate the Docker Container
+### Recreate the Docker Container
 If you want to rebuild the docker container after you have built it (for example there have been updates to the Docker Container), do the following
 1) Stop the Docker Containeer if it is running as described above via `docker stop`
 2) Delete the container by running 
