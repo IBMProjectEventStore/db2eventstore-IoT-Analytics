@@ -68,7 +68,7 @@ The IBM Db2 Event Store Enterprise Edition is suggested to be installed in order
 
 - Clone this github repository to get a local copy of all files
 
-Clone the `db2eventstore-IoT-Analytics` locally. In a terminal, run:
+Clone the `db2eventstore-IoT-Analytics` locally. In a terminal on CentOS 7.x & 8.x or Red Hat 7.x & 8.x, run:
 
 ```bash
 yum install -y git
