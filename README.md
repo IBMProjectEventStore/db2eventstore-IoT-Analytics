@@ -1,6 +1,6 @@
 # IoT Sensor Temperature Analysis with IBM Db2 Event Store
 
-> Note: This code pattern was developed and tested with IBM Db2 Event Store - Enterprise Edition 2.0. This code pattern is not compatible with other Event Store versions.
+> Note: This code pattern was developed and tested with IBM Db2 Event Store - Enterprise Edition 2.0. This code pattern is not compatible with older Event Store versions.
 
 IBM® Db2® Event Store is a memory-optimized database designed for massive structured data volumes and real-time analytics. IBM Db2 Event Store combines open source technology (such as Spark and Zookeeper) with industry-tested enhancements from IBM (such as the IBM Common SQL Engine) to simplify your data landscape by enabling you to do real-time processing and batch processing with a single data store. IBM Watson® Studio Local is built into IBM Db2 Event Store for an integrated, collaborative development experience with support for creating machine-learning models. The solution is optimized for event-driven data processing and analysis. It can support emerging applications that are driven by events such as Internet of Things (IoT) solutions, payments, logistics and web commerce. It is flexible, scalable and can adapt quickly to your changing business needs over time. Available in a free developer edition and an enterprise edition that you can download now. The enterprise edition is free for pre-production and test, please visit the [official product webpage](https://www.ibm.com/products/db2-event-store) for more information.
 
