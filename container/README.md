@@ -29,7 +29,7 @@ IBM Cloud Pak For Data (cp4d) // Default deployment type
 - Generally this requires you to specify --endpointRest as the REST endpoint differs from the eventstore server endpoint` (i.e., --endpoint)
 - db2-port - db2 port accessible outside of OpenShift
 - es-port - this is the eventstore port accessible outside of OpenShift <br>
-Here is how to obtain the internal `db-port` and internal `es-port`
+Here is how to obtain the internal `db-port` and internal `es-port` while connected to OpenShift cluster via `oc login` from a terminal session
 ```
 DB2_EXTERNAL_ENGINE_SVC=`oc get svc | grep db2eventstore-.*engine-db2-external-svc | awk '{ print $1 }'`
 ES_EXTERNAL_ENGINE_SVC=`oc get svc | grep db2eventstore-.*engine-es-external-svc | awk '{ print $1 }'`
