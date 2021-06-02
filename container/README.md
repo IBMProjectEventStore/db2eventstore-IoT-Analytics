@@ -27,6 +27,17 @@ How to run with different deployment types:
 
 IBM Cloud Pak For Data (cp4d) // Default deployment type
 - Generally this requires you to specify --endpointRest as the REST endpoint differs from the eventstore server endpoint` (i.e., --endpoint)
+- db2-port - db2 port accessible outside of OpenShift
+- es-port - this is the eventstore port accessible outside of OpenShift
+Here is how to obtain the internal `db-port` and internal `es-port`
+```
+DB2_EXTERNAL_ENGINE_SVC=`oc get svc | grep db2eventstore-.*engine-db2-external-svc | awk '{ print $1 }'`
+ES_EXTERNAL_ENGINE_SVC=`oc get svc | grep db2eventstore-.*engine-es-external-svc | awk '{ print $1 }'`
+DB2_PORT=`oc get svc ${DB2_EXTERNAL_ENGINE_SVC} -o jsonpath='{.spec.ports[?(@.name=="server")].nodePort}'`
+EVENTSTORE_PORT=`oc get svc ${ES_EXTERNAL_ENGINE_SVC} -o jsonpath='{.spec.ports[?(@.name=="legacy-server")].nodePort}'`
+echo $DB2_PORT
+echo $EVENTSTORE_PORT
+```
 - endpoint on ibm fyre with OpenShift installed via OCP+, the endpoint is the ip address of your infrastructure node
 - endpointRest is typically the dns name of the url you use to log into cloud pak for data, this often can be found while logged into the cluster and run these 2 commands
    ```
