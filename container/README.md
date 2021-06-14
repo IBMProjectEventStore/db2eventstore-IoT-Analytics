@@ -153,7 +153,7 @@ If you want to rebuild the docker container after you have built it (for example
 1) Stop the Docker Containeer if it is running as described above via `docker stop`
 2) Delete the container by running 
    ```
-   docker rmi <IMAGE ID>
+   docker rmi -f <IMAGE ID>
    ```
   you obtain the `<IMAGE ID>` by running 
    
