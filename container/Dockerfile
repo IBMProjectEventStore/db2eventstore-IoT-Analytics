@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi7/ubi:latest
+FROM registry.access.redhat.com/ubi8/ubi:latest
 LABEL maintainer "Chen Gao <Chen.Gao@ibm.com>"
 
 ENV IOT_REPO_PATH=/root/db2eventstore-IoT-Analytics
@@ -27,12 +27,11 @@ RUN yum install -y \
 RUN git clone --single-branch --branch ${BRANCH} https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics.git ${IOT_REPO_PATH}
 
 # Install jq
-RUN wget -O /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
+RUN wget -O /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
 RUN chmod +x /usr/local/bin/jq
 
 # Install screen
-RUN wget -P /tmp/ http://mirror.centos.org/centos/7/os/x86_64/Packages/screen-4.1.0-0.26.20120314git3c2946.el7.x86_64.rpm
-RUN yum localinstall -y /tmp/screen-4.1.0-0.26.20120314git3c2946.el7.x86_64.rpm && yum clean all && rm -rf /var/cache/yum && rm -rf /tmp/screen-4.1.0-0.26.20120314git3c2946.el7.x86_64.rpm
+RUN rpm -ivh https://download-ib01.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/s/screen-4.6.2-12.el8.x86_64.rpm
 
 # Setup Screen
 RUN echo -e 'startup_message off \nhardstatus on \nhardstatus alwayslastline \nvbell off \nhardstatus string "%{.bW}%-w%{..G}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a"' > ${HOME}/.screenrc
