@@ -23,7 +23,12 @@ If you running the docker demo container run these commands:
 cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/ODBCApplication
 ./bldExampleODBCApp /clidriver
 ```
-There is no noticable output from this command, it creates file called `ExampleODBCApp` in this `/root/db2eventstore-IoT-Analytics/AdvancedApplications/ODBCApplication` directory
+There used to be no noticable output from this command, it creates file called `ExampleODBCApp` in this `/root/db2eventstore-IoT-Analytics/AdvancedApplications/ODBCApplication` directory.  Output of commands above is now
+```
+ExampleODBCApp.c: In function ‘main’:
+ExampleODBCApp.c:196:9: warning: implicit declaration of function ‘DropTableIfExists’ [-Wimplicit-function-declaration]
+   rc =  DropTableIfExists(tableName, hdbc, hstmt);
+ ```
  
 2. Run the executable created by the build
 ```
