@@ -53,7 +53,7 @@ So if a new version of Db2 driver is available, download it, put in the folder a
 The Db2 driver is used for the ODBC test
 
 ## Operating System 
-Jim Stroud upgraded from UBI 7 to UBI 8 on June 13, 2021, when that was done, we had to move any Red Hat version 7 (el7) rpms to version 8 (el8). <br>
+Jim Stroud upgraded from UBI 7 to [UBI 8](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L1) on June 13, 2021, when that was done, we had to move any Red Hat version 7 (el7) rpms to version 8 (el8). <br>
 This was done here <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L34
 
