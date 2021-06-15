@@ -76,7 +76,7 @@ To install another version of SBT, browse the releases here https://github.com/s
 
 #### Python Setup
 
-To setup the Python 3.6.8 environment do the following. You will need to have pandas and numpy installed to execute the generate.sh locally(for Centos Linux) .
+To setup the Python 3.6.13 environment do the following. You will need to have pandas and numpy installed to execute the generate.sh locally(for Centos Linux) .
 
 Below we will ownload the package from https://www.python.org/ftp/python/3.6.8 and extract the file and perform installations. This will install python in your $HOME directory
 ```
