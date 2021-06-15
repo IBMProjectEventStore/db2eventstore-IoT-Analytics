@@ -34,12 +34,16 @@ https://github.com/nodejs/node/releases <br>
 Also look at this page to verify we are on the Long Term Support (LTS) version <br>
 https://nodejs.org/en/about/releases/ <br>
 
+When security updates are relased or a new Long Term Support (LTS) version is released update this file in this line <br>
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/rest/install.sh#L4
+
 ## Node Packages 
 The only node.js package is called `request` and is already at the lastet and last release as the package is now deprecated <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/rest/package.json#L7
 
-When security updates are relased or a new Long Term Support (LTS) version is released update this file in this line <br>
-https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/rest/install.sh#L4
+Replacement should be either [axios](https://github.com/axios/axios) or [got](https://github.com/sindresorhus/got)  Also see [here](https://nodesource.com/blog/express-going-into-maintenance-mode) 
+
+
 
 ## Db2 Drivers
 The actual Db2 drivers are in this folder <br>
