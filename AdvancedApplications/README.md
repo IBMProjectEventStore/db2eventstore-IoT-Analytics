@@ -58,11 +58,11 @@ You can also refer to the script used to set up the [container](https://github.c
 
 #### SBT Setup
 
-To set up Simple Build Tool (SBT), version 1.5.3, do the following as the root user.  
+To set up Simple Build Tool (SBT), version 1.5.4, do the following as the root user.  
   
 ```
-wget -O /tmp/sbt-1.5.3.tgz https://github.com/sbt/sbt/releases/download/v1.5.3/sbt-1.5.3.tgz
-tar xzvf /tmp/sbt-1.5.3.tgz -C /usr/share/
+wget -O /tmp/sbt-1.5.4.tgz https://github.com/sbt/sbt/releases/download/v1.5.4/sbt-1.5.4.tgz
+tar xzvf /tmp/sbt-1.5.4.tgz -C /usr/share/
 ln -s /usr/share/sbt/bin/sbt /usr/bin/sbt
 ```
 
@@ -81,9 +81,10 @@ To setup the Python 3.6.8 environment do the following. You will need to have pa
 Below we will ownload the package from https://www.python.org/ftp/python/3.6.8 and extract the file and perform installations. This will install python in your $HOME directory
 ```
 cd 
-wget https://www.python.org/ftp/python/3.6.8/Python-3.6.8.tgz
-tar -xzvf tar -xzvf Python-3.6.8.tgz
-cd Python-3.6.8
+wget https://www.python.org/ftp/python/3.6.13/Python-3.6.13.tgz
+tar xzf Python-3.6.13.tgz
+
+cd Python-3.6.13
 ./configure --enable-optimizations
 make altinstall
 sudo yum install python-pip
