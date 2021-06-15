@@ -4,8 +4,8 @@ This will describe the various components or pieces that should get updated regu
 ## SBT
 SBT is the Simple Build Tool (SBT).  The best practice is to subscribe to new releases of this repo
 https://github.com/sbt/sbt/releases
-When a new version SBT comes out update these 2 lines
-https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-scala.sh#L24
+When a new version SBT comes out update these 2 lines <br>
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-scala.sh#L24 <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-scala.sh#L25
 
 
@@ -19,16 +19,16 @@ https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/
 
 ## Python
 This is done here
-https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-python.sh#L9
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-python.sh#L9 <br>
 Python upgrades to new versions such as 3.6.x to 3.7.x can break functionality.  So it not safe to ugprade to versions as such, but moving from 3.6.x to 3.6.y is typically is safe to do.
 
 ## Node.js
 Node.js is uses for the REST Service.  The best practice is to subscribe to new releases of thisrepos
 https://github.com/nodejs/node/releases <br>
-The only node.js package is called `request` and is already at the lastet and last release as the package is now deprecated
+The only node.js package is called `request` and is already at the lastet and last release as the package is now deprecated <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/rest/package.json#L7
 
-When security updates are relased or a new Long Term Support (LTS) version is released update this file in this line
+When security updates are relased or a new Long Term Support (LTS) version is released update this file in this line <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/rest/install.sh#L4
 
 ## Db2 Drivers
@@ -43,7 +43,7 @@ So if a new version of Db2 driver is available, download it, put in the folder a
 The Db2 driver is used for the ODBC test
 
 ## Operating System 
-Jim Stroud upgraded from UBI 7 to UBI 8 on June 13, 2021, when that was done, we had to move any Red Hat version 7 (el7) rpms to version 8 (el8).
+Jim Stroud upgraded from UBI 7 to UBI 8 on June 13, 2021, when that was done, we had to move any Red Hat version 7 (el7) rpms to version 8 (el8). <br>
 This was done here <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L34
 
