@@ -8,6 +8,9 @@ When a new version SBT comes out update these 2 lines <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-scala.sh#L24 <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-scala.sh#L25
 
+Update manual instructions here <br>
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/AdvancedApplications/README.md#sbt-setup
+
 
 ## Spark
 This is done here
@@ -20,7 +23,10 @@ https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/
 ## Python
 This is done here
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-python.sh#L9 <br>
-Python upgrades to new versions such as 3.6.x to 3.7.x can break functionality.  So it not safe to ugprade to versions as such, but moving from 3.6.x to 3.6.y is typically is safe to do.
+Python upgrades to new versions such as 3.6.x to 3.7.x can break functionality.  So it not safe to ugprade to versions as such, but moving from 3.6.x to 3.6.y is typically is safe to do. 
+
+Update manual instructions here <br>
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/AdvancedApplications/README.md#python-setup
 
 ## Node.js
 Node.js is uses for the REST Service.  The best practice is to subscribe to new releases of thisrepos
