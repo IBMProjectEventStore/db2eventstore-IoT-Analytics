@@ -29,8 +29,12 @@ Update manual instructions here <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/AdvancedApplications/README.md#python-setup
 
 ## Node.js
-Node.js is uses for the REST Service.  The best practice is to subscribe to new releases of thisrepos
+Node.js is uses for the REST Service.  The best practice is to subscribe to new releases of this repo <br>
 https://github.com/nodejs/node/releases <br>
+Also look at this page to verify we are on the Long Term Support (LTS) version <br>
+https://nodejs.org/en/about/releases/ <br>
+
+## Node Packages 
 The only node.js package is called `request` and is already at the lastet and last release as the package is now deprecated <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/rest/package.json#L7
 
