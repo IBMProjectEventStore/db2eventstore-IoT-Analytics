@@ -61,3 +61,9 @@ Jim Stroud upgraded from UBI 7 to [UBI 8](https://github.com/IBMProjectEventStor
 This was done here <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L34
 
+## Scala
+This container is on the last release of the Scala 2.11.x branch, which is `2.11.12`  See here  https://www.scala-lang.org/download/scala2.html <br>
+Event Store 2.x is still on using `2.11.8`.  If there is another release of Scala 2.11.x the update is done here https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-scala.sh  Before making the change verify the new rpm is able to be downloaded from <br>
+http://downloads.typesafe.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.${PKGTYPE} <br>
+If not use the lightbend as that is what the scala-lang.org website points to now.  Here is an example of the lightbend download <br>
+https://downloads.lightbend.com/scala/2.11.12/scala-2.11.12.rpm
