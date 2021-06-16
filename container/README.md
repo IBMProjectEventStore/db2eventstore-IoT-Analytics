@@ -4,7 +4,7 @@ The Dockerfile in this directory will build a docker image named `eventstore_dem
 
 ### Procedure
 #### Step 1: Build the docker image
-On a linux desktop or server (CentOS 7.9 & CentOS 8.4 work fine) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker.  <br>
+On a linux desktop or server (CentOS 7.9 & CentOS 8.4 work fine, Red Hat 8.4 only works with Docker and not podmand) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker.  <br>
 Run the shell script `build.sh` to build the docker image.
 The image size is around 3.5 GB, build takes around 20 to 30 mins, depending on network conditions and processing power of the host.
 The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: `2.0.1.2`, `2.0.1.0` and `2.0.0.5`. To run this for release `2.0.1.2`, the command would be:
@@ -156,7 +156,6 @@ If you want to rebuild the docker container after you have built it (for example
    docker rmi -f <IMAGE ID>
    ```
   you obtain the `<IMAGE ID>` by running 
-   
    ```
    docker images
    ```
@@ -165,3 +164,16 @@ If you want to rebuild the docker container after you have built it (for example
 ```
 ./build.sh --es-version 2.0.1.2
 ```
+
+### Red Hat 8.x
+To get this demo container to work on Red Hat 8.x do the following, which will uninstall `podman` and `buildah` and install `docker-ce`, start docker and have it run on boot
+```
+dnf remove -y buildah podman
+yum install -y yum-utils
+yum-config-manager     --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
+yum install docker-ce docker-ce-cli containerd.io
+systemctl start docker
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
+```
+When using `podman`  the demo applications do not complete their run, it complains about keydb not found or something like that.
