@@ -5,9 +5,11 @@
 ## scala
 ##
 
-SCALA_VERSION=${SCALA_VERSION:=2.11.8}
+SCALA_VERSION=${SCALA_VERSION:=2.11.12}
 rm -f /tmp/scala-${SCALA_VERSION}.${PKGTYPE}
 # Get scala deb package into generic package name
+# alternate download site if typsafe stops working is lightbend 
+# https://downloads.lightbend.com/scala/2.11.12/scala-2.11.12.rpm
 wget -O /tmp/scala-${SCALA_VERSION}.${PKGTYPE} \
      http://downloads.typesafe.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.${PKGTYPE}
 if [[ ${DISTRO} == ubuntu ]]; then
