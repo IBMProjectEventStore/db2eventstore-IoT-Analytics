@@ -4,9 +4,9 @@ The Dockerfile in this directory will build a docker image named `eventstore_dem
 
 ### Procedure
 #### Step 1: Build the docker image
-On a linux desktop or server (CentOS 7.9 works fine) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker.  <br>
+On a linux desktop or server (CentOS 7.9 & CentOS 8.4 work fine) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker.  <br>
 Run the shell script `build.sh` to build the docker image.
-The image size is around 3.5 GB, build takes around 30 mins, depending on network conditions.
+The image size is around 3.5 GB, build takes around 20 to 30 mins, depending on network conditions and processing power of the host.
 The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: `2.0.1.2`, `2.0.1.0` and `2.0.0.5`. To run this for release `2.0.1.2`, the command would be:
 ```
 ./build.sh --es-version 2.0.1.2
