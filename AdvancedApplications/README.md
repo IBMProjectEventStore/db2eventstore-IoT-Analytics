@@ -51,8 +51,8 @@ You can also refer to the script used to set up the [container](https://github.c
 
 To set up scala use:
 
-`wget http://downloads.typesafe.com/scala/2.11.8/scala-2.11.8.rpm`
-`sudo rpm -ihv scala-2.11.8.rpm`
+`wget http://downloads.typesafe.com/scala/2.11.8/scala-2.11.12.rpm`
+`sudo rpm -ihv scala-2.11.12.rpm`
 
 You can also refer to the script used to set up the [container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-scala.sh) f yuu would like to see the details of what was run.
 
