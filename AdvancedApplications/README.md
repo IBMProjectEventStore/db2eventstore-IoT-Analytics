@@ -49,8 +49,10 @@ You can also refer to the script used to set up the [container](https://github.c
 
 To set up java (for java 1.8) use: 
 
-`sudo yum install java`
-`sudo yum install java-devel`
+```
+sudo yum install -y java java-devel
+```  
+
 
 You can also refer to the script used to set up the [container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-java.sh) f yuu would like to see the details of what was run.
 
