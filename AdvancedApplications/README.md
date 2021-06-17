@@ -37,7 +37,9 @@ To install Spark 2.4.8, follow these steps:
   wget https://archive.apache.org/dist/spark/spark-2.4.8/spark-2.4.8-bin-hadoop2.6.tgz
   ```
 * Where the tar file was downloaded to open the archive using
-  `tar -xvf spark-2.4.8-bin-hadoop2.6.tgz`
+  ```
+  tar -xvf spark-2.4.8-bin-hadoop2.6.tgz
+  ```
 * In the terminal session the remote application(s) will be run, set the SPARK_HOME variable using the directory where the archived was untarred (e.g., /home/<userid>).
 `export SPARK_HOME=/home/<userid>/spark-2.4.8-bin-hadoop2.6`
 
