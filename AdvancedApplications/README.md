@@ -23,11 +23,11 @@ You have the option of either setting up the environment in a docker container f
 
 Instructions to build a docker container are found [here](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/container). The container is configured to run all sample applications.
 
-### Specific applicaition option
+### Specific application option
 
 #### Spark Setup
 
-To install Spark 2.4.6, follow these steps:
+To install Spark 2.4.6, follow these steps: (should move to 2.4.8)
 
 * Go to https://archive.apache.org/dist/spark/spark-2.4.6/
 * Download spark-2.4.6-bin-hadoop2.6.tgz (suggest using  "/home/<userid>)
