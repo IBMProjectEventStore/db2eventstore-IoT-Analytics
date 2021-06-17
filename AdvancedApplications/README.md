@@ -27,14 +27,19 @@ Instructions to build a docker container are found [here](https://github.com/IBM
 
 #### Spark Setup
 
-To install Spark 2.4.6, follow these steps: (should move to 2.4.8)
+To install Spark 2.4.8, follow these steps:
 
-* Go to https://archive.apache.org/dist/spark/spark-2.4.6/
-* Download spark-2.4.6-bin-hadoop2.6.tgz (suggest using  "/home/<userid>)
+* Go to https://archive.apache.org/dist/spark/spark-2.4.8/
+* Download spark-2.4.8-bin-hadoop2.6.tgz (suggest using  "/home/<userid>)
+* Download via
+  ```
+  yum install -y wget
+  wget https://archive.apache.org/dist/spark/spark-2.4.8/spark-2.4.8-bin-hadoop2.6.tgz
+  ```
 * Where the tar file was downloaded to open the archive using
-  `tar -xvf spark-2.4.6-bin-hadoop2.6.tgz`
+  `tar -xvf spark-2.4.8-bin-hadoop2.6.tgz`
 * In the terminal session the remote application(s) will be run, set the SPARK_HOME variable using the directory where the archived was untarred (e.g., /home/<userid>).
-`export SPARK_HOME=/home/<userid>/spark-2.4.6-bin-hadoop2.6`
+`export SPARK_HOME=/home/<userid>/spark-2.4.8-bin-hadoop2.6`
 
 You can also refer to the script used to set up the [container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh) if yuu would like to see the details of what was run.
 
