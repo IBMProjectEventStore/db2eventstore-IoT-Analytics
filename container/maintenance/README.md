@@ -20,6 +20,9 @@ https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/AdvancedApplications/PythonApplication/runpythonExample#L2 <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/AdvancedApplications/ScalaApplication/runscalaExample#L5 <br>
 
+Also update this page <br>
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications#specific-applicaition-option
+
 ## Python
 This is done here
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-python.sh#L9 <br>
@@ -67,3 +70,6 @@ Event Store 2.x is still on using `2.11.8`.  If there is another release of Scal
 http://downloads.typesafe.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.${PKGTYPE} <br>
 If not use the lightbend as that is what the scala-lang.org website points to now.  Here is an example of the lightbend download <br>
 https://downloads.lightbend.com/scala/2.11.12/scala-2.11.12.rpm
+
+Also update rpms on this page 
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications#specific-applicaition-option
