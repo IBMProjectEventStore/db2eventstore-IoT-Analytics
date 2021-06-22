@@ -3,12 +3,21 @@
 The Dockerfile in this directory will build a docker image named `eventstore_demo`. The image contains remote applications and runtime environment for Event Store demo. Users can build the docker image, run the docker container from the image built, and run the pre-loaded examples in the docker container.
 
 ### Procedure
-#### Step 1: Build the docker image
+#### Step 1: Clone this repo
+On a linux desktop git clone this repo
+```
+cd ~
+yum install -y git
+git clone git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git
+```
+
+#### Step 2: Build the docker image
 On a linux desktop or server (CentOS 7.9 & CentOS 8.4 work fine, Red Hat 8.4 only works with Docker and not podmand) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker.  <br>
 Run the shell script `build.sh` to build the docker image.
 The image size is around 3.5 GB, build takes around 20 to 30 mins, depending on network conditions and processing power of the host.
 The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: `2.0.1.3`,`2.0.1.2`, `2.0.1.0` and `2.0.0.5`. To run this for release `2.0.1.3`, the command would be:
 ```
+cd ~ db2eventstore-IoT-Analytics/container
 ./build.sh --es-version 2.0.1.3
 ```
 The format to run this for other (versions) releases of Event Store is:
@@ -17,11 +26,14 @@ The format to run this for other (versions) releases of Event Store is:
 ```
 where `<eventstore-release>` is replaced with the actual eventstore-release number.
 
-#### Step 2: Start the docker container
+#### Step 3: Start the docker container
 After the image is built, run the shell script `dockershell.sh` to start the container and run the examples. The Event Store release identifies which tagged image to start.
 The script takes 4 mandatory arguments and 3 optional ones.
 
-`./dockershell.sh --endpoint <EventStore_Server_Endpoint> --db2-port <db2_port_number> --es-port <es_port_number> --endpointRest <EventStore_Rest_Endpoint> --user <EventStore_Username> --password <EventStore_Password> --deploymentType <deployment type> --deploymentID <deployment ID> --es-version <release>`
+```
+cd ~ db2eventstore-IoT-Analytics/container
+./dockershell.sh --endpoint <EventStore_Server_Endpoint> --db2-port <db2_port_number> --es-port <es_port_number> --endpointRest <EventStore_Rest_Endpoint> --user <EventStore_Username> --password <EventStore_Password> --deploymentType <deployment type> --deploymentID <deployment ID> --es-version <release>
+```
 
 How to run with different deployment types:
 
@@ -52,8 +64,10 @@ echo $EVENTSTORE_INTERNAL_PORT
 - This requires the user and password options (normally what is used to log into Cloud Pak for data url)
 - This optionally requires the Kubernetes namespace which is the OpenShift project that is used for the specific deployment. The default namespace/project is `zen`.
 - For example
-
-`./dockershell.sh --endpoint 9.30.68.83 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.es-cp4d-r9.os.fyre.ibm.com --user admin --password password --deploymentType cp4d --deploymentID db2eventstore-1604331070225254 --es-version 2.0.1.2`
+```
+cd ~ db2eventstore-IoT-Analytics/container
+./dockershell.sh --endpoint 9.30.68.83 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.es-cp4d-r9.os.fyre.ibm.com --user admin --password password --deploymentType cp4d --deploymentID db2eventstore-1604331070225254 --es-version 2.0.1.2
+```
 If this successfully connects to your Event Store the end of output of this script will look like:
 ```
 ==================================================================
