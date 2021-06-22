@@ -1,6 +1,10 @@
 ## Introduction
 For this demo docker container, this README describes the various components of that should get updated regularly and how to perform the updates.  After any update is done, test it by doing a `git pull` or `git clone` of this [repo](git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git), then run the [`build.sh`](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/container#step-1-build-the-docker-image) script and then [start](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/container#step-2-start-the-docker-container) the docker container and test the java, python, scala and ODBC [applications](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications) to ensure all work with the sample data.  You will need a functioning  Db2 Event Store that has haproxy setup for this testing.
 
+## Event Store versions
+for new versions of event store add that in this file
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/es-releases.json
+
 ## SBT
 SBT is the Simple Build Tool (SBT).  The best practice is to get notifiied of new releases selecting `Watch` ... `Custom` ...  `Releases` of this git repo <br>
 https://github.com/sbt/sbt/releases <br>
