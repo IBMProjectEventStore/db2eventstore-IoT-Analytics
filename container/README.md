@@ -42,6 +42,10 @@ echo $EVENTSTORE_INTERNAL_PORT
 - endpointRest is typically the dns name of the url you use to log into cloud pak for data, this often can be found while logged into the cluster and run these 2 commands
    ```
    oc project zen
+   oc get route zen-cpd -o jsonpath={.spec.host}
+   ```
+   command below now gives two hostnames
+   ```
    oc get route  | grep -v 'HOST/PORT' | awk '{print $2}'
    ```
 - This requires the --deploymentID which is specific to the database and can be retrieved from the eventstore cloudpak for data User Interface (UI) at: `Data ... Databases ... Details`.  It will be a value that appears similar to: `db2eventstore-16043310702252545`
