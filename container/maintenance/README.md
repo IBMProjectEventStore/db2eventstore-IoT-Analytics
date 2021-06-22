@@ -2,7 +2,7 @@
 For this demo docker container, this README describes the various components of that should get updated regularly and how to perform the updates.  After any update is done, test it by doing a `git pull` or `git clone` of this [repo](git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git), then run the [`build.sh`](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/container#step-1-build-the-docker-image) script and then [start](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/container#step-2-start-the-docker-container) the docker container and test the java, python, scala and ODBC [applications](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications) to ensure all work with the sample data.  You will need a functioning  Db2 Event Store that has haproxy setup for this testing.
 
 ## Event Store versions
-for new versions of event store add that in this file <br>
+For new versions of Event Store add them in this file while keeping the same pattern of the other versions of Event Store<br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/es-releases.json
 After this change do a git pull of this repo and re-build the docker container
 
@@ -51,7 +51,6 @@ The only node.js package is called `request` and is already at the lastet and la
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/rest/package.json#L7
 
 Replacement should be either [axios](https://github.com/axios/axios) or [got](https://github.com/sindresorhus/got)  Also see [here](https://nodesource.com/blog/express-going-into-maintenance-mode) 
-
 
 
 ## Db2 Drivers
