@@ -7,7 +7,10 @@ https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/
 After this change do a git pull of this repo and re-build the docker container.  
 
 Also edit this line to put in new version <br>
-https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/build.sh#L3
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/build.sh#L3 <br>
+
+And this file <br>
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-container.sh
 
 ## SBT
 SBT is the Simple Build Tool (SBT).  The best practice is to get notifiied of new releases selecting `Watch` ... `Custom` ...  `Releases` of this git repo <br>
