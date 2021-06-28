@@ -115,15 +115,39 @@ The IBM Data Server Driver Package is included in the docker container.  In the 
 
 To setup the ODBC client environment (for non-Docker container) do the following:
 
-* Download version 11.5 GA of the IBM Data Server Driver Package (including the ODBC driver) or IBM Data Server Driver for ODBC and CLI from the site below, selecting your host platform. You are required to have an IBM id in order to download this package. After the file is downloaded you need to copy it to the host or the container from where you intend to run your ODBC application. 
+* Download latest fixpack for version 11.5 GA of the IBM Data Server Driver Package (including the ODBC driver) or IBM Data Server Driver for ODBC and CLI from the site below, selecting your host platform. You are required to have an IBM id in order to download this package. After the file is downloaded you need to copy it to the host or the container from where you intend to run your ODBC application. 
 
-  https://www.ibm.com/support/pages/download-initial-version-115-clients-and-drivers
+  https://www.ibm.com/support/pages/download-initial-version-115-clients-and-drivers <br>
+  then go to `Download 11.5 fix packs for IBM Data Server Client Packages fix pack download page` and get the latest to get the latest, which should be this link <br> 
+  https://www.ibm.com/support/pages/node/323035
+  
+  ```
+  IBM Data Server Client Packages Fix Packs by version for 11.5
+  ```
+  The download 
+  ```
+  IBM Data Server Driver Package
+
+   This package contains drivers and libraries for various programming language environments. It provides support for Java (JDBC and SQLJ), C/C++ (ODBC and CLI), .NET drivers and database drivers for open source languages like PHP and Ruby. The latest driver package from Version 11.5 also includes an interactive client tool called CLPPlus that is capable of executing SQL statements, scripts and can generate custom reports.
+  ```
+  for your operating system, for the demo docker image we use `IBM Data Server Driver Package (Linux/x86-64 64 bit) V11.5.6 Fix Pack 0` but as this gets updated these values may change ` V11.5.6 Fix Pack 0` to something more current
   
 > Note: If using the  [demo container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container), this "**IBM Data Server Driver Package (Linux AMD64 and Intel EM64T)**"  is already copied into the container and extracted to `/dsdriver` inside the container.
 
 * Go the location where the IBM Data Server Driver Package was saved on your host or container and unpack it onto a previously created directory `<ds_driver_path>`.
-
-`tar -xvf ibm_data_server_driver_package_linuxx64_v11.5.tar.gz -C <ds_driver_path>`
+```
+tar -xvf v11.5.6_linuxx64_dsdriver.tar.gz -C <ds_driver_path>
+```
+old instructions for 11.5 was 
+```  
+tar -xvf ibm_data_server_driver_package_linuxx64_v11.5.tar.gz -C <ds_driver_path>
+```
+  
+Since it so confusing to navigate and obtain this package, here are screenshots for the 11.5.6 fix pack 0 download <br>
+![](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/images/data-server-client-driver-pacakge-1.png) <br>
+![](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/images/data-server-client-driver-pacakge-2.png) <br>
+![](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/images/data-server-client-driver-pacakge-3.png) <br>
+![](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/images/data-server-client-driver-pacakge-4.png) <br>
 
 * Find the ODBC client package `ibm_data_server_driver_for_odbc_cli.tar.gz` within `<ds_driver_path>`. For example, it might be found under `dsdriver/odbc_cli_driver/linuxamd64`. Then proceed to unpack it onto a previously created directory `<odbc_path>`. 
 
