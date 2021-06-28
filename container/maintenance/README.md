@@ -68,7 +68,19 @@ https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/
 and are referenced here
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L54
 So if a new version of Db2 driver is available, download it, put in the folder above, and modify the Dockerfile to ensure it is referenced properly.
-The Db2 driver is used for the ODBC test
+The Db2 driver is used for the ODBC test.
+
+To update the docker image with new versions of the  IBM Data Server Driver, download it as described [here](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications#odbcdb2cli-setup ), clone this repo on a linux vm, then copy the file to
+  `db2eventstore-IoT-Analytics/ibm_data_server_driver_package`, delete the old driver, do the following in git
+  ```
+  git pull
+  git add <new ds driver filenae> 
+  git commit -a -m "put comments about the change - such as update to new db2 dsdriver version xxxx"
+  git pull
+  git push
+  ```
+  
+  edit https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L54 and point to the new file
 
 ## Operating System 
 Jim Stroud upgraded from UBI 7 to [UBI 8](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L1) on June 13, 2021, when that was done, we had to move any Red Hat version 7 (el7) rpms to version 8 (el8). <br>
