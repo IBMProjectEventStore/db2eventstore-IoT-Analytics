@@ -126,6 +126,34 @@ This usually means you have either the wrong user name or password in `deploydoc
 ```
 --user admin --password password
 ```
+3. If you get this error: container name "/eventstore_demo_admin" is already in use
+After running this
+```
+./dockershell.sh --endpoint 9.30.138.71 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.stroud-eventstore-2.cp.fyre.ibm.com --user admin --password password --deploymentType cp4d --deploymentID db2eventstore-1624989035389301 --es-version 2.0.1.2
+```
+this is the error 
+```
+docker: Error response from daemon: Conflict. The container name "/eventstore_demo_admin" is already in use by container "1244343e4a17655720f6b36e495b1b7b3a3508dcf69cdaffcae1cb22daa59c19". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+Cleaning up dangling images and/or exited containersExited container successfully![root@fcitest53 container]#
+```
+do the following to see any running containers
+```
+docker ps -a
+```
+The output will look something like:
+```
+[root@fcitest53 container]# docker ps -a
+CONTAINER ID   IMAGE                     COMMAND                  CREATED       STATUS       PORTS     NAMES
+1244343e4a17   eventstore_demo:2.0.1.2   "bash -c 'env && /ro…"   2 weeks ago   Up 2 weeks             eventstore_demo_admin
+```
+the do a `docker stop <container-id-that-is-running>`, for example
+```
+[root@fcitest53 container]# docker stop 1244343e4a17
+1244343e4a17
+[root@fcitest53 container]#
+```
+then you should be able to run `./dockershell.sh` command
 
 Watson Studio Local (wsl)
 - Generally the eventstore server endpoint and the rest endpoint are the same, implying you only need to specify --endpoint
