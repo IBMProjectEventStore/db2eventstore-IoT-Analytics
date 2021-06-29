@@ -20,7 +20,7 @@ Run the shell script `build.sh` to build the docker image.
 The image size is around 4.5 GB, build takes around 12 to 30 mins, depending on network conditions and processing power of the host (MacBook Pro 16 in 2019 model took 12.6 minutes).
 The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: `2.0.1.3`,`2.0.1.2`, `2.0.1.0` and `2.0.0.5`. To run this for release `2.0.1.3`, the command would be:
 ```
-cd ~ db2eventstore-IoT-Analytics/container
+cd ~/db2eventstore-IoT-Analytics/container
 ./build.sh --es-version 2.0.1.3
 ```
 The format to run this for other (versions) releases of Event Store is:
