@@ -14,7 +14,7 @@ git clone git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git
 #### Step 2: Build the docker image
 On a linux desktop or server (CentOS 7.9 & CentOS 8.4 work fine, Red Hat 8.4 only works with Docker and not podmand) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker.  <br>
 Run the shell script `build.sh` to build the docker image.
-The image size is around 3.5 GB, build takes around 20 to 30 mins, depending on network conditions and processing power of the host.
+The image size is around 4.5 GB, build takes around 20 to 30 mins, depending on network conditions and processing power of the host.
 The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: `2.0.1.3`,`2.0.1.2`, `2.0.1.0` and `2.0.0.5`. To run this for release `2.0.1.3`, the command would be:
 ```
 cd ~ db2eventstore-IoT-Analytics/container
