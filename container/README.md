@@ -15,7 +15,10 @@ git clone git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git
 On either 
 - Mac OS 11.4 with [docker desktop](https://www.docker.com/products/docker-desktop) (tested with Docker version `20.10.7, build f0df350` MacBook Pro 16 inch 2019 model) installed and running or: 
 - linux desktop or server (CentOS 7.9 & CentOS 8.4 work fine, Red Hat 8.4 only works with Docker and not Podman) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker.  The machine also needs access to the internet. <br>
-- Windows 10 21H1 or greater with [docker desktop](https://www.docker.com/products/docker-desktop) installed and running with WSL integration enabled with a Linux distro from Windows installed (this was tested with Kali Linux from the Microsoft Store in Windows 10).  Getting this to work on Windows 10 is more challenging of a setup and is not recommended.  In the Kali linux command prompt run the following commands
+- Windows 10 21H1 or greater with [docker desktop](https://www.docker.com/products/docker-desktop) installed and running with Windows Subsystem for Linux (WSL) integration enabled with a Linux distro from Windows installed (this was tested with Kali Linux from the Microsoft Store in Windows 10).  Below is a screenshot of configuring docker on Windows with WSL 
+   ![](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/images/docker-windows10-wsl.png)
+   
+   Getting this to work on Windows 10 is more challenging of a setup and is not recommended.  In the Kali linux command prompt run the following commands
    ```
    sudo su -
    cd /mnt/c/Users
