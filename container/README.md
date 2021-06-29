@@ -4,7 +4,7 @@ The Dockerfile in this directory will build a docker image named `eventstore_dem
 
 ### Procedure
 #### Step 1: Clone this repo
-On a linux desktop git clone this repo
+On a mac or linux desktop git clone this repo (it is possible to do this on Windows 10 but not recommended)
 ```
 cd ~
 yum install -y git
