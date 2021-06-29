@@ -148,6 +148,7 @@ Since it so confusing to navigate and obtain this package, here are screenshots 
 ![](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/images/data-server-client-driver-pacakge-2.png) <br>
 ![](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/images/data-server-client-driver-pacakge-3.png) <br>
 ![](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/images/data-server-client-driver-pacakge-4.png) <br>
+![](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/images/data-server-client-driver-pacakge-5.png) <br>
 
 * Find the ODBC client package `ibm_data_server_driver_for_odbc_cli.tar.gz` within `<ds_driver_path>`. For example, it might be found under `dsdriver/odbc_cli_driver/linuxamd64`. Then proceed to unpack it onto a previously created directory `<odbc_path>`. 
 
