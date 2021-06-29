@@ -15,13 +15,25 @@ git clone git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git
 On either 
 - Mac OS 11.4 with [docker desktop](https://www.docker.com/products/docker-desktop) (tested with Docker version `20.10.7, build f0df350` MacBook Pro 16 inch 2019 model) installed and running or: 
 - linux desktop or server (CentOS 7.9 & CentOS 8.4 work fine, Red Hat 8.4 only works with Docker and not Podman) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker.  The machine also needs access to the internet. <br>
-
+- Windows 10 21H1 or greater with [docker desktop](https://www.docker.com/products/docker-desktop) installed and running with WSL integration enabled with a Linux distro from Windows installed (this was tested with) Kali Linux.  This is more challenging of a setup and not recommended.  In the Kali linux command prompt run the following command
+   ```
+   cd /mnt/c/Users
+   ```
+   this will get you to the `C:\Users` directory.  Now navigate to where you have cloned the repo, such as 
+   ```
+   cd /mnt/c/Users/strou/Documents/sirius-repos/db2eventstore-IoT-Analytics/container
+   ```
+   Run these commands (for some reason Windows 10 shows ^M characters even though I ran `dos2unix` on the .sh files on linux)
+   ```
+   sudo apt-get install dos2unix
+   dos2unix *.sh
+   ```
 Run the shell script `build.sh` to build the docker image.
 The image size is around 4.5 GB, build takes around 12 to 30 mins, depending on network conditions and processing power of the host (MacBook Pro 16 in 2019 model took 12.6 minutes).
 The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: `2.0.1.3`,`2.0.1.2`, `2.0.1.0` and `2.0.0.5`. To run this for release `2.0.1.3`, the command would be:
 ```
 cd ~/db2eventstore-IoT-Analytics/container
-./build.sh --es-version 2.0.1.3
+sudo ./build.sh --es-version 2.0.1.3
 ```
 The format to run this for other (versions) releases of Event Store is:
 ```
