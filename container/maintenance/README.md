@@ -73,8 +73,13 @@ The Db2 driver is used for the ODBC test.
 To update the docker image with new versions of the  IBM Data Server Driver, download it as described [here](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications#odbcdb2cli-setup ), clone this repo on a linux vm, then copy the file to
   `db2eventstore-IoT-Analytics/ibm_data_server_driver_package`, delete the old driver, do the following in git
   ```
+  # add your public ssh key from your linux vm to your account on github.com (https://github.com/settings/keys)
+  # below put your name and email address you use to log into github.com
+  git config --global user.name James Stroud
+  git config --global user.email james.jstroud@gmail.com
   git pull
-  git add <new ds driver filenae> 
+  cd db2eventstore-IoT-Analytics/ibm_data_server_driver_package
+  git add <new ds driver filename> 
   git commit -a -m "put comments about the change - such as update to new db2 dsdriver version xxxx"
   git pull
   git push
