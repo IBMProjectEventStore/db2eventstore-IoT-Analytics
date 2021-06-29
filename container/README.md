@@ -23,7 +23,7 @@ On either
    ```
    cd /mnt/c/Users/strou/Documents/sirius-repos/db2eventstore-IoT-Analytics/container
    ```
-   Run these commands (for some reason Windows 10 shows ^M characters even though I ran `dos2unix` on the .sh files on linux)
+   Run these commands (for some reason Windows 10 shows ^M characters in `build.sh` and `dockershell.sh` even though I ran `dos2unix` on the .sh files on linux and checked them into github that way)
    ```
    sudo apt-get install dos2unix
    dos2unix *.sh
