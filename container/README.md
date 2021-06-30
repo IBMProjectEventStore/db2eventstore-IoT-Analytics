@@ -12,9 +12,9 @@ git clone git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git
 ```
 
 #### Step 2: Build the docker image
-On either 
-- Mac OS 11.4 with [docker desktop](https://www.docker.com/products/docker-desktop) (tested with Docker version `20.10.7, build f0df350` MacBook Pro 16 inch 2019 model) installed and running or: 
-- linux desktop or server (CentOS 7.9 & CentOS 8.4 work fine, Red Hat 8.4 only works with Docker and not Podman) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker.  The machine also needs access to the internet. <br>
+In all scenarios below, the machine that will build and run the docker image needs docker installed and running, git installed, access to the internet, and about 6 GB of free disk space.  On either:
+- Mac OS 11.4 and [docker desktop](https://www.docker.com/products/docker-desktop) (tested with Docker version `20.10.7, build f0df350` MacBook Pro 16 inch 2019 model) installed and running or: 
+- linux desktop or server (CentOS 7.9 & CentOS 8.4 work fine, Red Hat 8.4 only works with Docker and not Podman) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker. <br>
 - Windows 10 21H1 or greater with [docker desktop](https://www.docker.com/products/docker-desktop) installed and running with Windows Subsystem for Linux (WSL) integration enabled with a Linux distro from Windows installed (this was tested with Kali Linux from the Microsoft Store in Windows 10).  Kali Linux is an offshoot of Ubuntu. Below is a screenshot of configuring docker on Windows with WSL 
    ![](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/images/docker-windows10-wsl.png)
    
@@ -161,7 +161,7 @@ the do a `docker stop <container-id-that-is-running>`, for example
 then you should be able to run `./dockershell.sh` command
 
 ### Caveats
-Watson Studio Local (wsl)
+Watson Studio Local (wsl). This is legacy and has not been tested or tried in several years.
 - Generally the eventstore server endpoint and the rest endpoint are the same, implying you only need to specify --endpoint
 - This requires the user and password options
 
