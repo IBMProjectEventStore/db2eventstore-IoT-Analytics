@@ -72,4 +72,4 @@ or socket output stream.  Error location: Reply.fill() - socketInputStream.read 
 	at com.ibm.db2.jcc.am.b6.a(b6.java:338)
 	at com.ibm.db2.jcc.t4.a.a(a.java:572)
   ```
-  You most likely need to update backend db2 and eventstore ports in `/etc/haproxy/haproxy.cfg`.  See here for instructions
+  You most likely need to update backend db2 and eventstore ports in `/etc/haproxy/haproxy.cfg`.  See here for [instructions to fix this](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications/ScalaApplication#troubleshooting)
