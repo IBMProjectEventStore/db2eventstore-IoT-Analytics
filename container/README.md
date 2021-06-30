@@ -105,7 +105,12 @@ You can find IoT Analytics example apps at:
 Happy exploring!
 ``` 
 After the script is successfully run you are placed inside the conatiner. <br>
-### Troubleshooting & Instructions
+
+After `dockershell.sh`command is successfully run as described above:
+- A docker container instance named `eventstore_demo_${user}` will be started. The container instance contains necessary run-time environments for running applications in Python, Java, JDBC, Scala, Kafka, REST (Node.js), and Spark.
+- The environment will be setup with the necessary configurations to establish SSL connection with the SDKs where applicable (i.e., when not using a developer deployment, which does not use SSL).
+- Mount hostpath `${HOME}/eventstore_demo_volume` to `/root/user_volume` inside the container.
+### Troubleshooting
 1.  If you see this at the very end
 ```
 Happy exploring!
@@ -155,6 +160,7 @@ the do a `docker stop <container-id-that-is-running>`, for example
 ```
 then you should be able to run `./dockershell.sh` command
 
+### Caveats
 Watson Studio Local (wsl)
 - Generally the eventstore server endpoint and the rest endpoint are the same, implying you only need to specify --endpoint
 - This requires the user and password options
@@ -164,11 +170,6 @@ Developer container (developer)
 - This requires the user and password options
 
 See the scripts help option for more details (i.e. `./dockershell.sh --help`)
-
-After the above commnand:
-- A docker container instance named `eventstore_demo_${user}` will be started. The container instance contains necessary run-time environments for running applications in Python, Java, JDBC, Scala, Kafka, REST (Node.js), and Spark.
-- The environment will be setup with the necessary configurations to establish SSL connection with the SDKs where applicable (i.e. when not using a developer deployment, which does not use SSL).
-- Mount hostpath `${HOME}/eventstore_demo_volume` to `/root/user_volume` inside the container.
 
 ### Using the container
 
