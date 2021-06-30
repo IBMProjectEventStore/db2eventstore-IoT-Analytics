@@ -217,7 +217,7 @@ This will take a minute.  Then run the `./dockershell.sh` command again, don't f
 ### Recreate the Docker Container
 If you want to rebuild the docker container after you have built it (for example there have been updates to the Docker Container), do the following
 1) Stop the Docker Containeer if it is running as described above via `docker stop`
-2) Delete the container by running 
+2) Force remove (Delete) the container by running 
    ```
    docker rmi -f <IMAGE ID>
    ```
