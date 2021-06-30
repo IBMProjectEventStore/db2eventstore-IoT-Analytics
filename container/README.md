@@ -3,7 +3,7 @@
 The Dockerfile in this directory will build a docker image named `eventstore_demo`. The image contains remote applications and runtime environment for Event Store demo. Users can build the docker image, run the docker container from the image built, and run the pre-loaded examples in the docker container.
 
 ### Procedure
-#### Step 1: Clone this repo
+#### Step 1: Clone this git repo
 On a mac or linux desktop git clone this repo (it is possible to do this on Windows 10 but not recommended)
 ```
 cd ~
