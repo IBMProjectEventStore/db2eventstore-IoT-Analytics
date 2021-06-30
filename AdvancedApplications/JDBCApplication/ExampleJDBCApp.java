@@ -59,7 +59,7 @@ public class ExampleJDBCApp {   // Save as "ExampleJDBCApp.java"
                     "sslKeyStorePassword="+ KEYDB_PASSWORD + ";" +
                     "sslTrustStorePassword="+ KEYDB_PASSWORD + ";" +
                     "securityMechanism=15;" +
-                    "pluginName=IBMPrivateCloudAuth;", 
+                    "pluginName=IBMIAMAuth;", 
                     USERNAME, PASSWORD);
 
            // Set Isolation level to be able to query data immediately after it is inserted
