@@ -48,4 +48,28 @@ ESLIB=${SPARK_HOME}/jars/ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar
 ```
 to reflect Spark client version (jar file) you are using.   You may need to change `ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar` if this is not spark client jar on your system. The jar file is in the `spark_home/jars` directory, the default directory used by the setup script. For example for Event Store 2.0.1.0 the client file is `ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar`. The jar file was obtained from Maven earlier [here](https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.4.6).
 
-
+## Troubleshooting
+If you see this error
+```
+[root@d2b8991602f7 ~]# cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/JavaApplication
+[root@d2b8991602f7 JavaApplication]# ./runjavaExample
+Compile java code
+Make a jar with java class
+execute with spark submit
+21/06/30 22:41:50 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Unable to load conf/log4j-defaults.properties
+log4j:WARN No appenders could be found for logger (com.ibm.event.common.ConfigurationReader).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Connect to database EVENTDB
+SQLException information
+Error msg: [jcc][t4][2030][11211][4.25.4] A communication error occurred during operations on the connection's underlying socket, socket input stream, 
+or socket output stream.  Error location: Reply.fill() - socketInputStream.read (-1).  Message: Remote host terminated the handshake. ERRORCODE=-4499, SQLSTATE=08001
+SQLSTATE: 08001
+Error code: -4499
+com.ibm.db2.jcc.am.DisconnectNonTransientConnectionException: [jcc][t4][2030][11211][4.25.4] A communication error occurred during operations on the connection's underlying socket, socket input stream, 
+or socket output stream.  Error location: Reply.fill() - socketInputStream.read (-1).  Message: Remote host terminated the handshake. ERRORCODE=-4499, SQLSTATE=08001
+	at com.ibm.db2.jcc.am.b6.a(b6.java:338)
+	at com.ibm.db2.jcc.t4.a.a(a.java:572)
+  ```
+  You most likely need to update backend db2 and eventstore ports in `/etc/haproxy/haproxy.cfg`.  See here for instructions
