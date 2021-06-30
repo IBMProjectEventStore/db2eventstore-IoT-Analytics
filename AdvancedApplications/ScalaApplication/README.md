@@ -78,3 +78,135 @@ End of successful output is below
 [root@d7c734a4e19f ScalaApplication]#
 
 ```
+## Troubleshooting
+If you get this error
+```
+[root@d2b8991602f7 ScalaApplication]# ./runscalaExample
+Compile java code
+Compile the scala application
+cat: /usr/lib/jvm/java-1.8.0-openjdk/release: No such file or directory
+Execute with spark submit
+21/06/30 22:42:33 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Connecting to 9.30.138.71;
+Using database EVENTDB
+SQLException information
+log4j:WARN No appenders could be found for logger (com.ibm.event.api.EventJDBCClient).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Error msg: [jcc][t4][2030][11211][4.25.4] A communication error occurred during operations on the connection's underlying socket, socket input stream, 
+or socket output stream.  Error location: Reply.fill() - socketInputStream.read (-1).  Message: Remote host terminated the handshake. ERRORCODE=-4499, SQLSTATE=08001
+SQLSTATE: 08001
+Error code: -4499
+com.ibm.db2.jcc.am.DisconnectNonTransientConnectionException: [jcc][t4][2030][11211][4.25.4] A communication error occurred during operations on the connection's underlying socket, socket input stream, 
+or socket output stream.  Error location: Reply.fill() - socketInputStream.read (-1).  Message: Remote host terminated the handshake. ERRORCODE=-4499, SQLSTATE=08001
+	at com.ibm.db2.jcc.am.b6.a(b6.java:338)
+	at com.ibm.db2.jcc.t4.a.a(a.java:572)
+```
+It most likely means the eventstore database or environment was recreated and the db2 and event store ports  at the bottom of
+```
+/etc/haproxy/haproxy.cfg
+```
+are incorrect.
+
+
+    Find Corresponding Node Ports of Eventstore Engine Service From the infrastructure node and as root from a terminal session run the following command, copy and paste
+
+DB2_EXTERNAL_ENGINE_SVC=`oc get svc | grep db2eventstore-.*engine-db2-external-svc | awk '{ print $1 }'`
+ES_EXTERNAL_ENGINE_SVC=`oc get svc | grep db2eventstore-.*engine-es-external-svc | awk '{ print $1 }'`
+DB2_PORT=`oc get svc ${DB2_EXTERNAL_ENGINE_SVC} -o jsonpath='{.spec.ports[?(@.name=="server")].nodePort}'`
+EVENTSTORE_PORT=`oc get svc ${ES_EXTERNAL_ENGINE_SVC} -o jsonpath='{.spec.ports[?(@.name=="legacy-server")].nodePort}'`
+pwd
+
+validate by running the following commands
+```
+echo $DB2_EXTERNAL_ENGINE_SVC
+echo $ES_EXTERNAL_ENGINE_SVC=
+echo $DB2_PORT
+echo $EVENTSTORE_PORT
+pwd
+```
+The values for
+```
+echo $DB2_PORT
+echo $EVENTSTORE_PORT
+```
+Need to get entered as the backend db2 and backend eventstore ports
+So in this example here is the ouput of those 2 commands
+```
+root@stroud-eventstore-2-inf ~]# echo $DB2_PORT
+30614
+[root@stroud-eventstore-2-inf ~]# echo $EVENTSTORE_PORT
+30374
+```
+
+Now edit 
+```
+/etc/haproxy/haproxy.cfg
+```
+
+Change From
+```
+#---------------------------------------------------------------------
+
+frontend db2
+        bind *:9177
+        default_backend db2
+        mode tcp
+        option tcplog
+
+backend db2
+        balance source
+        mode tcp
+        server master0 10.17.47.85:31682 check
+        server master1 10.17.54.178:31682 check
+        server master2 10.17.55.86:31682 check
+
+frontend eventstore
+        bind *:9178
+        default_backend eventstore
+        mode tcp
+        option tcplog
+
+backend eventstore
+        balance source
+        mode tcp
+        server master0 10.17.47.85:32018 check
+        server master1 10.17.54.178:32018 check
+        server master2 10.17.55.86:32018 check
+```
+to:
+
+```
+#---------------------------------------------------------------------
+
+frontend db2
+        bind *:9177
+        default_backend db2
+        mode tcp
+        option tcplog
+
+backend db2
+        balance source
+        mode tcp
+        server master0 10.17.47.85:30614 check
+        server master1 10.17.54.178:30614 check
+        server master2 10.17.55.86:30614 check
+
+frontend eventstore
+        bind *:9178
+        default_backend eventstore
+        mode tcp
+        option tcplog
+
+backend eventstore
+        balance source
+        mode tcp
+        server master0 10.17.47.85:30374 check
+        server master1 10.17.54.178:30374 check
+        server master2 10.17.55.86:30374 check
+```  
+
+then restart haproxy
+```
+systemctl daemon-reload && systemctl restart haproxy
+```
