@@ -73,7 +73,7 @@ echo $EVENTSTORE_INTERNAL_PORT
 - endpointRest is typically the dns name of the url you use to log into cloud pak for data, this often can be found while logged into the cluster and run these 2 commands
    ```
    oc project zen
-   oc get route zen-cpd -o jsonpath={.spec.host}
+   echo `oc get route zen-cpd -o jsonpath={.spec.host}`
    ```
    command below now gives two hostnames
    ```
