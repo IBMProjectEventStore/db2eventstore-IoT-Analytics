@@ -8,6 +8,7 @@ On a mac or linux desktop git clone this repo (it is possible to do this on Wind
 ```
 cd ~
 yum install -y git
+yum update -y
 git clone git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git
 ```
 
