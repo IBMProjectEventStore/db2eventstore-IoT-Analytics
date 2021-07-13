@@ -27,8 +27,9 @@ In all scenarios below, the machine that will build and run the docker image nee
    ```
    cd /mnt/c/Users/strou/Documents/sirius-repos/db2eventstore-IoT-Analytics/container
    ```
-   Run these commands (for some reason Windows 10 shows ^M characters in `build.sh` and `dockershell.sh` even though I ran `dos2unix` on the .sh files on linux and checked them into github that way), last time I did this on Windows 10 I did not need to run the 2 commands below.
+   Run these commands to update Kali linux and install and run `dos2unix`.  For some reason Windows 10 shows ^M characters in `build.sh` and `dockershell.sh` even though I ran `dos2unix` on the .sh files on linux and checked them into github that way, last time I did this on Windows 10 I did not need to run the last 2 commands below to install and run `dos2unix` .
    ```
+   sudo apt update && apt full-upgrade -y
    sudo apt-get install dos2unix
    dos2unix *.sh
    ```
