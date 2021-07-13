@@ -27,14 +27,14 @@ In all scenarios below, the machine that will build and run the docker image nee
    ```
    cd /mnt/c/Users/strou/Documents/sirius-repos/db2eventstore-IoT-Analytics/container
    ```
-   Run these commands (for some reason Windows 10 shows ^M characters in `build.sh` and `dockershell.sh` even though I ran `dos2unix` on the .sh files on linux and checked them into github that way)
+   Run these commands (for some reason Windows 10 shows ^M characters in `build.sh` and `dockershell.sh` even though I ran `dos2unix` on the .sh files on linux and checked them into github that way), last time I did this on Windows 10 I did not need to run the 2 commands below.
    ```
    sudo apt-get install dos2unix
    dos2unix *.sh
    ```
-For all Operating Systems: CentOS 7.x and 8.x, Red Hat 7.x and 8.x , MacOS, and Windows 10 with Kali Linux, run the shell script `build.sh` to build the docker image.
-The image size is around 4.5 GB, build takes around 12 to 30 mins, depending on network conditions and processing power of the host (MacBook Pro 16 in 2019 model took 12.6 minutes).
-The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: `2.0.1.3`,`2.0.1.2`, `2.0.1.0` and `2.0.0.5`. To run this for release `2.0.1.3`, the command would be (if running as root you do not need put `sudo` in front of `./build.sh`:
+- For all Operating Systems: CentOS 7.x and 8.x, Red Hat 7.x and 8.x , MacOS, and Windows 10 with Kali Linux, run the shell script `build.sh` to build the docker image.
+- The image size is around 4.5 GB, build takes around 12 to 30 mins, depending on network conditions and processing power of the host (MacBook Pro 16 in 2019 model took 12.6 minutes).
+- The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: `2.0.1.3`,`2.0.1.2`, `2.0.1.0` and `2.0.0.5`. To run this for release `2.0.1.3`, the command would be (if running as root you do not need put `sudo` in front of `./build.sh`:
 ```
 cd ~/db2eventstore-IoT-Analytics/container
 sudo ./build.sh --es-version 2.0.1.3
