@@ -102,3 +102,14 @@ https://downloads.lightbend.com/scala/2.11.12/scala-2.11.12.rpm
 
 Also update rpms on this page 
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications#specific-applicaition-option
+
+To verify the change, inside the demo container run this command
+```
+scala -version
+```
+The output will show
+```
+cat: /usr/lib/jvm/java-1.8.0-openjdk/release: No such file or directory
+Scala code runner version 2.11.12 -- Copyright 2002-2017, LAMP/EPFL
+```
+
