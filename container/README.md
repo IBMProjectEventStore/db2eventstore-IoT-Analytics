@@ -186,7 +186,7 @@ CONTAINER ID   IMAGE                     COMMAND                  CREATED       
 ```
 To enter the container run the following command (for your case replace `2ed7b72a008a` with your actual CONTAINER ID for your `evenstore_demo:<version>` docker image
 ```
-docker exec -it 0 2ed7b72a008a bash
+docker exec -u 0 -it 2ed7b72a008a bash
 ```
 
 This will place you back into the container.   Once in the container, the various sample applications (e.g. jdbc, scala, ...) can be accessed here:
