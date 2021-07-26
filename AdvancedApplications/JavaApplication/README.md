@@ -42,11 +42,11 @@ done.
 21/05/21 22:57:19 INFO ShutdownHookManager: Deleting directory /tmp/spark-66f8c036-bbd0-48a9-afcd-931db91c4fa6
 ```
 
-In [runjavaExample](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/AdvancedApplications/JavaApplication/runjavaExample), for the Event Store `2.0.1.0` or `2.0.1.2` you do not have to edit the line below, but for other releases of Event Store you may need to edit this line
+In [runjavaExample](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/AdvancedApplications/JavaApplication/runjavaExample), for the Event Store `2.0.1.0`, `2.0.1.2` or `2.0.1.3` you do not have to edit the line below, but for other releases of Event Store you may need to edit this line
 ```
 ESLIB=${SPARK_HOME}/jars/ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar
 ```
-to reflect Spark client version (jar file) you are using.   You may need to change `ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar` if this is not spark client jar on your system. The jar file is in the `spark_home/jars` directory, the default directory used by the setup script. For example for Event Store 2.0.1.0 the client file is `ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar`. The jar file was obtained from Maven earlier [here](https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.4.6).
+to reflect Spark client version (jar file) you are using.   You may need to change `ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar` if this is not spark client jar on your system. The jar file is in the `spark_home/jars` directory, the default directory used by the setup script. For example for Event Store 2.0.1.0, 2.0.1.2 and 2.0.1.3 the client file is `ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar`. The jar file was obtained from Maven earlier [here](https://mvnrepository.com/artifact/com.ibm.event/ibm-db2-eventstore-client-spark-2.4.6).
 
 ## Troubleshooting
 If you see this error
