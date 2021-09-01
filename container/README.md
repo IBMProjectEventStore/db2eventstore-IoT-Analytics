@@ -130,7 +130,7 @@ KeyError: 'accessToken'
 + echo 'Not able to get bearerToken'
 Not able to get bearerToken
 ````
-This usually means you have either the wrong user name or password in `deploydocker.sh` command, specfically double check this section
+This usually means you have either the wrong user name or password in `deploydocker.sh` command, specfically double check this section, or check you have the correct hostname for the `--endpointRest`
 ```
 --user admin --password password
 ```
