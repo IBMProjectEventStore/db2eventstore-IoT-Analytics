@@ -4,7 +4,7 @@ function usage()
 {
 cat <<-USAGE #| fmt
 Pre-requisite:
-- You have created the table IOT_TEMP by runnign the Notebook examples
+- You have created the table IOT_TEMP by running the Notebook examples
 - You have ingested data into the IOT_TEMP table 
 - You have run install.sh in this directory to install required packages
 ========
