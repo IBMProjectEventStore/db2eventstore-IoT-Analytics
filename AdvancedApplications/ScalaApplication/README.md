@@ -23,13 +23,18 @@ If not in the docker container follow these steps:
 
 `./runscalaExample`
 
-3. Ignore these 2 errors
+3. Ignore these 4 warnings (your IP address will be different)
+
 ```
-cat: /usr/lib/jvm/java-1.8.0-openjdk/release: No such file or directory
-```
-and  this error
-```
-Table schema = ResolvedTableSchema(tableName=ADMINSCALATABLE, schemaName=ADMIN, tableID=0, tableGroupName=sys_ADMINSCALATABLE, tableGroupID=0, numShareds=36, schema=StructType(StructField(DEVICEID,IntegerType,false), StructField(SENSORID,IntegerType,false), StructField(TS,LongType,false), StructField(AMBIENT_TEMP,DoubleType,false), StructField(POWER,DoubleType,false), StructField(TEMPERATURE,DoubleType,false)),
+21/09/02 02:55:51 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Connecting to 9.46.196.49;
+Using database EVENTDB
+Unable to load conf/log4j-defaults.properties
+log4j:WARN No appenders could be found for logger (com.ibm.event.common.ConfigurationReader).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+
+
 ```
 As it is most likely because there are not tables to drop
 
