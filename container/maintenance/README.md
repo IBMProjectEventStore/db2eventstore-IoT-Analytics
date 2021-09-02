@@ -49,8 +49,9 @@ https://github.com/nodejs/node/releases <br>
 Also look at this page to verify we are on the Long Term Support (LTS) version <br>
 https://nodejs.org/en/about/releases/ <br>
 
-When security updates are relased or a new Long Term Support (LTS) version is released update this file in this line <br>
+When a new Long Term Support (LTS) version is released update this file in this line <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/rest/install.sh#L4
+But when you build the container this will pull the latest node.js version from LTS branch specified.
 
 ## Node Packages 
 The only node.js package is called `request` and is already at the lastet and last release as the package is now deprecated <br>
@@ -112,4 +113,5 @@ The output will show
 cat: /usr/lib/jvm/java-1.8.0-openjdk/release: No such file or directory
 Scala code runner version 2.11.12 -- Copyright 2002-2017, LAMP/EPFL
 ```
-
+## Java
+Java 1.8 is automatically updated to the latest version upon building the docker container.  This is done via https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-java.sh#L12 and https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-java.sh#L13
