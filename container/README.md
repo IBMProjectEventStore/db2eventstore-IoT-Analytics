@@ -14,7 +14,7 @@ git clone git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git
 
 #### Step 2: Build the docker image
 In all scenarios below, the machine that will build and run the docker image needs docker installed and running, git installed, access to the internet, and about 6 GB of free disk space.  
-##### Install Docker
+#### Install Docker
 On either:
 - Mac OS 11.4 and [docker desktop](https://www.docker.com/products/docker-desktop) (tested with Docker version `20.10.7, build f0df350` MacBook Pro 16 inch 2019 model) installed and running or;
 - linux desktop or server (CentOS 7.9 & CentOS 8.4 work fine, Red Hat 8.4 only works with Docker and not Podman) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker. Linux is the most common OS used. 
@@ -22,7 +22,7 @@ On either:
 - Here is a good [youtube video that shows you how to install WSL2 and Kali Linux on Windows 10 using the older more complicated method](https://www.youtube.com/watch?v=AfVH54edAHU).  Kali Linux is an offshoot of Ubuntu. Below is a screenshot of configuring docker on Windows with WSL 
    ![](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/images/docker-windows10-wsl.png)
    
-   ##### Windows 10 Only
+   #### Windows 10 Only
    **Getting this to work on Windows 10 is more challenging of a setup and is not recommended.**  In the Kali linux command prompt run the following commands
    ```
    sudo su -
@@ -38,7 +38,7 @@ On either:
    sudo apt-get install dos2unix
    dos2unix *.sh
    ```
-  ##### All Operating Systems
+  #### All Operating Systems
 - For all Operating Systems: CentOS 7.x and 8.x, Red Hat 7.x and 8.x , MacOS, and Windows 10 with Kali Linux, run the shell script `build.sh` to build the docker image.
 - The image size is around 4.5 GB, build takes around 12 to 30 mins, depending on network conditions and processing power of the host (MacBook Pro 16 in 2019 model took 12.6 minutes).
 - The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: `2.0.1.4`, `2.0.1.3`,`2.0.1.2`, `2.0.1.0` and `2.0.0.5`. To run this for release `2.0.1.4`, the command would be (if running as root you do not need put `sudo` in front of `./build.sh`:
