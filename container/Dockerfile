@@ -45,9 +45,9 @@ COPY ./es-releases.json /root/user_volume/
 # get variables from json and setup spark
 RUN ${SETUP_AREA}/setup-container.sh $ES_VERSION
 
-# Create client config file
+# Create client config file and eliminate this error message "cat: /usr/lib/jvm/java-1.8.0-openjdk/release: No such file or directory" when executing ./runscalaExample
 RUN mkdir -p /bluspark/external_conf/
-RUN touch /bluspark/external_conf/bluspark.conf
+RUN touch /bluspark/external_conf/bluspark.conf /usr/lib/jvm/java-1.8.0-openjdk/release
 WORKDIR /root
 
 # Install IBM Db2 data server drivers
