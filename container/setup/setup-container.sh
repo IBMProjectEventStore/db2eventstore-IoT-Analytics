@@ -2,7 +2,7 @@
 
 # test if ES version supplied
 if [ -z $1 ]; then
-   ES_VERSION='"2.0.1.2"'
+   ES_VERSION='"2.0.1.4"'
 else
    ES_VERSION=\"${1}\"
 fi
