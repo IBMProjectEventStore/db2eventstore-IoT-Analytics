@@ -13,13 +13,16 @@ git clone git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git
 ```
 
 #### Step 2: Build the docker image
-In all scenarios below, the machine that will build and run the docker image needs docker installed and running, git installed, access to the internet, and about 6 GB of free disk space.  On either:
+In all scenarios below, the machine that will build and run the docker image needs docker installed and running, git installed, access to the internet, and about 6 GB of free disk space.  
+##### Install Docker
+On either:
 - Mac OS 11.4 and [docker desktop](https://www.docker.com/products/docker-desktop) (tested with Docker version `20.10.7, build f0df350` MacBook Pro 16 inch 2019 model) installed and running or;
 - linux desktop or server (CentOS 7.9 & CentOS 8.4 work fine, Red Hat 8.4 only works with Docker and not Podman) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker. Linux is the most common OS used. 
 - Windows 10 21H1 or greater with [docker desktop](https://www.docker.com/products/docker-desktop) installed and running with [Windows Subsystem for Linux 2 (WSL 2)](https://docs.microsoft.com/en-us/windows/wsl/install-win10) integration enabled with a Linux distro from Windows installed (this was tested with Kali Linux from the Microsoft Store in Windows 10). In July 2021 Microsoft greatly simplified the instalation of WSL2 and linux distributions.  You just need to run from either DOS prompt or Powersheel with Administrator privlidges `wsl --install` to install WSL2 with Ubuntu. You need to be running Windows 10 version 2004 or higher, and have the [KB5004296](https://betanews.com/2021/07/30/microsoft-releases-kb5004296-update-for-windows-10-to-fix-game-performance-problems-and-more/) update installed to take advantage of this new single command WSL installation procedure. [see here for more details](https://betanews.com/2021/07/31/microsoft-just-made-it-even-easier-to-install-windows-subsystem-for-linux-in-windows-11-and-10/) and Microsoft's blog about it [here](https://devblogs.microsoft.com/commandline/install-wsl-with-a-single-command-now-available-in-windows-10-version-2004-and-higher/). 
 - Here is a good [youtube video that shows you how to install WSL2 and Kali Linux on Windows 10 using the older more complicated method](https://www.youtube.com/watch?v=AfVH54edAHU).  Kali Linux is an offshoot of Ubuntu. Below is a screenshot of configuring docker on Windows with WSL 
    ![](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/images/docker-windows10-wsl.png)
    
+   ##### Windows 10 Only
    **Getting this to work on Windows 10 is more challenging of a setup and is not recommended.**  In the Kali linux command prompt run the following commands
    ```
    sudo su -
@@ -35,6 +38,7 @@ In all scenarios below, the machine that will build and run the docker image nee
    sudo apt-get install dos2unix
    dos2unix *.sh
    ```
+  ##### All Operating Systems
 - For all Operating Systems: CentOS 7.x and 8.x, Red Hat 7.x and 8.x , MacOS, and Windows 10 with Kali Linux, run the shell script `build.sh` to build the docker image.
 - The image size is around 4.5 GB, build takes around 12 to 30 mins, depending on network conditions and processing power of the host (MacBook Pro 16 in 2019 model took 12.6 minutes).
 - The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: `2.0.1.4`, `2.0.1.3`,`2.0.1.2`, `2.0.1.0` and `2.0.0.5`. To run this for release `2.0.1.4`, the command would be (if running as root you do not need put `sudo` in front of `./build.sh`:
@@ -88,12 +92,13 @@ echo $EVENTSTORE_INTERNAL_PORT
 - For example (if not run run sudo ./dockershell.sh ...)
 ```
 cd ~ db2eventstore-IoT-Analytics/container
-./dockershell.sh --endpoint 9.30.68.83 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.es-cp4d-r9.os.fyre.ibm.com --user admin --password password --deploymentType cp4d --deploymentID db2eventstore-1604331070225254 --es-version 2.0.1.2
+./dockershell.sh --endpoint 9.46.196.49 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.stroud-es-2010-os-4631.cp.fyre.ibm.com --user admin --password password --deploymentType cp4d --deploymentID db2eventstore-1630513601941818 --es-version 2.0.1.4
+
 ```
 If this successfully connects to your Event Store the end of output of this script will look like:
 ```
 ==================================================================
-IP of target Event Store server:    9.46.100.48
+IP of target Event Store server:    9.46.196.49
 Username:    admin
 ==================================================================
 
