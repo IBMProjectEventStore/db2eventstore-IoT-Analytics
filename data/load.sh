@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-NAMESPACE="dsx"
+NAMESPACE="zen"
 RELEASE_NAME="eventstore"
 DATA_PATH="/ibm"
 
@@ -16,7 +16,7 @@ calls the ingest.clp created by NFS_setup.sh script to load the data.
 Usage: $0 [OPTIONS] [arg]
 OPTIONS:
 ========
--n|--namespace    [Default: dsx] Kubernetes namespace that Event Store is deployed under.
+-n|--namespace    [Default: zen] Kubernetes namespace that Event Store is deployed under.
 USAGE
 }
 
@@ -36,7 +36,7 @@ while [ -n "$1" ]; do
     esac
 done
 
-if [ ${NAMESPACE} != "dsx" ]; then
+if [ ${NAMESPACE} != "zen" ]; then
     RELEASE_NAME=`helm ls --tls | grep db2eventstore | grep -v catalog | awk {'print $1'} | uniq`
     DATA_PATH="/data"
 fi
