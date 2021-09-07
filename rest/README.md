@@ -15,10 +15,23 @@ Task performed through the REST API example:
 - Created the Event Store database and table using the notebook.
 - Ingested sample data into the database table using [`load.sh`](../data/load.sh).
 - Define `CLUSTER_IP`, `EVENTSTORE_USERID`, and `EVENTSTORE_PASSWORD` as shell environment variables.
-- Define `DEPLOYMENT_ID` variable
+- Define `PORT` variable, this is the db2-port - db2 port accessible outside of OpenShift, this typically can be set up via ....
+```
+export PORT=9177
+```
+- Define `DEPLOYMENT_ID` variable, such as 
+```
+export DEPLOYMENT_ID=db2eventstore-1630513601941818
+
+```
+
 - Define ROUTE variable, which you can obtain from
 ```
 oc get route  | grep -v 'HOST/PORT' | awk '{print $2}'
+```
+then run
+```
+export ROUTE=zen-cpd-zen.apps.stroud-es-2010-os-4631.cp.fyre.ibm.com
 ```
 
 - Run [`install.sh`](install.sh) to install the prerequisite packages.
