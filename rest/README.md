@@ -22,6 +22,11 @@ Task performed through the REST API example:
 
 To Run this example, simply execute [`./run.sh`](run.sh)
 
+Ran this
+```
+node test.js --engine=9.46.196.49:9177 --server=https://zen-cpd-zen.apps.stroud-es-2010-os-4631.cp.fyre.ibm.com:443 --user=admin --password=password --namespace=zen --deployment-id=db2eventstore-1630513601941818
+```
+
 ### Successful Execution Output
 ```
 [root@e9480f587c9f rest]# node test.js --engine=9.46.196.49:9177 --server=https:                                                                                                     //zen-cpd-zen.apps.stroud-es-2010-os-4631.cp.fyre.ibm.com:443 --user=admin --pas                                                                                                     sword=password --namespace=zen --deployment-id=db2eventstore-1630513601941818
