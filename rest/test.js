@@ -4,12 +4,14 @@ var querystring = require('querystring');
 var https = require('https');
 var request = require('request').defaults({strictSSL: false});
 
-var eventStoreNamespace = "/com/ibm/event/api/v1"
+var serviceIdentifier = "/com/ibm/event/api/v1"
 var server = undefined
 var engine = undefined
 var user = undefined
 var pass = undefined
 var noAuth = undefined
+var deployment_id = undefined
+var namespace = "zen"
 
 /**
  * Assignment of parameters
@@ -35,8 +37,16 @@ process.argv.forEach(function (val, index, array) {
     noAuth = true
     console.log('Not using Authentication');
   }
+  else if (val.startsWith("--deployment-id")) {
+    deployment_id = val.substring("--deployment-id=".length)
+    console.log('Deployment id: ' + deployment_id);
+  }
+  else if (val.startsWith("--namespace")) {
+    namespace = val.substring("--namespace=".length)
+    console.log('Namespace: ' + namespace);
+  }
 });
-if (server === undefined || engine === undefined || user === undefined || pass === undefined) {
+if (server === undefined || engine === undefined || user === undefined || pass === undefined || deployment_id == undefined) {
   console.log('***************************');
   console.log('');
   console.log('Error as not enough parameters were supplied:');
@@ -45,6 +55,8 @@ if (server === undefined || engine === undefined || user === undefined || pass =
   console.log('***************************');
   process.exit()
 }
+
+var eventStoreNamespace = "/icp4data-databases" + "/" + deployment_id + "/" + namespace + serviceIdentifier
 
 function displayOutput(url, error, response, body) {
   console.log ('==========================')
@@ -247,4 +259,3 @@ else {
   var callback = flow.shift()
   callback("fake_token", flow)
 }
-
