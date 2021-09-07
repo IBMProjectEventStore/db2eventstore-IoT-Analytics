@@ -15,6 +15,11 @@ Task performed through the REST API example:
 - Created the Event Store database and table using the notebook.
 - Ingested sample data into the database table using [`load.sh`](../data/load.sh).
 - Define `CLUSTER_IP`, `EVENTSTORE_USERID`, and `EVENTSTORE_PASSWORD` as shell environment variables.
+- Define `DEPLOYMENT_ID` variable
+- Define ROUTE variable, which you can obtain from
+```
+oc get route  | grep -v 'HOST/PORT' | awk '{print $2}'
+```
 
 - Run [`install.sh`](install.sh) to install the prerequisite packages.
 
