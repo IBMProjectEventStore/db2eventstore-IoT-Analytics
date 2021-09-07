@@ -2,7 +2,7 @@
 
 This section demonstrates using the IBM Db2 Event Store REST endpoint in order to perform queries and return results.
 
-For more information, please find on [**IBM Db2 Event Store REST API (1.0.0)**](https://www.ibm.com/support/knowledgecenter/en/SSGNPV_1.1.3/develop/rest-api.html#restapi)
+For more information, please find on [**IBM Db2 Event Store REST API (2.0.0)**](https://www.ibm.com/docs/en/db2-event-store/2.0.0?topic=store-rest-api)
 
 Task performed through the REST API example:
 
