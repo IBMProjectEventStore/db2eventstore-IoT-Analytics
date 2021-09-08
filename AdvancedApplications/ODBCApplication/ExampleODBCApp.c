@@ -53,6 +53,9 @@
 
 int DbDriverConnect(SQLHANDLE, SQLHANDLE *, char *, char *, char *, char *, char *, char *);
 int DbDriverDisconnect(SQLHANDLE *, char *);
+int DropTableIfExists(char tableName[], /* table name to drop */
+                      SQLHANDLE hdbc, /* connection handle */
+                      SQLHANDLE hstmt /* statement handle */);
 
 int main(int argc, char *argv[])
 {
