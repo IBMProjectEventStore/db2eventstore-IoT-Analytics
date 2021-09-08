@@ -44,10 +44,16 @@ export IPREST=zen-cpd-zen.apps.stroud-es-2010-os-4631.cp.fyre.ibm.com
 
 To Run this example, simply execute [`./run.sh`](run.sh)
 
-Ran this
+So just execcute this
 ```
+cd $HOME/db2eventstore-IoT-Analytics/rest
 ./run.sh
 ```
+or you can specify the variables manually such as 
+```
+./run.sh --endpoint 9.46.196.49 --deployment-id db2eventstore-1630513601941818
+```
+
 
 ### Successful Execution Output
 Simply run this command
