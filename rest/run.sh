@@ -49,8 +49,8 @@ while [ -n "$1" ]; do
         IP="$2"
         shift 2
         ;;
-    --db_port)
-        DB_PORT="$2"
+    --db2_port)
+        DB2_PORT="$2"
         shift 2
         ;;
     --user)
@@ -62,7 +62,7 @@ while [ -n "$1" ]; do
         shift 2
         ;;
     --endpointRest)
-        ROUTE="$2"
+        IPREST="$2"
         shift 2
         ;;
     --namespace)
@@ -116,4 +116,4 @@ if [ -z ${DEPLOYMENT_ID} ]; then
     exit 1
 fi
 
-node test.js --engine=$IP:$DB_PORT --server=https://$IPREST:443 --user=$EVENT_USER --password=$EVENT_PASSWORD --namespace=$NAMESPACE --deployment-id=$DEPLOYMENT_ID
+node test.js --engine=$IP:$DB2_PORT --server=https://$IPREST:443 --user=$EVENT_USER --password=$EVENT_PASSWORD --namespace=$NAMESPACE --deployment-id=$DEPLOYMENT_ID
