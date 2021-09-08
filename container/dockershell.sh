@@ -39,13 +39,13 @@ OPTIONS:
 --endpoint     Public endpoint address or DNS name of the target Event Store server used by the SDKs to connect to the database
 --endpointRest The REST endpoint IP or DNS name of the Event Store server.
                This is to be used when the REST endpoint differs from the Public IP
-               (i.e. --endpoint) ... typically the case for cp4d deployments
+               (i.e., --endpoint) ... typically the case for cp4d deployments
 --db2-port     The db2 port for the Event Store jdbc client
 --es-port      The Event Store port for ingest client
 --deploymentType
                The deployment type of the Event Store server, valid options include (default is cp4d):
                   cp4d (Cloud Pak for Data deployments)
-                  wsl (WSL deployments)
+                  wsl (WSL deployments) - deprecated
                   developer (developer container deployments)
 --namespace
                cp4d deployments could be installed on a user defined namespace. Use this
@@ -53,8 +53,7 @@ OPTIONS:
 --deploymentID
                cp4d deployments utilize a per database deployment ID that must be specified.
                This can be found in the database details page on the IBM Cloud Pak for Data UI console.
-               This field is only required for cp4d deployment types.
-                  e.g. "db2eventstore-1578174815082"
+                  e.g., "db2eventstore-1578174815082"
 --user         User name of the Event Store server
 --password     Password of the Event Store server
 --es-version   Event Store target cluster version used to tag image
