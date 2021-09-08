@@ -11,17 +11,17 @@ Task performed through the REST API example:
 - Display all records that match a filter condition from a existing Event Store database table
 
 ### Prerequisites
-- Created the Event Store database and table using the notebook.
-- Ingested sample data into the database table using [`load.sh`](../data/load.sh).
+- Created the Event Store database and table using the notebook or running any of the [IoT applications](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications).
+- Ingested sample data into the database table using [`load.sh`](../data/load.sh) or running any of the [IoT applications] as that will ingest sample data as well (https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications).
 - **If using the docker container, all of these variables are automatically set up for you and you do not have define them**
-- Define `CLUSTER_IP`, `EVENTSTORE_USERID`, and `EVENTSTORE_PASSWORD` as shell environment variables.
-- Define `PORT` variable, this is the db2-port - db2 port accessible outside of OpenShift cluster, Db2 listens on a port inside the OpenShift cluster, this typically is mapped to another port and exposed outside the cluster and is referred  to as the Db2 external port, this external port is what is needed.  If using haproxy on the infrastructure node, this port may be obtained by this command from the infrastructure node
+- Define `IP`, `EVENTSTORE_USER`, `EVENTSTORE_PASSWORD`, `DB2_PORT`, `IPREST`, and `DEPLOYMENT_ID` as shell environment variables.
+- The `DB2_PORT` variable, this is the db2-port - db2 port accessible outside of OpenShift cluster, Db2 listens on a port inside the OpenShift cluster, this typically is mapped to another port and exposed outside the cluster and is referred  to as the Db2 external port, this external port is what is needed.  If using haproxy on the infrastructure node, this port may be obtained by this command from the infrastructure node
 ```
 sed -n '/frontend db2/{n;p;}' /etc/haproxy/haproxy.cfg | cut -d : -f2
 ```
 If the output of that command is `9177` or if the external Db2 port is `9177`, run the following command:
 ```
-export DB_PORT=9177
+export DB2_PORT=9177
 ```
 - Define `DEPLOYMENT_ID` variable,  This value is specific to the Event Store database and can be retrieved from the event store cloudpak for data User Interface (UI) at: `Data ... Databases ... Detail`s. It will be a value that appears similar to: db2eventstore-1630513601941818
 ```
@@ -29,7 +29,7 @@ export DEPLOYMENT_ID=db2eventstore-1630513601941818
 
 ```
 
-- Define IPREST variable, which you can obtain from
+- For the `IPREST` variable, which you can obtain from
 ```
 oc get route  | grep -v 'HOST/PORT' | awk '{print $2}'
 ```
