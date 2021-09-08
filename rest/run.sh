@@ -1,3 +1,4 @@
+
 #!/bin/bash -x
 
 function usage()
@@ -5,7 +6,7 @@ function usage()
 cat <<-USAGE #| fmt
 Pre-requisite:
 - You have created the table IOT_TEMP by running the Notebook examples
-- You have ingested data into the IOT_TEMP table 
+- You have ingested data into the IOT_TEMP table
 - You have run install.sh in this directory to install required packages
 ========
 Description:
@@ -18,15 +19,21 @@ This script will execute multiple REST APIs to:
 Usage: $0 [OPTIONS] [arg]
 OPTIONS:
 ========
---IP        IP of Eventstore Rest Endpoint.
---PORT      Listening port of Eventstore Rest Endpoint
---user      User name of Watson Studio Local user who created the IOT_TEMP table
-            [Default: ${EVENT_USER} shell environment variable]
---password  Password of Watson Studio Local user who created the IOT_TEMP table
-            [Default: ${EVENT_PASSWORD} shell environment variable]
---route     CP4D route url
---namespace default "zen"
---deployment-id deployment id of the es instance
+--endpoint     Public endpoint address or DNS name of the target Event Store server used by the SDKs to connect to the database
+--db2_port     Listening port of Eventstore Rest Endpoint, this is the Db2 port that is exposed outside of the OpenShift (Kuberenetes cluster)
+--user         User name of Watson Studio Local user who created the IOT_TEMP table
+               [Default: ${EVENT_USER} shell environment variable]
+--password     Password of Watson Studio Local user who created the IOT_TEMP table
+               [Default: ${EVENT_PASSWORD} shell environment variable]
+--endpointRest The REST endpoint IP or DNS name of the Event Store server.
+               This is to be used when the REST endpoint differs from the Public IP
+               (i.e. --endpoint) ... typically the case for cp4d deployments
+--namespace    cp4d deployments could be installed on a user defined namespace. Use this
+               to override the default "zen" namespace.
+--deploymentID cp4d deployments utilize a per database deployment ID that must be specified.
+               This can be found in the database details page on the IBM Cloud Pak for Data UI console.
+               This field is only required for cp4d deployment types.
+                e.g. "db2eventstore-1578174815082"
 USAGE
 }
 
@@ -38,14 +45,14 @@ while [ -n "$1" ]; do
         usage >&2
         exit 0
         ;;
-    --IP)
+    --endpoint)
         IP="$2"
         shift 2
         ;;
-    --port)
-        PORT="$2"
+    --db_port)
+        DB_PORT="$2"
         shift 2
-        ;;        
+        ;;
     --user)
         EVENT_USER="$2"
         shift 2
@@ -54,7 +61,7 @@ while [ -n "$1" ]; do
         EVENT_PASSWORD="$2"
         shift 2
         ;;
-    --route)
+    --endpointRest)
         ROUTE="$2"
         shift 2
         ;;
@@ -62,7 +69,7 @@ while [ -n "$1" ]; do
         NAMESPACE="$2"
         shift 2
         ;;
-    --deployment-id)
+    --deploymentID)
         DEPLOYMENT_ID="$2"
         shift 2
         ;;
@@ -91,13 +98,13 @@ if [ -z ${IP} ]; then
     exit 1
 fi
 
-if [ -z ${PORT} ]; then
+if [ -z ${DB2_PORT} ]; then
     echo "Error: Please provide the Event Store Rest Endpoint port with --port flag"
     usage >&2
     exit 1
 fi
 
-if [ -z ${ROUTE} ]; then
+if [ -z ${IPREST} ]; then
     echo "Error: Please provide the route url of the CP4D with --route flag"
     usage >&2
     exit 1
@@ -109,4 +116,4 @@ if [ -z ${DEPLOYMENT_ID} ]; then
     exit 1
 fi
 
-node test.js --engine=$IP:$PORT --server=https://$ROUTE:443 --user=$EVENT_USER --password=$EVENT_PASSWORD --namespace=$NAMESPACE --deployment-id=$DEPLOYMENT_ID
+node test.js --engine=$IP:$DB_PORT --server=https://$IPREST:443 --user=$EVENT_USER --password=$EVENT_PASSWORD --namespace=$NAMESPACE --deployment-id=$DEPLOYMENT_ID
