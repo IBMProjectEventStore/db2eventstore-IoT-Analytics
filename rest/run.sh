@@ -24,7 +24,7 @@ OPTIONS:
                [Default: ${EVENT_USER} shell environment variable]
 --password     Password of Watson Studio Local user who created the IOT_TEMP table
                [Default: ${EVENT_PASSWORD} shell environment variable]
---endpointRest The REST endpoint IP or DNS name of the Event Store server.
+--endpointRest The REST endpoint IP or DNS name of the Event Store server.  Typically this is the dns name of the URL used to log into Event Store.
                This is to be used when the REST endpoint differs from the Public IP
                (i.e., --endpoint) ... typically the case for cp4d deployments.  Also can be obtain by "oc get routes" from OpenShift terminal.
 --namespace    cp4d deployments could be installed on a user defined namespace. Use this
