@@ -30,7 +30,7 @@ OPTIONS:
                (i.e. --endpoint) ... typically the case for cp4d deployments
 --namespace    cp4d deployments could be installed on a user defined namespace. Use this
                to override the default "zen" namespace.
---deploymentID cp4d deployments utilize a per database deployment ID that must be specified.
+--deployment-id cp4d deployments utilize a per database deployment ID that must be specified.
                This can be found in the database details page on the IBM Cloud Pak for Data UI console.
                This field is only required for cp4d deployment types.
                 e.g. "db2eventstore-1578174815082"
@@ -69,7 +69,7 @@ while [ -n "$1" ]; do
         NAMESPACE="$2"
         shift 2
         ;;
-    --deploymentID)
+    --deployment-id)
         DEPLOYMENT_ID="$2"
         shift 2
         ;;
