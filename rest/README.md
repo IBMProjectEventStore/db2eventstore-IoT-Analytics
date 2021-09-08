@@ -47,14 +47,19 @@ To Run this example, simply execute [`./run.sh`](run.sh)
 So just execute this
 ```
 cd $HOME/db2eventstore-IoT-Analytics/rest
+./install.sh
 ./run.sh
 ```
 or you can specify the variables manually such as 
 ```
+cd $HOME/db2eventstore-IoT-Analytics/rest
+./install.sh
 ./run.sh --endpoint 9.46.196.49 --deployment-id db2eventstore-1630513601941818
 ```
 or with all variables manually with
 ```
+cd $HOME/db2eventstore-IoT-Analytics/rest
+./install.sh
 ./run.sh --user admin --password password --endpoint 9.46.196.49 --endpointRest zen-cpd-zen.apps.stroud-es-2010-os-4631.cp.fyre.ibm.com --db2_port 9177 --deployment-id db2eventstore-1630513601941818
 ```
 
