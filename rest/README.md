@@ -13,8 +13,9 @@ Task performed through the REST API example:
 ### Prerequisites
 - Created the Event Store database and table using the notebook or running any of the [IoT applications](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications).
 - Ingested sample data into the database table using [`load.sh`](../data/load.sh) or running any of the [IoT applications](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications) as that will ingest sample data as well .
-- Run [`install.sh`](install.sh) to install the prerequisite packages.
-- **If using the docker container, all of these variables are automatically set up for you and you do not have define them**
+- Run [`install.sh`](install.sh) to install the prerequisite packages. 
+
+**If using the docker container, all of these variables are automatically set up for you and you do not have define them as described below**
 - Define `IP`, `EVENTSTORE_USER`, `EVENTSTORE_PASSWORD`, `DB2_PORT`, `IPREST`, and `DEPLOYMENT_ID` as shell environment variables.
 - The `DB2_PORT` variable, this is the db2-port - db2 port accessible outside of OpenShift cluster, Db2 listens on a port inside the OpenShift cluster, this typically is mapped to another port and exposed outside the cluster and is referred  to as the Db2 external port, this external port is what is needed.  If using haproxy on the infrastructure node, this port may be obtained by this command from the infrastructure node
 ```
@@ -162,6 +163,5 @@ Body Returned -> {"code":"ES400","message":"SparkSQL query was correctly execute
 
 **Query Result:**
 [{"DEVICEID":1,"SENSORID":31,"TS":1541627199220,"AMBIENT_TEMP":27.593995991939863,"POWER":6.921405275716975,"TEMPERATURE":44.1656966644114},{"DEVICEID":1,"SENSORID":31,"TS":1541310567376,"AMBIENT_TEMP":27.08558496190764,"POWER":13.62873063735008,"TEMPERATURE":50.3360236897283},{"DEVICEID":1,"SENSORID":31,"TS":1541543326122,"AMBIENT_TEMP":26.047510749164648,"POWER":12.6674332022278,"TEMPERATURE":47.016434953018525},{"DEVICEID":1,"SENSORID":31,"TS":1541054234074,"AMBIENT_TEMP":25.60663139977397,"POWER":14.718642454235619,"TEMPERATURE":47.998245262863314},{"DEVICEID":1,"SENSORID":31,"TS":1541699793364,"AMBIENT_TEMP":24.66876440073116,"POWER":12.570519460858517,"TEMPERATURE":43.262131448398314}]
-[root@a745f85ea5ea rest]# cat run.sh
 
 ```
