@@ -26,13 +26,12 @@ OPTIONS:
                [Default: ${EVENT_PASSWORD} shell environment variable]
 --endpointRest The REST endpoint IP or DNS name of the Event Store server.
                This is to be used when the REST endpoint differs from the Public IP
-               (i.e. --endpoint) ... typically the case for cp4d deployments.  Also can be obtain by oc get routes from OpenShift terminal.
+               (i.e., --endpoint) ... typically the case for cp4d deployments.  Also can be obtain by "oc get routes" from OpenShift terminal.
 --namespace    cp4d deployments could be installed on a user defined namespace. Use this
                to override the default "zen" namespace.
 --deployment-id cp4d deployments utilize a per database deployment ID that must be specified.
                This can be found in the database details page on the IBM Cloud Pak for Data UI console.
-               This field is only required for cp4d deployment types.
-                e.g. "db2eventstore-1578174815082"
+                e.g., "db2eventstore-1578174815082"
 USAGE
 }
 
