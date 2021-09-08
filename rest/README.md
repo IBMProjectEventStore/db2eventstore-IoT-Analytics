@@ -12,7 +12,7 @@ Task performed through the REST API example:
 
 ### Prerequisites
 - Created the Event Store database and table using the notebook or running any of the [IoT applications](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications).
-- Ingested sample data into the database table using [`load.sh`](../data/load.sh) or running any of the [IoT applications] as that will ingest sample data as well (https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications).
+- Ingested sample data into the database table using [`load.sh`](../data/load.sh) or running any of the [IoT applications](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications) as that will ingest sample data as well .
 - **If using the docker container, all of these variables are automatically set up for you and you do not have define them**
 - Define `IP`, `EVENTSTORE_USER`, `EVENTSTORE_PASSWORD`, `DB2_PORT`, `IPREST`, and `DEPLOYMENT_ID` as shell environment variables.
 - The `DB2_PORT` variable, this is the db2-port - db2 port accessible outside of OpenShift cluster, Db2 listens on a port inside the OpenShift cluster, this typically is mapped to another port and exposed outside the cluster and is referred  to as the Db2 external port, this external port is what is needed.  If using haproxy on the infrastructure node, this port may be obtained by this command from the infrastructure node
