@@ -11,7 +11,7 @@ Task performed through the REST API example:
 - Display all records that match a filter condition from a existing Event Store database table
 
 ### Prerequisites
-- Created the Event Store database and table using the notebook or running any of the [IoT applications](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications).
+- Created the Event Store database and table using the notebook or running the ODBC of the [IoT applications](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications/ODBCApplication).
 - Ingested sample data into the database table using [`load.sh`](../data/load.sh) or running any of the [IoT applications](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications) as that will ingest sample data as well .
 - Run [`install.sh`](install.sh) to install the prerequisite packages. 
 
