@@ -92,8 +92,7 @@ echo $EVENTSTORE_INTERNAL_PORT
 - For example (if not run run sudo ./dockershell.sh ...)
 ```
 cd ~ db2eventstore-IoT-Analytics/container
-./dockershell.sh --endpoint 9.46.196.49 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.stroud-es-2010-os-4631.cp.fyre.ibm.com --user admin --password password --deploymentType cp4d --deploymentID db2eventstore-1630513601941818 --es-version 2.0.1.4
-
+./dockershell.sh --endpoint 9.46.196.49 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.stroud-es-2010-os-4631.cp.fyre.ibm.com --user admin --password password --deploymentType cp4d --deploymentID db2eventstore-1631578935585341 --es-version 2.0.1.4
 ```
 If this successfully connects to your Event Store the end of output of this script will look like:
 ```
