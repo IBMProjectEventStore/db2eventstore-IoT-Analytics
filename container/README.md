@@ -43,7 +43,7 @@ On either:
    ```
   #### All Operating Systems
 - For all Operating Systems: CentOS 7.x and 8.x, Red Hat 7.x and 8.x , MacOS, and Windows 10 with Kali Linux, run the shell script `build.sh` to build the docker image.
-- The image size is around 4.5 GB, build takes around 12 to 30 mins, depending on network conditions and processing power of the host (MacBook Pro 16 in 2019 model took 12.6 minutes with 100 Mbps fios internet download speed).
+- The image size is around 4.5 GB, build takes around 12 to 30 mins, depending on network conditions and processing power of the host (MacBook Pro 16 in 2019 model took 12.6 minutes and on Windows 10 Pro with Kali Linux with AMD Ryzen 5 56000X with 64 GB of RAM and 2 TB Western Digital Black PCIe 4.0  it took 13.6 minutes, both with 100 Mbps FIOS internet download speed).
 - The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: `2.0.1.4`, `2.0.1.3`,`2.0.1.2`, `2.0.1.0` and `2.0.0.5`. To run this for release `2.0.1.4`, the command would be (if running as root you do not need put `sudo` in front of `./build.sh`:
 ```
 cd ~/db2eventstore-IoT-Analytics/container
@@ -192,7 +192,7 @@ this should give an output similar to what is shown below
 CONTAINER ID   IMAGE                     COMMAND                  CREATED        STATUS        PORTS     NAMES
 2ed7b72a008a   eventstore_demo:2.0.1.2   "bash -c 'env && /ro…"   11 hours ago   Up 11 hours             eventstore_demo_admin
 ```
-To enter the container run the following command (for your case replace `2ed7b72a008a` with your actual CONTAINER ID for your `evenstore_demo:<version>` docker image
+To enter the container run the following command (for your case replace `2ed7b72a008a` with your actual CONTAINER ID for your `evenstore_demo:<version>` docker image as demonstrated above
 ```
 docker exec -u 0 -it 2ed7b72a008a bash
 ```
