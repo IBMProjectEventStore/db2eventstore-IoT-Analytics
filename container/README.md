@@ -26,6 +26,9 @@ On either:
    **Getting this to work on Windows 10 is more challenging of a setup and is not recommended.**  In the Kali linux command prompt run the following commands
    ```
    sudo su -
+   ```
+   Enter your Windows 10 Administrator password when prompted, then 
+   ```
    cd /mnt/c/Users
    ```
    this will make you the `root` user and get you to the `C:\Users` directory.  Now navigate to where you have cloned the repo, such as 
