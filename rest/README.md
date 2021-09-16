@@ -11,8 +11,8 @@ Task performed through the REST API example:
 - Display all records that match a filter condition from a existing Event Store database table
 
 ### Prerequisites
-- Created the Event Store database and table using the notebook or running the ODBC of the [IoT applications](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications/ODBCApplication).
-- Ingested sample data into the database table using [`load.sh`](../data/load.sh) or running any of the [IoT applications](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications) as that will ingest sample data as well .
+- Created the Event Store database and an `IOT_TEMP` table using the notebook or running the ODBC `ExampleODBCApp` test  [IoT applications](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications/ODBCApplication).
+- Ingested sample data into the database table using [`load.sh`](../data/load.sh) or running the ODBC [IoT applications](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications) as that will ingest sample data as well .
 - Run [`install.sh`](install.sh) to install the prerequisite packages. 
 
 **If using the docker container, all of these variables are automatically set up for you and you do not have define them as described below**
@@ -41,7 +41,7 @@ export IPREST=zen-cpd-zen.apps.stroud-es-2010-os-4631.cp.fyre.ibm.com
 
 ### Sample Execution
 
-To Run this example, simply execute [`./run.sh`](run.sh)
+To Run this example, simply execute [`./run.sh`](run.sh).  Run the IoT [ODBC test](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications/ODBCApplication) first as this will create the required `IOT_TEMP` table requires by this rest test.
 
 So just execute this
 ```
