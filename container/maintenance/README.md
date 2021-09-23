@@ -51,8 +51,7 @@ https://nodejs.org/en/about/releases/ <br>
 
 When a new Long Term Support (LTS) version is released update this file in this line <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/rest/install.sh#L4 <br>
-Go to this link to determine how to modify the above line for new versions of Node.js (our docker image is UBI 8 which is based off Red Hat 8). <br>
-https://github.com/nodesource/distributions#installation-instructions-1
+Go to this [link](https://github.com/nodesource/distributions#installation-instructions-1) to determine how to modify the above line for new versions of Node.js (our docker image is UBI 8 which is based off Red Hat 8). <br>
 But when you build the container this will pull the latest node.js version from LTS branch specified.  So we only configure the Node.js
 release number in the file, so `setup_16.x` tells our script to install release 16 of Node.js and the script will install the latest version of Node.js 16, for example on Sept 22, 2021 this was version `v16.10.0` as determined by `node -v` command inside the IoT demo docker container.
 
