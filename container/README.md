@@ -60,7 +60,7 @@ After the image is built, run the shell script `dockershell.sh` to start the con
 The script takes 4 mandatory arguments and 3 optional ones.
 
 ```
-cd ~ db2eventstore-IoT-Analytics/container
+cd ~/db2eventstore-IoT-Analytics/container
 ./dockershell.sh --endpoint <EventStore_Server_Endpoint> --db2-port <db2_port_number> --es-port <es_port_number> --endpointRest <EventStore_Rest_Endpoint> --user <EventStore_Username> --password <EventStore_Password> --deploymentType <deployment type> --deploymentID <deployment ID> --es-version <release>
 ```
 
