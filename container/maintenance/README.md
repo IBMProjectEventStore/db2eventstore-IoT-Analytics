@@ -119,4 +119,4 @@ Scala code runner version 2.11.12 -- Copyright 2002-2017, LAMP/EPFL
 Java 1.8 is automatically updated to the latest version upon building the docker container.  This is done via https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-java.sh#L12 and https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-java.sh#L13
 
 ## Outstanding items
-There is another Simple Build Tool (SBT) used in this container.  I only updated the one mentioned above.  There is a much older version that is in use here that I do not know how to update.  It was updated in htap-ng repo.  If I can find that pull request I will add it here.
+There is another Simple Build Tool (SBT) used in this container.  I only updated the one mentioned above.  There is a much older version that is in use here that I do not know how to update.  It was updated in htap-ng repo.  If I can find that pull request I will add it here. This may be pull request https://github.ibm.com/htap-ng/db2-sirius/pull/196
