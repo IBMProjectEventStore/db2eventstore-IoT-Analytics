@@ -170,6 +170,37 @@ the do a `docker stop <container-id-that-is-running>`, for example
 ```
 then you should be able to run `./dockershell.sh` command
 
+4. If you get this error whne running `./dockershell.sh` (note the last line in the output)
+```
+[root@fcistroud1-3-centos8 container]# ./dockershell.sh --endpoint 9.46.196.49 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.stroud-es-2010-os-4631.cp.fyre.ibm.com --user admin --password password --deploymentType cp4d --deploymentID db2eventstore-1631578935585341 --es-version 2.0.1.4
+docker: Error response from daemon: Conflict. The container name "/eventstore_demo_admin" is already in use by container "74992f7e0af3307867dcc87c2a31c133af64337d8c7488557506df3863aaa56d". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+Cleaning up dangling images and/or exited containersExited container successfully!
+```
+Simply just re-run the `./dockershell` command, for example
+
+```
+./dockershell.sh --endpoint 9.46.196.49 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.stroud-es-2010-os-4631.cp.fyre.ibm.com --user admin --password password --deploymentType cp4d --deploymentID db2eventstore-1631578935585341 --es-version 2.0.1.4
+```
+I believe this is because at 1st when you run `docker ps` and then `docker ps -a` you will see something like
+```
+[root@fcistroud1-3-centos8 ~]# docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+[root@fcistroud1-3-centos8 ~]# docker ps -a
+CONTAINER ID   IMAGE                     COMMAND                  CREATED      STATUS                    PORTS     NAMES
+74992f7e0af3   eventstore_demo:2.0.1.4   "bash -c 'env && /ro…"   2 days ago   Exited (0) 26 hours ago             eventstore_demo_admin
+```
+Which shows you exited the container 26 hours ago but somehow docker thinks the container is still in use, but the last line of the error
+```
+Cleaning up dangling images and/or exited containersExited container successfully!
+```
+shows that docker has "cleaned up", so now when your run `docker ps -a` you see
+```
+[root@fcistroud1-3-centos8 container]# docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
+the output of the command above shows that the container is not in use, this is why I believe re-running the `./dockershell` command works
+
 ### Caveats
 Watson Studio Local (wsl). This is legacy and has not been tested or tried in several years.
 - Generally the eventstore server endpoint and the rest endpoint are the same, implying you only need to specify --endpoint
