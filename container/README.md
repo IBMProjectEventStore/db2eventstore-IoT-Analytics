@@ -17,15 +17,31 @@ In all scenarios below, the machine that will build and run the docker image nee
 #### Install Docker
 On either:
 - Mac OS 11.4 & 11.5.2 and [docker desktop](https://www.docker.com/products/docker-desktop) (tested with Docker version `20.10.7, build f0df350` & `Docker version 20.10.8, build 3967b7d` MacBook Pro 16 inch 2019 model) installed and running or;
-- linux desktop or server (CentOS 7.9 & CentOS 8.4 work fine, Red Hat 8.4 only works with Docker and not Podman) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker. Linux is the most common OS used. Tested with multiple versions of Docker CE last used was `Docker version 20.10.8, build 3967b7d` Below is what can be used to install Docker on Red Hat & CentOS 7.x & Red Hat CentOS 8.x.  But for Red Hat 8.x you need to run `sudo dnf remove -y buildah podman` 1st
-```
-sudo yum install -y yum-utils
-sudo yum-config-manager     --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
-sudo yum install -y docker-ce docker-ce-cli containerd.io
-systemctl start docker
-sudo systemctl enable docker.service
-sudo systemctl enable containerd.service
-```
+- linux desktop or server (CentOS 7.9 & CentOS 8.4 work fine, Red Hat 8.4 only works with Docker and not Podman) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker. Linux is the most common OS used. Tested with multiple versions of Docker CE last used was `Docker version 20.10.8, build 3967b7d`
+
+    Docker Community Edition (CE) works fine for CentOS & Red Hat 7.9 & 8.4. For Red Hat 8.4 you first need to uninstall `podmad` & `buildah` by running these commands as root (before installing docker-ce)
+    ```
+    dnf remove -y buildah podman
+    ```
+
+    run commands below as root to install the latest version of docker-ce on both Red Hat & CentOS 7.x & 8.x, the last 2 commands configure docker to automatically start on operating system start-up.
+    ```
+    yum install -y yum-utils
+    yum-config-manager     --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
+    yum install -y docker-ce docker-ce-cli containerd.io
+    systemctl start docker
+    sudo systemctl enable docker.service
+    sudo systemctl enable containerd.service
+    ```
+    then run to show which version of docker is installed.
+    ``` 
+    docker -v
+    ```
+    will show something like
+    ```
+    DDocker version 20.10.8, build 3967b7d
+    ```
+    More details are here https://docs.docker.com/engine/install/centos/
 - Windows 10 21H1 or greater with [docker desktop](https://www.docker.com/products/docker-desktop) installed and running with [Windows Subsystem for Linux 2 (WSL 2)](https://docs.microsoft.com/en-us/windows/wsl/install-win10) integration enabled with a Linux distro from Windows installed (this was tested with Kali Linux from the Microsoft Store in Windows 10). In July 2021 Microsoft greatly simplified the instalation of WSL2 and linux distributions.  You just need to run from either DOS prompt or Powersheel with Administrator privlidges `wsl --install` to install WSL2 with Ubuntu. You need to be running Windows 10 version 2004 or higher, and have the [KB5004296](https://betanews.com/2021/07/30/microsoft-releases-kb5004296-update-for-windows-10-to-fix-game-performance-problems-and-more/) update installed to take advantage of this new single command WSL installation procedure. [see here for more details](https://betanews.com/2021/07/31/microsoft-just-made-it-even-easier-to-install-windows-subsystem-for-linux-in-windows-11-and-10/) and Microsoft's blog about it [here](https://devblogs.microsoft.com/commandline/install-wsl-with-a-single-command-now-available-in-windows-10-version-2004-and-higher/). 
 - Here is a good [youtube video that shows you how to install WSL2 and Kali Linux on Windows 10 using the older more complicated method](https://www.youtube.com/watch?v=AfVH54edAHU).  Kali Linux is an offshoot of Ubuntu. Below is a screenshot of configuring docker on Windows with WSL 
    ![](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/images/docker-windows10-wsl.png)
