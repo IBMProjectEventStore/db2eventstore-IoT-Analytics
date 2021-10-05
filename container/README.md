@@ -4,7 +4,7 @@ The Dockerfile in this directory will build a docker image named `eventstore_dem
 
 ### Procedure
 #### Step 1: Clone this git repo
-On a mac or linux desktop git clone this repo (it is possible to do this on Windows 10 but not recommended)
+On a mac or linux desktop git clone this repo (it is possible to do this on Windows 10 but not recommended).  Add your public ssh key under your `~/.ssh` folder to https://github.com/settings/keys if you have not done so already
 ```
 cd ~
 yum install -y git
@@ -69,6 +69,8 @@ On either:
 - For all Operating Systems: CentOS 7.x and 8.x, Red Hat 7.x and 8.x , MacOS, and Windows 10 with Kali Linux, run the shell script `build.sh` to build the docker image.
 - The image size is around 4.5 GB, build takes around 12 to 30 mins, depending on network conditions and processing power of the host (MacBook Pro 16 in 2019 model took 12.6 minutes and on Windows 10 Pro with Kali Linux with AMD Ryzen 5 56000X with 64 GB of RAM and 2 TB Western Digital Black PCIe 4.0  it took 13.6 minutes, both with 100 Mbps FIOS internet download speed).
 - The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: `2.0.1.4`, `2.0.1.3`,`2.0.1.2`, `2.0.1.0` and `2.0.0.5`. To run this for release `2.0.1.4`, the command would be (if running as root you do not need put `sudo` in front of `./build.sh`:
+  #### Build IoT Demo container
+  Run these commmands after you have docker installed and running and have cloned the repo
 ```
 cd ~/db2eventstore-IoT-Analytics/container
 sudo ./build.sh --es-version 2.0.1.4
