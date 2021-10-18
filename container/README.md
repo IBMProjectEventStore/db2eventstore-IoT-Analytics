@@ -196,7 +196,7 @@ the do a `docker stop <container-id-that-is-running>`, for example
 ```
 then you should be able to run `./dockershell.sh` command
 
-4. If you get this error whne running `./dockershell.sh` (note the last line in the output)
+4. If you get this error while running `./dockershell.sh` (note the last line in the output)
 ```
 [root@fcistroud1-3-centos8 container]# ./dockershell.sh --endpoint 9.46.196.49 --db2-port 9177 --es-port 9178 --endpointRest zen-cpd-zen.apps.stroud-es-2010-os-4631.cp.fyre.ibm.com --user admin --password password --deploymentType cp4d --deploymentID db2eventstore-1631578935585341 --es-version 2.0.1.4
 docker: Error response from daemon: Conflict. The container name "/eventstore_demo_admin" is already in use by container "74992f7e0af3307867dcc87c2a31c133af64337d8c7488557506df3863aaa56d". You have to remove (or rename) that container to be able to reuse that name.
@@ -227,6 +227,91 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 the output of the command above shows that the container is not in use, this is why I believe re-running the `./dockershell` command works
 
+5. If you get this error while running the scala application https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications/ScalaApplication#running-scala-example (also similar error will occur with all other tests).  This may be because Event Store was running for more than 30 days and the cluster is too small to have it run that long. 
+```
+Error msg: DB2 SQL Error: SQLCODE=-10003, SQLSTATE=57011, SQLERRMC=null, DRIVER=4.25.4
+SQLSTATE: 57011
+Error code: -10003
+com.ibm.db2.jcc.am.SqlException: DB2 SQL Error: SQLCODE=-10003, SQLSTATE=57011, SQLERRMC=null, DRIVER=4.25.4
+        at com.ibm.db2.jcc.am.b6.a(b6.java:815)
+        at com.ibm.db2.jcc.am.b6.a(b6.java:66)
+        at com.ibm.db2.jcc.am.b6.a(b6.java:140)
+        at com.ibm.db2.jcc.am.Connection.completeSqlca(Connection.java:5269)
+        at com.ibm.db2.jcc.t4.z.q(z.java:861)
+        at com.ibm.db2.jcc.t4.z.p(z.java:717)
+        at com.ibm.db2.jcc.t4.z.l(z.java:538)
+        at com.ibm.db2.jcc.t4.z.d(z.java:153)
+        at com.ibm.db2.jcc.t4.b.i(b.java:1343)
+        at com.ibm.db2.jcc.t4.b.a(b.java:6821)
+        at com.ibm.db2.jcc.t4.b.b(b.java:888)
+        at com.ibm.db2.jcc.t4.b.a(b.java:804)
+        at com.ibm.db2.jcc.t4.b.a(b.java:441)
+        at com.ibm.db2.jcc.t4.b.a(b.java:414)
+        at com.ibm.db2.jcc.t4.b.<init>(b.java:352)
+        at com.ibm.db2.jcc.DB2SimpleDataSource.getConnection(DB2SimpleDataSource.java:233)
+        at com.ibm.db2.jcc.DB2SimpleDataSource.getConnection(DB2SimpleDataSource.java:200)
+        at com.ibm.db2.jcc.DB2Driver.connect(DB2Driver.java:471)
+        at com.ibm.db2.jcc.DB2Driver.connect(DB2Driver.java:113)
+        at java.sql.DriverManager.getConnection(DriverManager.java:664)
+        at java.sql.DriverManager.getConnection(DriverManager.java:208)
+        at com.ibm.event.api.EventJDBCClient.startConnection(Unknown Source)
+        at com.ibm.event.api.EventJDBCClient.connect(Unknown Source)
+        at com.ibm.event.common.ConfigurationReaderImpl.getJDBCConection(ConfigurationReader.scala:196)
+        at com.ibm.event.oltp.EventContext$.com$ibm$event$oltp$EventContext$$openDatabaseWithRetry(EventContext.scala:1844)
+        at com.ibm.event.oltp.EventContext$.openDatabase(EventContext.scala:1545)
+        at com.ibm.event.oltp.EventContext$.getEventContext(EventContext.scala:1902)
+        at ExampleScalaApp$.main(ExampleScalaApp.scala:38)
+        at ExampleScalaApp.main(ExampleScalaApp.scala)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.lang.reflect.Method.invoke(Method.java:498)
+        at org.apache.spark.deploy.JavaMainApplication.start(SparkApplication.scala:52)
+        at org.apache.spark.deploy.SparkSubmit.org$apache$spark$deploy$SparkSubmit$$runMain(SparkSubmit.scala:855)
+        at org.apache.spark.deploy.SparkSubmit.doRunMain$1(SparkSubmit.scala:161)
+        at org.apache.spark.deploy.SparkSubmit.submit(SparkSubmit.scala:184)
+        at org.apache.spark.deploy.SparkSubmit.doSubmit(SparkSubmit.scala:86)
+        at org.apache.spark.deploy.SparkSubmit$$anon$2.doSubmit(SparkSubmit.scala:930)
+        at org.apache.spark.deploy.SparkSubmit$.main(SparkSubmit.scala:939)
+        at org.apache.spark.deploy.SparkSubmit.main(SparkSubmit.scala)
+SQLException information
+Error msg: DB2 SQL Error: SQLCODE=-10003, SQLSTATE=57011, SQLERRMC=null, DRIVER=4.25.4
+
+```
+If you run oc get pods and you have dozens and dozens of pods in this state
+```
+
+usermgmt-ldap-sync-cron-job-1634481600-xz2f4                      0/1     Pending     0          23h
+usermgmt-ldap-sync-cron-job-1634482800-klh6q                      0/1     Pending     0          23h
+usermgmt-ldap-sync-cron-job-1634484000-klshz                      0/1     Pending     0          22h
+usermgmt-ldap-sync-cron-job-1634485200-cwv6w                      0/1     Pending     0          22h
+usermgmt-ldap-sync-cron-job-1634486400-4rckz                      0/1     Pending     0          22h
+usermgmt-ldap-sync-cron-job-1634487600-v4lcj                      0/1     Pending     0          21h
+usermgmt-ldap-sync-cron-job-1634488800-mzzts                      0/1     Pending     0          21h
+```
+Shawn Li and Jim Stroud fixed a situation like this once by
+1) untainting the worker nodes by running this from the infrastrucutre node while logged into the Openshift cluster
+```
+for node in $(oc get no --no-headers | awk {'print $1'} | grep "worker"); do
+	oc adm taint node $node icp4data-
+done
+pwd
+```
+2) Set up environment variables to for running of Db2 Event Store utilities by using https://www.ibm.com/docs/en/db2-event-store/2.0.0?topic=database-db2-event-store-utilities-setup-usage, in our case we ran
+```
+DEPLOYMENT_ID="db2eventstore-1631578935585341"
+TOOLS_CONTAINER=$(oc get pods |grep $DEPLOYMENT_ID | grep -E "(eventstore)(.*)(tenant-tools)" | awk {'print $1'}) && ORIGIN_IP=`hostname -i | awk '{print $1}'`
+eventstoreUtils() { oc -it exec "${TOOLS_CONTAINER}" -- bash -c 'export ORIGIN_IP="${1}" && eventstore-utils "${@:2}"' bash "${ORIGIN_IP}" "${@}"; }
+```
+4) Stopping Eventstore by running
+```
+eventstoreUtils --tool stop
+```
+4) Starting Evenstore by running
+```
+eventstoreUtils --tool start
+```
+Then the IoT applications worked fine
 ### Caveats
 Watson Studio Local (wsl). This is legacy and has not been tested or tried in several years.
 - Generally the eventstore server endpoint and the rest endpoint are the same, implying you only need to specify --endpoint
