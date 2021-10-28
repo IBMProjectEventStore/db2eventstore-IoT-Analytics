@@ -228,11 +228,11 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 the output of the command above shows that the container is not in use, this is why I believe re-running the `./dockershell` command works
 
 5. If you get this error while running the scala application https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications/ScalaApplication#running-scala-example (also similar error will occur with all other tests).  This may be because Event Store was running for more than 30 days and the cluster is too small to have it run that long. 
-```
-Error msg: DB2 SQL Error: SQLCODE=-10003, SQLSTATE=57011, SQLERRMC=null, DRIVER=4.25.4
-SQLSTATE: 57011
-Error code: -10003
-com.ibm.db2.jcc.am.SqlException: DB2 SQL Error: SQLCODE=-10003, SQLSTATE=57011, SQLERRMC=null, DRIVER=4.25.4
+   ```
+   Error msg: DB2 SQL Error: SQLCODE=-10003, SQLSTATE=57011, SQLERRMC=null, DRIVER=4.25.4
+   SQLSTATE: 57011
+   Error code: -10003
+   com.ibm.db2.jcc.am.SqlException: DB2 SQL Error: SQLCODE=-10003, SQLSTATE=57011, SQLERRMC=null, DRIVER=4.25.4
         at com.ibm.db2.jcc.am.b6.a(b6.java:815)
         at com.ibm.db2.jcc.am.b6.a(b6.java:66)
         at com.ibm.db2.jcc.am.b6.a(b6.java:140)
@@ -274,44 +274,45 @@ com.ibm.db2.jcc.am.SqlException: DB2 SQL Error: SQLCODE=-10003, SQLSTATE=57011, 
         at org.apache.spark.deploy.SparkSubmit$$anon$2.doSubmit(SparkSubmit.scala:930)
         at org.apache.spark.deploy.SparkSubmit$.main(SparkSubmit.scala:939)
         at org.apache.spark.deploy.SparkSubmit.main(SparkSubmit.scala)
-SQLException information
-Error msg: DB2 SQL Error: SQLCODE=-10003, SQLSTATE=57011, SQLERRMC=null, DRIVER=4.25.4
+   SQLException information
+   Error msg: DB2 SQL Error: SQLCODE=-10003, SQLSTATE=57011, SQLERRMC=null, DRIVER=4.25.4
 
-```
-If you run oc get pods and you have dozens and dozens of pods in this state
-```
+   ```
+   If you run oc get pods and you have dozens and dozens of pods in this state
+   ```
 
-usermgmt-ldap-sync-cron-job-1634481600-xz2f4                      0/1     Pending     0          23h
-usermgmt-ldap-sync-cron-job-1634482800-klh6q                      0/1     Pending     0          23h
-usermgmt-ldap-sync-cron-job-1634484000-klshz                      0/1     Pending     0          22h
-usermgmt-ldap-sync-cron-job-1634485200-cwv6w                      0/1     Pending     0          22h
-usermgmt-ldap-sync-cron-job-1634486400-4rckz                      0/1     Pending     0          22h
-usermgmt-ldap-sync-cron-job-1634487600-v4lcj                      0/1     Pending     0          21h
-usermgmt-ldap-sync-cron-job-1634488800-mzzts                      0/1     Pending     0          21h
-```
-Shawn Li and Jim Stroud fixed a situation like this once by
-1) untainting the worker nodes by running this from the infrastrucutre node while logged into the Openshift cluster
-```
-for node in $(oc get no --no-headers | awk {'print $1'} | grep "worker"); do
-	oc adm taint node $node icp4data-
-done
-pwd
-```
-2) Set up environment variables to for running of Db2 Event Store utilities by using https://www.ibm.com/docs/en/db2-event-store/2.0.0?topic=database-db2-event-store-utilities-setup-usage, in our case we ran
-```
-DEPLOYMENT_ID="db2eventstore-1631578935585341"
-TOOLS_CONTAINER=$(oc get pods |grep $DEPLOYMENT_ID | grep -E "(eventstore)(.*)(tenant-tools)" | awk {'print $1'}) && ORIGIN_IP=`hostname -i | awk '{print $1}'`
-eventstoreUtils() { oc -it exec "${TOOLS_CONTAINER}" -- bash -c 'export ORIGIN_IP="${1}" && eventstore-utils "${@:2}"' bash "${ORIGIN_IP}" "${@}"; }
-```
-3) Stopping Eventstore by running
-```
-eventstoreUtils --tool stop
-```
-4) Starting Evenstore by running
-```
-eventstoreUtils --tool start
-```
-Then the IoT applications worked fine
+   usermgmt-ldap-sync-cron-job-1634481600-xz2f4                      0/1     Pending     0          23h
+   usermgmt-ldap-sync-cron-job-1634482800-klh6q                      0/1     Pending     0          23h
+   usermgmt-ldap-sync-cron-job-1634484000-klshz                      0/1     Pending     0          22h
+   usermgmt-ldap-sync-cron-job-1634485200-cwv6w                      0/1     Pending     0          22h
+   usermgmt-ldap-sync-cron-job-1634486400-4rckz                      0/1     Pending     0          22h
+   usermgmt-ldap-sync-cron-job-1634487600-v4lcj                      0/1     Pending     0          21h
+   usermgmt-ldap-sync-cron-job-1634488800-mzzts                      0/1     Pending     0          21h
+   ```
+   Shawn Li and Jim Stroud fixed a situation like this once by
+   1) untainting the worker nodes by running this from the infrastrucutre node while logged into the Openshift cluster
+   ```
+   for node in $(oc get no --no-headers | awk {'print $1'} | grep "worker"); do
+   	oc adm taint node $node icp4data-
+   done
+   pwd
+   ```
+   2) Set up environment variables to for running of Db2 Event Store utilities by using https://www.ibm.com/docs/en/db2-event-store/2.0.0?topic=database-db2-event-store-utilities-setup-usage, in our case we ran
+   ```
+   DEPLOYMENT_ID="db2eventstore-1631578935585341"
+   TOOLS_CONTAINER=$(oc get pods |grep $DEPLOYMENT_ID | grep -E "(eventstore)(.*)(tenant-tools)" | awk {'print $1'}) && ORIGIN_IP=`hostname -i | awk '{print $1}'`
+   eventstoreUtils() { oc -it exec "${TOOLS_CONTAINER}" -- bash -c 'export ORIGIN_IP="${1}" && eventstore-utils "${@:2}"' bash "${ORIGIN_IP}" "${@}"; }
+   ```
+   3) Stopping Eventstore by running
+   ```
+   eventstoreUtils --tool stop
+   ```
+   4) Starting Evenstore by running
+   ```
+   eventstoreUtils --tool start
+   ```
+   Then the IoT applications worked fine
+
 6. MacOS Upgrade to 12.0.1
 After James Stroud upgrade from MacOS 11.6 to 12.0.1, none of my docker images appeared via `docker images` command despite having this 60 GB file
 ```
