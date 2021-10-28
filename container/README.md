@@ -318,7 +318,7 @@ After James Stroud upgrade from MacOS 11.6 to 12.0.1, none of my docker images a
 ```
 /Users/jamesstroud/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw
 ```
-and Docker desktop configured to use this file under `Preferences ... Resources ...Disk image location`.  I did not try (but probably should have) `Troubleshooting .. Reset to Factory Defaults` .  I uninstalled Docker desktop under `Troubleshooting`, moved the `Docker.app` to the Trash, downloaded and reinstalled Docker desktop, then rebuilt the demo docker container  and the the docker image appeared and the IoT container worked on MacOS 12.0.1
+and Docker desktop was properly configured to use this `Docker.raw` file under `Preferences ... Resources ...Disk image location`.  I did not try (but probably should have) `Troubleshooting .. Reset to Factory Defaults` .  I uninstalled Docker desktop under `Troubleshooting`, moved the `Docker.app` to the Trash, downloaded and reinstalled Docker desktop, then rebuilt the demo docker container  and the the docker image appeared and the IoT container worked on MacOS 12.0.1
 
 ### Caveats
 Watson Studio Local (wsl). This is legacy and has not been tested or tried in several years.
