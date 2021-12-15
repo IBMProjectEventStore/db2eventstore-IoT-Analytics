@@ -14,7 +14,7 @@ To run a Scala example with SBT, cd to the [`sbtproj`](sbtproj/README.md) direct
 
 The application will create a table, insert a small number of rows and query the inserted rows. To run the Scala example within the docker container, run these two commands
 ```
-cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/ScalaApplication
+cd ~/db2eventstore-IoT-Analytics/AdvancedApplications/ScalaApplication
 ./runscalaExample
 ```
 If not in the docker container follow these steps: 
