@@ -6,7 +6,7 @@ This assumes that you have set up the environment to run a spark application. A 
 
 1. If using the [docker container](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container), run these commands
 ```
-cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/PythonApplication
+cd ~/db2eventstore-IoT-Analytics/AdvancedApplications/PythonApplication
 ./runpythonExample
 ```
 
