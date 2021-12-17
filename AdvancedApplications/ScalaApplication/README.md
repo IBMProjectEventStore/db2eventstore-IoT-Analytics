@@ -277,4 +277,20 @@ ExampleScalaApp.scala:114: error: value sql is not a member of org.apache.spark.
 Execute with spark submit
 ./runscalaExample: line 14: /spark_home/bin/spark-submit: No such file or directory
 ```
-I was never able to figure out how to resolve.  It occurred on CentOS 8 Stream fresh install and upgrade from CentOS 8.5, Rocky Linux upgrade from CentOS 8.5, and Red Hat 7.9.  It did not occur on a Red Hat 8.5 install though
+I was never able to figure out how to resolve.  It occurred on CentOS 8 Stream fresh install and upgrade from CentOS 8.5, Rocky Linux upgrade from CentOS 8.5, and Red Hat 7.9.  It did not always occur on a Red Hat 8.5 install though.  When it fails some folders under / are missing in the container, this is what it should look like
+```
+[root@779f8d69cfdd PythonApplication]# ls /
+bin  bluspark  boot  clidriver  dev  dsdriver  etc  home  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  spark_home  srv  sys  tmp  usr  var
+```
+and this is what a non-working container looks like
+```
+[root@sirius-rh7-small1 container]# ls /
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+```
+note that in the non-working container we are missing
+```
+/bluspark
+/clidriver
+/dsdriver
+/spark_home
+```
