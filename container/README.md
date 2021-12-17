@@ -82,6 +82,11 @@ The format to run this for other (versions) releases of Event Store is:
 ```
 where `<eventstore-release>` is replaced with the actual eventstore-release number.
 
+Note the log file for the installation is under 
+```
+~/db2eventstore-IoT-Analytics/container/
+```
+
 #### Step 3: Start the docker container
 After the image is built, run the shell script `dockershell.sh` to start the container and run the examples. The Event Store release identifies which tagged image to start.
 The script takes 4 mandatory arguments and 3 optional ones.
