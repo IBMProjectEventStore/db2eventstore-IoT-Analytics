@@ -20,7 +20,7 @@ On either:
 - linux desktop or server (CentOS 7.9 & CentOS 8.4 work fine, Red Hat 8.4 & 8.3 only work with Docker and not Podman) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker. Linux is the most common OS used. Tested with multiple versions of Docker CE two last used were `Docker version 20.10.8, build 3967b7d` & `Docker version 20.10.12, build e91ed57 (on Red Hat 8.5)` 
 - CentOS 8 Stream that was migrated from CentOS 8.5 in Dec 2021 had problems with running the tests under https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications
 
-    Docker Community Edition (CE) works fine for CentOS & Red Hat 7.9 & 8.5. For Red Hat 8.x you first need to uninstall `podmad` & `buildah` by running these commands as root (before installing docker-ce).  
+    Docker Community Edition (CE) works fine for CentOS & Red Hat 7.9 & 8.5. For Red Hat 8.x & CentOS 8 stream you first need to uninstall `podmad` & `buildah` by running these commands as root (before installing docker-ce).  
     ```
     dnf remove -y buildah podman
     ```
