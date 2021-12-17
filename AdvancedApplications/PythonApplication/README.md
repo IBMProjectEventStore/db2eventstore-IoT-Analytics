@@ -96,3 +96,14 @@ Traceback (most recent call last):
     from py4j.java_gateway import JavaGateway, GatewayClient, java_import
 ModuleNotFoundError: No module named 'py4j'
 ```
+The issue is that entire directories are missing at the / inside the docker container, on a working container I see
+```
+[root@779f8d69cfdd PythonApplication]# ls /
+bin  bluspark  boot  clidriver  dev  dsdriver  etc  home  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  spark_home  srv  sys  tmp  usr  var
+
+```
+While on a broken system such as red hat 7.9 and CentOS 8 stream I see
+```
+[root@sirius-rh7-small1 container]# ls /
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+```
