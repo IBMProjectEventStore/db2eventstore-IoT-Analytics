@@ -80,3 +80,19 @@ and provide the correct directory to the `ibm-db2-eventstore-client-spark-2.4.6-
 
 6. Note if you look at [`runpythonExample`](runpythonExample), it's recommended to use `spark-submit` with Spark 2.0.2 since it easily processes python apps.
 
+## Troubleshooting
+This error now occurs on Red Hat 7.9 and CentOS Stream 8 on Fyre and I never could figure out why
+```
+[root@475c2321f877 ScalaApplication]# cd ~/db2eventstore-IoT-Analytics/AdvancedApplications/PythonApplication
+[root@475c2321f877 PythonApplication]# ./runpythonExample
+Traceback (most recent call last):
+  File "ExamplePythonApp.py", line 1, in <module>
+    from eventstore.oltp import EventContext
+  File "/var/lib/eventstore/oltp/__init__.py", line 29, in <module>
+    from eventstore.oltp.context import EventContext
+  File "/var/lib/eventstore/oltp/context.py", line 7, in <module>
+    from eventstore.java_gateway import start_gateway
+  File "/var/lib/eventstore/java_gateway.py", line 14, in <module>
+    from py4j.java_gateway import JavaGateway, GatewayClient, java_import
+ModuleNotFoundError: No module named 'py4j'
+```
