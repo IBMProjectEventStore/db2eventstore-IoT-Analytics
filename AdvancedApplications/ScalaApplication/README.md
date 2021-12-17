@@ -84,6 +84,7 @@ End of successful output is below
 
 ```
 ## Troubleshooting
+### Communication Error
 If you get this error
 ```
 [root@d2b8991602f7 ScalaApplication]# ./runscalaExample
@@ -107,7 +108,7 @@ or socket output stream.  Error location: Reply.fill() - socketInputStream.read 
 	at com.ibm.db2.jcc.am.b6.a(b6.java:338)
 	at com.ibm.db2.jcc.t4.a.a(a.java:572)
 ```
-It most likely means the eventstore database or environment was recreated and the db2 and event store ports  at the bottom of
+It most likely means the eventstore database or environment was recreated and the db2 and event store ports at the bottom of
 ```
 /etc/haproxy/haproxy.cfg
 ```
@@ -215,3 +216,65 @@ then restart haproxy
 ```
 systemctl daemon-reload && systemctl restart haproxy
 ```
+### Path Error
+if you get this error
+```
+[root@6d2b717eb619 ScalaApplication]# ./runscalaExample
+Compile java code
+Compile the scala application
+ExampleScalaApp.scala:6: error: object Row is not a member of package org.apache.spark.sql
+import org.apache.spark.sql.Row
+       ^
+ExampleScalaApp.scala:7: error: object SparkConf is not a member of package org.apache.spark
+import org.apache.spark.{SparkConf, SparkContext}
+       ^
+ExampleScalaApp.scala:43: error: Symbol 'type org.apache.spark.sql.types.StructType' is missing from the classpath.
+This symbol is required by 'value com.ibm.event.catalog.TableSchema.schema'.
+Make sure that type StructType is in your classpath and check for conflicting dependencies with `-Ylog-classpath`.
+A full rebuild may help if 'TableSchema.class' was compiled against an incompatible version of org.apache.spark.sql.types.
+    val tabSchema = TableSchema(tabName, StructType(Array(
+                    ^
+ExampleScalaApp.scala:88: error: not found: value Row
+    val batch = IndexedSeq(Row(1,48,1541019342393L,25.983183481618322,14.65874116573845,48.908846094198),
+                           ^
+ExampleScalaApp.scala:89: error: not found: value Row
+                    Row(1,24,1541019343497L,22.54544424024718,9.834894630821138,39.065559149361725),
+                    ^
+ExampleScalaApp.scala:90: error: not found: value Row
+                    Row(2,39,1541019344356L,24.3246538655206,14.100638100780325,44.398837306747936),
+                    ^
+ExampleScalaApp.scala:91: error: not found: value Row
+                    Row(2,1,1541019345216L,25.658280957413456,14.24313156331591,45.29125502970843),
+                    ^
+ExampleScalaApp.scala:92: error: not found: value Row
+                    Row(2,20,1541019346515L,26.836546274856012,12.841557839205619,48.70012987940281),
+                    ^
+ExampleScalaApp.scala:93: error: not found: value Row
+                    Row(1,24,1541019347200L,24.960868340037266,11.773728418852778,42.16182979507462))
+                    ^
+ExampleScalaApp.scala:105: error: not found: type SparkContext
+    val sc = new SparkContext(new SparkConf().setAppName("ExampleScalaApp").setMaster(
+                 ^
+ExampleScalaApp.scala:105: error: not found: type SparkConf
+    val sc = new SparkContext(new SparkConf().setAppName("ExampleScalaApp").setMaster(
+                                  ^
+ExampleScalaApp.scala:108: error: Symbol 'type org.apache.spark.sql.SparkSession' is missing from the classpath.
+This symbol is required by 'class org.apache.spark.sql.ibm.event.EventSparkSession'.
+Make sure that type SparkSession is in your classpath and check for conflicting dependencies with `-Ylog-classpath`.
+A full rebuild may help if 'EventSparkSession.class' was compiled against an incompatible version of org.apache.spark.sql.
+      val sqlContext = new EventSession(sc, dbName)
+                           ^
+ExampleScalaApp.scala:111: error: Symbol 'term org.apache.spark.sql.package' is missing from the classpath.
+This symbol is required by 'method org.apache.spark.sql.ibm.event.EventSession.loadEventTable'.
+Make sure that term package is in your classpath and check for conflicting dependencies with `-Ylog-classpath`.
+A full rebuild may help if 'EventSession.class' was compiled against an incompatible version of org.apache.spark.sql.
+      val ads = sqlContext.loadEventTable(tabName)
+                ^
+ExampleScalaApp.scala:114: error: value sql is not a member of org.apache.spark.sql.ibm.event.EventSession
+      val results = sqlContext.sql(s"SELECT * FROM $tabName")
+                               ^
+14 errors found
+Execute with spark submit
+./runscalaExample: line 14: /spark_home/bin/spark-submit: No such file or directory
+```
+I was never able to figure out how to resolve.  It occurred on CentOS 8 Stream fresh install and upgrade from CentOS 8.5, Rocky Linux upgrade from CentOS 8.5, and Red Hat 7.9.  It did not occur on a Red Hat 8.5 install though
