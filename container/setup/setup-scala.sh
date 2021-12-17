@@ -21,10 +21,10 @@ rm -f /tmp/scala-${SCALA_VERSION}.${PKGTYPE}
 
 ##
 ## SBT (Simple Build Tool), used with scala
-## dl.bintray.com is going away.  Installs version 1.5.7 of SBT from github.com.
+## dl.bintray.com is going away.  Installs version 1.5.5 of SBT from github.com.
 
-wget -O /tmp/sbt-1.5.7.tgz https://github.com/sbt/sbt/releases/download/v1.5.7/sbt-1.5.7.tgz
-tar xzvf /tmp/sbt-1.5.7.tgz -C /usr/share/
+wget -O /tmp/sbt-1.5.5.tgz https://github.com/sbt/sbt/releases/download/v1.5.5/sbt-1.5.5.tgz
+tar xzvf /tmp/sbt-1.5.5.tgz -C /usr/share/
 ln -s /usr/share/sbt/bin/sbt /usr/bin/sbt
 
 
