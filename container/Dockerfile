@@ -10,10 +10,7 @@ ARG BRANCH=master
 ARG SETUP_AREA=${IOT_REPO_PATH}/container/setup
 
 # Install neccessary packages
-RUN wget https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh \
- && chmod +x script.rpm.sh \
- && ./script.rpm.sh \
- && yum install -y \
+RUN yum install -y \
     git-lfs \
     wget \
     vim \
@@ -25,6 +22,10 @@ RUN wget https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.
     sudo \
     zlib-devel \
     openssl-devel \
+    && wget https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh \
+    && chmod +x script.rpm.sh \
+    && ./script.rpm.sh \
+    && yum install -y git-lfs
     && yum -y update \
     && yum clean all \
     && rm -rf /var/cache/yum
