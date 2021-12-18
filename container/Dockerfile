@@ -49,7 +49,7 @@ RUN ${SETUP_AREA}/setup-container.sh $ES_VERSION
 # Spark media extract from local copy from git repo $SPARK_MEDIA & SPARK_HOME defined in setup/setup-spark.sh
 # comment line below and hard code versions as variable did not work
 # RUN tar -xzvf /root/${SPARK_MEDIA}.tgz -C / \
-RUN tar -xzvf /root/spark-2.4.8-bin-hadoop2.6.tgz -C / \
+RUN tar -xzvf /root/spark_media_package/spark-2.4.8-bin-hadoop2.6.tgz -C / \
 && mv spark-2.4.8-bin-hadoop2.6/* /spark_home \
 && echo "spark media file name = spark-2.4.8-bin-hadoop2.6.tgz and is extracted to /spark_home"
 
