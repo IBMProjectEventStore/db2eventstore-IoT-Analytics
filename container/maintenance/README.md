@@ -35,6 +35,34 @@ https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/
 Also update this page <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications#specific-applicaition-option
 
+Also update Docker file 
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L51
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L52
+
+Place the spark media file to <br>
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/spark_media_package <br>
+You will need to do the following to do this
+```
+cd ~
+git clone git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git
+```
+copy the file to
+```
+~/db2eventstore-IoT-Analytics/spark_media_package
+```
+since the file is over 100 MB you need to use `git-lfs`, so run these commands replace `spark-2.4.8-bin-hadoop2.6.tgz` with your new spark media file
+```
+yum install -y git-lfs
+git install lfs
+git lfs track "spark-2.4.8-bin-hadoop2.6.tgz"
+gid add .gitattributes
+git add spark-2.4.8-bin-hadoop2.6.tgz
+git commit -m "adding new spark media file"
+git pull
+git push
+```
+
+
 ## Python
 This is done here
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-python.sh#L9 <br>
