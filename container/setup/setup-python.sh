@@ -27,3 +27,4 @@ rm -rf /db2eventstore-pythonpackages
 
 PY4J_VERSION=$(ls ${SPARK_HOME}/python/lib | grep py4j)
 echo "export PYTHONPATH=$PYTHONPATH:/var/lib:${SPARK_HOME}/python:${SPARK_HOME}/python/lib/${PY4J_VERSION}:${SPARK_HOME}/python/jars/:${HOME}/db2eventstore-IoT-Analytics/AdvancedApplications/PythonApplication/:${SPARK_HOME}/python/lib/py4j-0.10.7-src.zip" >> /etc/profile.d/local_python.sh
+echo "PY4J_VERSION is ${PY4J_VERSION}"
