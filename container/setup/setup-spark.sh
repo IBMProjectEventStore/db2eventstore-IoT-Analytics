@@ -47,7 +47,7 @@ mkdir -p $SPARK_HOME
 #   http://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${SPARK_MEDIA}.tgz
 # tar -xzvf ${SPARK_MEDIA}.tar.gz
 # mv ${SPARK_MEDIA}/* $SPARK_HOME
-echo "extract spark tar gzipped file and move it to /spark_home and then delete original media file
+echo "extract spark tar gzipped file and move it to /spark_home and then delete original media file"
 tar -xzvf /root/db2eventstore-IoT-Analytics/spark_media_package/spark-2.4.8-bin-hadoop2.6.tgz -C /
 cp -r /spark-2.4.8-bin-hadoop2.6/* /spark_home
 # rm -rf /root/db2eventstore-IoT-Analytics/spark_media_package
