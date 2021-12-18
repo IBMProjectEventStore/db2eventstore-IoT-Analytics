@@ -42,10 +42,12 @@ fi
 cd $SPARK_MEDIA_LOC
 
 mkdir -p $SPARK_HOME
-wget -q -O ${SPARK_MEDIA}.tar.gz \
-   http://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${SPARK_MEDIA}.tgz
-tar -xzvf ${SPARK_MEDIA}.tar.gz
-mv ${SPARK_MEDIA}/* $SPARK_HOME
+# Will use local copy of spark media Jim Stroud copied to github.com as the download took too long
+# Dockerfile has commands to extract the spark media
+# wget -q -O ${SPARK_MEDIA}.tar.gz \
+#   http://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${SPARK_MEDIA}.tgz
+# tar -xzvf ${SPARK_MEDIA}.tar.gz
+# mv ${SPARK_MEDIA}/* $SPARK_HOME
 
 wget -q -O scopt_2.11-${SCOPT_211_VERSION}.jar \
    https://repo1.maven.org/maven2/com/github/scopt/scopt_2.11/${SCOPT_211_VERSION}/scopt_2.11-${SCOPT_211_VERSION}.jar
