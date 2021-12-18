@@ -5,12 +5,25 @@ The Dockerfile in this directory will build a docker image named `eventstore_dem
 ### Procedure
 #### Step 1: Clone this git repo
 On a mac or linux desktop git clone this repo (it is possible to do this on Windows 10 but not recommended).  Add your public ssh key (normally the contents of this file `~/.ssh/id_rsa.pub` on your Windows, Linux or Mac machine) to https://github.com/settings/keys if you have not done so already.  To add your public ssh key click `New SSH Key` button on upper right ...Title ... In `Key` Box paste in your public ssh key ... Click `Add SSH Key` button
+
+**linux**
 ```
 cd ~
 yum install -y git
 yum update -y
+wget https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh
+chmod +x script.sh
+./script.rpm.sh 
+yum install git-lfs -y
 git clone git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git
 ```
+**mac**
+```
+brew install git
+brew install git-lfs
+git clone git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git
+```
+
 
 #### Step 2: Build the docker image
 In all scenarios below, the machine that will build and run the docker image needs docker installed and running, git installed, access to the internet, and about 6 GB of free disk space.  
