@@ -50,7 +50,7 @@ mkdir -p $SPARK_HOME
 echo "extract spark tar gzipped file and move it to /spark_home and then delete original media file
 tar -xzvf /root/db2eventstore-IoT-Analytics/spark_media_package/spark-2.4.8-bin-hadoop2.6.tgz -C
 mv /spark-2.4.8-bin-hadoop2.6/* /spark_home
-rm -rf /root/db2eventstore-IoT-Analytics/spark_media_package
+# rm -rf /root/db2eventstore-IoT-Analytics/spark_media_package
 
 wget -q -O scopt_2.11-${SCOPT_211_VERSION}.jar \
    https://repo1.maven.org/maven2/com/github/scopt/scopt_2.11/${SCOPT_211_VERSION}/scopt_2.11-${SCOPT_211_VERSION}.jar
