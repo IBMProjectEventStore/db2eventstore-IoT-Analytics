@@ -47,9 +47,11 @@ COPY ./es-releases.json /root/user_volume/
 RUN ${SETUP_AREA}/setup-container.sh $ES_VERSION
 
 # Spark media extract from local copy from git repo $SPARK_MEDIA & SPARK_HOME defined in setup/setup-spark.sh
-RUN tar -xzvf /root/${SPARK_MEDIA}.tgz -C / \
-&& mv ${SPARK_MEDIA}/* ${SPARK_HOME} \
-&& echo "spark media file name = ${SPARK_MEDIA} and is extracted to ${SPARK_HOME}"
+# comment line below and hard code versions as variable did not work
+# RUN tar -xzvf /root/${SPARK_MEDIA}.tgz -C / \
+RUN tar -xzvf /root/spark-2.4.8-bin-hadoop2.6.tgz -C / \
+&& mv spark-2.4.8-bin-hadoop2.6/* /spark_home \
+&& echo "spark media file name = spark-2.4.8-bin-hadoop2.6.tgz and is extracted to /spark_home"
 
 # Create client config file and eliminate this error message "cat: /usr/lib/jvm/java-1.8.0-openjdk/release: No such file or directory" when executing ./runscalaExample
 RUN mkdir -p /bluspark/external_conf/
