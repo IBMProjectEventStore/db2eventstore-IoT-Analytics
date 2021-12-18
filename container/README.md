@@ -30,10 +30,10 @@ In all scenarios below, the machine that will build and run the docker image nee
 #### Install Docker
 On either:
 - Mac OS 11.4, 11.5.2, 11.6, 12.0.1, 12.1 and [docker desktop](https://www.docker.com/products/docker-desktop) (tested with Docker version `20.10.7, build f0df350` & `Docker version 20.10.8, build 3967b7d` with Docker Desktop `4.1.1 (69879)` and `Docker version 20.10.11, build dea9396`  MacBook Pro 16 inch 2019 model) installed and running or;
-- linux desktop or server (CentOS 7.9 & CentOS 8.4 work fine, Red Hat 8.4 & 8.3 only work with Docker and not Podman, Red Hat 7.9 from Fyre no longer works - dec 2021) that has docker already installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker. Linux is the most common OS used. Tested with multiple versions of Docker CE two last used were `Docker version 20.10.8, build 3967b7d` & `Docker version 20.10.12, build e91ed57 (on Red Hat 8.5)` 
+- linux desktop or server (CentOS & Red HAt  7.9 & CentOS & Red Hat 8.x, & CentOS Stream work fine, CentOS 8 Stream, Red Hat 7.x & 8.x only work with Docker and not Podman.  Docker must be installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker. Linux is the most common OS used. Tested with multiple versions of Docker CE two last used were `Docker version 20.10.8, build 3967b7d` & `Docker version 20.10.12, build e91ed57 (on Red Hat 8.5)` 
 - CentOS 8 Stream & Rocky Linux 8 - work fine aslo
 
-    Docker Community Edition (CE) works fine for CentOS & Red Hat 7.9 & 8.5. For Red Hat 8.x & CentOS 8 stream you first need to uninstall `podmad` & `buildah` by running these commands as root (before installing docker-ce).  
+    Docker Community Edition (CE) works fine for CentOS & Red Hat 7.9 & 8.5. For Red Hat 8.x & CentOS 8 Stream you first need to uninstall `podmad` & `buildah` by running these commands as root (before installing docker-ce).  
     ```
     dnf remove -y buildah podman
     ```
