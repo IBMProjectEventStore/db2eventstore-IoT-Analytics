@@ -11,8 +11,10 @@ fi
 USER_VOLUME=/root/user_volume
 
 # set the version variables
-SPARK_VERSION=$(jq -r .release.${ES_VERSION}.sparkversion $USER_VOLUME/es-releases.json)
-SPARK_CLIENT=$(jq -r .release.${ES_VERSION}.sparkclient $USER_VOLUME/es-releases.json)
+# SPARK_VERSION=$(jq -r .release.${ES_VERSION}.sparkversion $USER_VOLUME/es-releases.json)
+SPARK_VERSION="2.4.8"
+# SPARK_CLIENT=$(jq -r .release.${ES_VERSION}.sparkclient $USER_VOLUME/es-releases.json)
+SPARK_CLIENT="ibm-db2-eventstore-client-spark-2.4.6-2.0.1.0.jar"
 
 # Setup java/scala/python/kafka/rest/spark
 ${SETUP_AREA}/setup-java.sh
