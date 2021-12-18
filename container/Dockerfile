@@ -11,7 +11,6 @@ ARG SETUP_AREA=${IOT_REPO_PATH}/container/setup
 
 # Install neccessary packages
 RUN yum install -y \
-    git-lfs \
     wget \
     vim \
     unzip \
