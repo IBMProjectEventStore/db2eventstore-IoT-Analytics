@@ -4,7 +4,9 @@ The Dockerfile in this directory will build a docker image named `eventstore_dem
 
 ### Procedure
 #### Step 1: Clone this git repo
-On a mac or linux desktop git clone this repo (it is possible to do this on Windows 10 but not recommended).  Add your public ssh key (normally the contents of this file `~/.ssh/id_rsa.pub` on your Windows, Linux or Mac machine) to https://github.com/settings/keys if you have not done so already.  To add your public ssh key click `New SSH Key` button on upper right ...Title ... In `Key` Box paste in your public ssh key ... Click `Add SSH Key` button
+On a mac or linux desktop git clone this repo (it is possible to do this on Windows 10 but not recommended).  Add your public ssh key (normally the contents of this file `~/.ssh/id_rsa.pub` on your Windows, Linux or Mac machine) to https://github.com/settings/keys if you have not done so already.  To add your public ssh key click `New SSH Key` button on upper right ...Title ... In `Key` Box paste in your public ssh key ... Click `Add SSH Key` button <br>
+
+As of December 2021 `git-lfs` is needed as the 224 MB spark media file is in this git repo and for the git clone to work `git-lfs` is needed.
 
 **linux**
 ```
