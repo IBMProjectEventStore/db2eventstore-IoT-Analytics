@@ -42,11 +42,12 @@ fi
 cd $SPARK_MEDIA_LOC
 
 mkdir -p $SPARK_HOME
-# Will use local copy of spark media Jim Stroud copied to github.com as the download took too long
+# Will use local copy of spark media Jim Stroud copied to github.com as the download took too long and was unreliable
 # wget -q -O ${SPARK_MEDIA}.tar.gz \
 #   http://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${SPARK_MEDIA}.tgz
 # tar -xzvf ${SPARK_MEDIA}.tar.gz
 # mv ${SPARK_MEDIA}/* $SPARK_HOME
+# below are commands use files for spark media from github, git clone performed earlier puts files under /root/ in docker container
 echo "extract spark tar gzipped file and move it to /spark_home and then delete original media file"
 tar -xzvf /root/db2eventstore-IoT-Analytics/spark_media_package/spark-2.4.8-bin-hadoop2.6.tgz -C /
 cp -r /spark-2.4.8-bin-hadoop2.6/* /spark_home
