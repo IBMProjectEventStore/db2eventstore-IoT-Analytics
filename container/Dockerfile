@@ -27,6 +27,15 @@ RUN yum install -y \
 
 RUN git clone --single-branch --branch ${BRANCH} https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics.git ${IOT_REPO_PATH}
 
+# get variables from json and setup spark
+RUN ${SETUP_AREA}/setup-container.sh $ES_VERSION
+
+# Spark media extract from local copy from git repo $SPARK_MEDIA & SPARK_HOME defined in setup/setup-spark.sh
+# comment line below and hard code versions, git clone copies files to /root/db2eventstore-IoT-Analytics
+RUN tar -xzvf /root/db2eventstore-IoT-Analytics/spark_media_package/spark-2.4.8-bin-hadoop2.6.tgz -C / \
+&& mv spark-2.4.8-bin-hadoop2.6/* /spark_home \
+&& echo "spark media file name = spark-2.4.8-bin-hadoop2.6.tgz and is extracted to /spark_home"
+
 # Install jq
 RUN wget -O /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
 RUN chmod +x /usr/local/bin/jq
@@ -42,15 +51,6 @@ RUN echo -e 'syntax enable \nset tabstop=4 \nset number \nset hlsearch \nset inc
 
 # copy json file to user_volume
 COPY ./es-releases.json /root/user_volume/
-
-# get variables from json and setup spark
-RUN ${SETUP_AREA}/setup-container.sh $ES_VERSION
-
-# Spark media extract from local copy from git repo $SPARK_MEDIA & SPARK_HOME defined in setup/setup-spark.sh
-# comment line below and hard code versions, git clone copies files to /root/db2eventstore-IoT-Analytics
-RUN tar -xzvf /root/db2eventstore-IoT-Analytics/spark_media_package/spark-2.4.8-bin-hadoop2.6.tgz -C / \
-&& mv spark-2.4.8-bin-hadoop2.6/* /spark_home \
-&& echo "spark media file name = spark-2.4.8-bin-hadoop2.6.tgz and is extracted to /spark_home"
 
 # Create client config file and eliminate this error message "cat: /usr/lib/jvm/java-1.8.0-openjdk/release: No such file or directory" when executing ./runscalaExample
 RUN mkdir -p /bluspark/external_conf/
