@@ -65,7 +65,7 @@ WORKDIR /root
 RUN tar -xvf /root/db2eventstore-IoT-Analytics/ibm_data_server_driver_package/v11.5.6_linuxx64_dsdriver.tar.gz -C / \
   && tar -xvf /dsdriver/odbc_cli_driver/linuxamd64/ibm_data_server_driver_for_odbc_cli.tar.gz -C / \
   && cp -r /dsdriver/security64 /clidriver/ \
-  && rm -rf /root/db2eventstore-IoT-Analytics/ibm_data_server_driver_package/
+  && rm -rf /root/db2eventstore-IoT-Analytics/ibm_data_server_driver_package
   
 # update node package manager and show version as rest/install.sh does not seem to do it
 RUN npm update -g npm \
