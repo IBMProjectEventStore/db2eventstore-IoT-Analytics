@@ -24,7 +24,7 @@ RUN yum install -y \
     && wget https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh \
     && chmod +x script.rpm.sh \
     && ./script.rpm.sh \
-    && yum install -y git-lfs
+    && yum install -y git-lfs \
     && yum -y update \
     && yum clean all \
     && rm -rf /var/cache/yum
