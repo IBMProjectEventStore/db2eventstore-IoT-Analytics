@@ -51,7 +51,6 @@ COPY ./es-releases.json /root/user_volume/
 RUN tar -xzvf /root/db2eventstore-IoT-Analytics/spark_media_package/spark-2.4.8-bin-hadoop2.6.tgz -C / \
     && mv /spark-2.4.8-bin-hadoop2.6/* /spark_home \
     && rm -rf /root/db2eventstore-IoT-Analytics/spark_media_package \
-    && echo "spark media file name = spark-2.4.8-bin-hadoop2.6.tgz and is extracted to /spark_home"
 
 # Create client config file and eliminate this error message "cat: /usr/lib/jvm/java-1.8.0-openjdk/release: No such file or directory" when executing ./runscalaExample
 RUN mkdir -p /bluspark/external_conf/
