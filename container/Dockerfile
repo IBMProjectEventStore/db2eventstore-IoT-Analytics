@@ -46,6 +46,11 @@ COPY ./es-releases.json /root/user_volume/
 # get variables from json and setup spark
 RUN ${SETUP_AREA}/setup-container.sh $ES_VERSION
 
+# Spark media extract from local copy from git repo $SPARK_MEDIA & SPARK_HOME defined in setup/setup-spark.sh
+RUN tar -xzvf /root/${SPARK_MEDIA}.tar.gz -C / \
+&& mv ${SPARK_MEDIA}/* ${SPARK_HOME} \
+&& echo "spark media file name = ${SPARK_MEDIA} and is extracted to ${SPARK_HOME}"
+
 # Create client config file and eliminate this error message "cat: /usr/lib/jvm/java-1.8.0-openjdk/release: No such file or directory" when executing ./runscalaExample
 RUN mkdir -p /bluspark/external_conf/
 RUN touch /bluspark/external_conf/bluspark.conf /usr/lib/jvm/java-1.8.0-openjdk/release
