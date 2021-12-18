@@ -47,7 +47,7 @@ COPY ./es-releases.json /root/user_volume/
 RUN ${SETUP_AREA}/setup-container.sh $ES_VERSION
 
 # Spark media extract from local copy from git repo $SPARK_MEDIA & SPARK_HOME defined in setup/setup-spark.sh
-RUN tar -xzvf /root/${SPARK_MEDIA}.tar.gz -C / \
+RUN tar -xzvf /root/${SPARK_MEDIA}.tgz -C / \
 && mv ${SPARK_MEDIA}/* ${SPARK_HOME} \
 && echo "spark media file name = ${SPARK_MEDIA} and is extracted to ${SPARK_HOME}"
 
