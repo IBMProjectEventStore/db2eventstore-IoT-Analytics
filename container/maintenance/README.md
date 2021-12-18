@@ -64,7 +64,10 @@ git commit -m "adding new spark media file"
 git pull
 git push
 ```
-
+This file and directory name is now hard coded in a few places, so if it changes you must update
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L52
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L53
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L54
 
 ## Python
 This is done here
