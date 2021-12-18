@@ -12,7 +12,7 @@ cd ~
 yum install -y git
 yum update -y
 wget https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh
-chmod +x script.sh
+chmod +x script.rpm.sh
 ./script.rpm.sh 
 yum install git-lfs -y
 git clone git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git
