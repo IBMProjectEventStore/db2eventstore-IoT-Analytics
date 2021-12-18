@@ -49,8 +49,8 @@ COPY ./es-releases.json /root/user_volume/
 # Spark media extract from local copy from git repo $SPARK_MEDIA & SPARK_HOME defined in setup/setup-spark.sh
 # comment line below and hard code versions, git clone copies files to /root/db2eventstore-IoT-Analytics
 RUN tar -xzvf /root/db2eventstore-IoT-Analytics/spark_media_package/spark-2.4.8-bin-hadoop2.6.tgz -C / \
-&& mv spark-2.4.8-bin-hadoop2.6/* /spark_home \
-&& echo "spark media file name = spark-2.4.8-bin-hadoop2.6.tgz and is extracted to /spark_home"
+    && mv spark-2.4.8-bin-hadoop2.6/* /spark_home \
+    && echo "spark media file name = spark-2.4.8-bin-hadoop2.6.tgz and is extracted to /spark_home"
 
 # Create client config file and eliminate this error message "cat: /usr/lib/jvm/java-1.8.0-openjdk/release: No such file or directory" when executing ./runscalaExample
 RUN mkdir -p /bluspark/external_conf/
@@ -61,3 +61,7 @@ WORKDIR /root
 RUN tar -xvf /root/db2eventstore-IoT-Analytics/ibm_data_server_driver_package/v11.5.6_linuxx64_dsdriver.tar.gz -C / \
   && tar -xvf /dsdriver/odbc_cli_driver/linuxamd64/ibm_data_server_driver_for_odbc_cli.tar.gz -C / \
   && cp -r /dsdriver/security64 /clidriver/
+  
+# update node package manager as rest/install.sh does not seem to do it
+RUN npm update -g npm \
+    && npm -v
