@@ -47,9 +47,8 @@ COPY ./es-releases.json /root/user_volume/
 RUN ${SETUP_AREA}/setup-container.sh $ES_VERSION
 
 # Spark media extract from local copy from git repo $SPARK_MEDIA & SPARK_HOME defined in setup/setup-spark.sh
-# comment line below and hard code versions as variable did not work
-# RUN tar -xzvf /root/${SPARK_MEDIA}.tgz -C / \
-RUN tar -xzvf /root/spark_media_package/spark-2.4.8-bin-hadoop2.6.tgz -C / \
+# comment line below and hard code versions, git clone copies files to /root/db2eventstore-IoT-Analytics
+RUN tar -xzvf /root/db2eventstore-IoT-Analytics/spark_media_package/spark-2.4.8-bin-hadoop2.6.tgz -C / \
 && mv spark-2.4.8-bin-hadoop2.6/* /spark_home \
 && echo "spark media file name = spark-2.4.8-bin-hadoop2.6.tgz and is extracted to /spark_home"
 
@@ -58,7 +57,7 @@ RUN mkdir -p /bluspark/external_conf/
 RUN touch /bluspark/external_conf/bluspark.conf /usr/lib/jvm/java-1.8.0-openjdk/release
 WORKDIR /root
 
-# Install IBM Db2 data server drivers
+# Install IBM Db2 data server drivers.  git clone copies files to /root/db2eventstore-IoT-Analytics
 RUN tar -xvf /root/db2eventstore-IoT-Analytics/ibm_data_server_driver_package/v11.5.6_linuxx64_dsdriver.tar.gz -C / \
   && tar -xvf /dsdriver/odbc_cli_driver/linuxamd64/ibm_data_server_driver_for_odbc_cli.tar.gz -C / \
   && cp -r /dsdriver/security64 /clidriver/
