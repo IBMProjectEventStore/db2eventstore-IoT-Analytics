@@ -28,19 +28,19 @@ git clone git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git
 
 
 #### Step 2: Build the docker image
-In all scenarios below, the machine that will build and run the docker image needs docker installed and running, git installed, access to the internet, and about 6 GB of free disk space.  
+In all scenarios below, the machine that will build and run the docker image needs docker installed and running, git & git-lfs installed, access to the internet, and about 6 GB of free disk space.  
 #### Install Docker
 On either:
 - Mac OS 11.4, 11.5.2, 11.6, 12.0.1, 12.1 and [docker desktop](https://www.docker.com/products/docker-desktop) (tested with Docker version `20.10.7, build f0df350` & `Docker version 20.10.8, build 3967b7d` with Docker Desktop `4.1.1 (69879)` and `Docker version 20.10.11, build dea9396`  MacBook Pro 16 inch 2019 model) installed and running or;
 - linux desktop or server (CentOS & Red HAt  7.9 & CentOS & Red Hat 8.x, & CentOS Stream work fine, CentOS 8 Stream, Red Hat 7.x & 8.x only work with Docker and not Podman.  Docker must be installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker. Linux is the most common OS used. Tested with multiple versions of Docker CE two last used were `Docker version 20.10.8, build 3967b7d` & `Docker version 20.10.12, build e91ed57 (on Red Hat 8.5)` 
-- CentOS 8 Stream & Rocky Linux 8 - work fine aslo
+- CentOS 8 Stream & Rocky Linux 8 - work fine also
 
-    Docker Community Edition (CE) works fine for CentOS & Red Hat 7.9 & 8.5. For Red Hat 8.x & CentOS 8 Stream you first need to uninstall `podmad` & `buildah` by running these commands as root (before installing docker-ce).  
+    Docker Community Edition (CE) works fine for CentOS & Red Hat 7.9 & 8.5 and CentOS 8 sStream. For Red Hat 8.x & CentOS 8 Stream you first need to uninstall `podmad` & `buildah` by running these commands as root (before installing docker-ce).  
     ```
     dnf remove -y buildah podman
     ```
 
-    run commands below as root to install the latest version of docker-ce on both Red Hat & CentOS 7.x & 8.x, the last 2 commands configure docker to automatically start on operating system start-up.
+    run commands below as root to install the latest version of docker-ce on both Red Hat & CentOS 7.x & 8.x and CentOS 8 Stream, the last 2 commands configure docker to automatically start on operating system start-up.
     ```
     yum install -y yum-utils
     yum-config-manager     --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
@@ -82,8 +82,8 @@ On either:
    dos2unix *.sh
    ```
   #### All Operating Systems
-- For all Operating Systems: CentOS 7.x and 8.x, Red Hat 7.x and 8.x , MacOS, and Windows 10 with Kali Linux, run the shell script `build.sh` to build the docker image.
-- The image size is around 5 GB, build takes around 12 to 30 mins, depending on network conditions and processing power of the host (MacBook Pro 16 in 2019 model took 12.6 minutes and on Windows 10 Pro with Kali Linux with AMD Ryzen 5 56000X with 64 GB of RAM and 2 TB Western Digital Black PCIe 4.0  it took 13.6 minutes, both with 100 Mbps FIOS internet download speed).
+- For all Operating Systems: CentOS 7.x and 8.x, Red Hat 7.x and 8.x, CentOS 8 Stream, MacOS, and Windows 10 with Kali Linux, run the shell script `build.sh` to build the docker image.
+- The image size is around 5 GB, build takes around 12 to 20 mins, depending on network conditions and processing power of the host (MacBook Pro 16 in 2019 model took 12.6 minutes and on Windows 10 Pro with Kali Linux with AMD Ryzen 5 56000X with 64 GB of RAM and 2 TB Western Digital Black PCIe 4.0  it took 13.6 minutes, both with 100 Mbps FIOS internet download speed).
 - The Event Store release the IoT applications will use must be specified. The release is used to tag the image. Supported releases are: `2.0.1.4`, `2.0.1.3`,`2.0.1.2`, `2.0.1.0` and `2.0.0.5`. To run this for release `2.0.1.4`, the command would be (if running as root you do not need put `sudo` in front of `./build.sh`:
 #### Build IoT Demo container
   Run these commmands after you have docker installed and running and have cloned the repo
@@ -412,8 +412,8 @@ If you want to rebuild the docker container after you have built it (for example
 ./build.sh --es-version 2.0.1.2
 ```
 
-### Red Hat 8.x
-To get this demo container to work on Red Hat 8.x do the following, which will uninstall `podman` and `buildah` and install `docker-ce`, start docker and have it run on boot
+### Red Hat 8.x & CentOS 8 Stream
+To get this demo container to work on Red Hat 8.x and CentOS 8 Stream do the following, which will uninstall `podman` and `buildah` and install `docker-ce`, start docker and have it run on boot
 ```
 dnf remove -y buildah podman
 yum install -y yum-utils
