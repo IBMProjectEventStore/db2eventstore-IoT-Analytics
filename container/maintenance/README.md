@@ -153,4 +153,16 @@ Scala code runner version 2.11.12 -- Copyright 2002-2017, LAMP/EPFL
 Java 1.8 is automatically updated to the latest version upon building the docker container.  This is done via https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-java.sh#L12 and https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-java.sh#L13
 
 ## Outstanding items
+### SBT
 There is another Simple Build Tool (SBT) used in this container.  I only updated the one mentioned above.  There is a much older version that is in use here that I do not know how to update.  It was updated in htap-ng repo.  If I can find that pull request I will add it here. This may be pull request https://github.ibm.com/htap-ng/db2-sirius/pull/196
+
+### Spark Client
+The spark client is stored in this repo. It is 224 MB and `git-lfs` is needed to pull or clone this repo.  github.com limits the amount of data in a month that can be pulled.  So we should move this 224 MB file out of this repo and put it in artifactory or some other site that is reliable and modify the `setup-spark.sh` script accordingly.  This file currently located in this folder https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/spark_media_package and the file is `spark-2.4.8-bin-hadoop2.6.tgz`
+
+The original scripts used to perform a wget against a maven web site to get this file, but that was unreliable and took too long.  This is the original method
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L46
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L47
+
+Here is how it is done now
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L52
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L53
