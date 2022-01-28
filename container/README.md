@@ -4,11 +4,11 @@ The Dockerfile in this directory will build a docker image named `eventstore_dem
 
 ### Procedure
 #### Step 1: Clone this git repo
-On a mac or linux desktop git clone this repo (it is possible to do this on Windows 10 but not recommended).  Add your public ssh key (normally the contents of this file `~/.ssh/id_rsa.pub` on your Windows, Linux or Mac machine) to https://github.com/settings/keys if you have not done so already.  To add your public ssh key click `New SSH Key` button on upper right ...Title ... In `Key` Box paste in your public ssh key ... Click `Add SSH Key` button <br>
+On a Mac or Linux desktop git clone this repo (it is possible to do this on Windows 10 but not recommended).  Add your public ssh key (normally the contents of this file `~/.ssh/id_rsa.pub` on your Windows, Linux or Mac machine) to https://github.com/settings/keys if you have not done so already.  To add your public ssh key click `New SSH Key` button on upper right ...Title ... In `Key` Box paste in your public ssh key ... Click `Add SSH Key` button <br>
 
 As of December 2021 `git-lfs` is needed as the 224 MB spark media file is in this git repo and for the git clone to work `git-lfs` is needed.
 
-**linux**
+**Linux**
 ```
 cd ~
 yum install -y git
@@ -19,7 +19,7 @@ chmod +x script.rpm.sh
 yum install git-lfs -y
 git clone git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git
 ```
-**mac**
+**Mac**
 ```
 brew install git
 brew install git-lfs
@@ -32,7 +32,7 @@ In all scenarios below, the machine that will build and run the docker image nee
 #### Install Docker
 On either:
 - Mac OS 11.4, 11.5.2, 11.6, 12.0.1, 12.1 and [docker desktop](https://www.docker.com/products/docker-desktop) (tested with Docker version `20.10.7, build f0df350` & `Docker version 20.10.8, build 3967b7d` with Docker Desktop `4.1.1 (69879)` and `Docker version 20.10.11, build dea9396`  MacBook Pro 16 inch 2019 model) installed and running or;
-- linux desktop or server (CentOS & Red HAt  7.9 & CentOS & Red Hat 8.x, & CentOS 8 Stream work fine.  CentOS 8 Stream, Red Hat 7.x & 8.x only work with Docker and not Podman.  Docker must be installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker. Linux is the most common OS used. Tested with multiple versions of Docker CE two last used were `Docker version 20.10.8, build 3967b7d` & `Docker version 20.10.12, build e91ed57 (on Red Hat 8.5)` 
+- Linux desktop or server (CentOS & Red Hat  7.9 & CentOS & Red Hat 8.x, & CentOS 8 Stream work fine.  CentOS 8 Stream, Red Hat 7.x & 8.x only work with Docker and not Podman.  Docker must be installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker. Linux is the most common OS used. Tested with multiple versions of Docker CE two last used were `Docker version 20.10.8, build 3967b7d` & `Docker version 20.10.12, build e91ed57 (on Red Hat 8.5)` 
 - CentOS 8 Stream & Rocky Linux 8 - work fine also
 
     Docker Community Edition (CE) works fine for CentOS & Red Hat 7.9 & 8.5 and CentOS 8 Stream. For Red Hat 8.x & CentOS 8 Stream you first need to uninstall `podmad` & `buildah` by running these commands as root (before installing docker-ce).  
