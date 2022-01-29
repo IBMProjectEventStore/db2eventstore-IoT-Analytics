@@ -42,9 +42,11 @@ fi
 cd $SPARK_MEDIA_LOC
 
 mkdir -p $SPARK_HOME
-# Will use local copy of spark media Jim Stroud copied to github.com as the download took too long and was unreliable. Jan 29 2022 had to undo this b/c could not clone this repo as out of git lfs bandwdith
+# Will use local copy of spark media Jim Stroud copied to github.com as the download took too long and was unreliable.
+# Jan 29 2022 had to undo this b/c could not clone this repo as out of git lfs bandwdith
+# hardcode spark-2.4.8-bin-hadoop2.6.tgz file in wget
 wget -q -O ${SPARK_MEDIA}.tar.gz \
-   http://ec2-18-221-253-80.us-east-2.compute.amazonaws.com/spark-${SPARK_VERSION}/${SPARK_MEDIA}.tgz
+   http://ec2-18-221-253-80.us-east-2.compute.amazonaws.com/spark-2.4.8-bin-hadoop2.6.tgz
 tar -xzvf ${SPARK_MEDIA}.tar.gz
 mv ${SPARK_MEDIA}/* $SPARK_HOME
 #  Below was original media source from apache.org that is unreliable
