@@ -184,7 +184,7 @@ KeyError: 'accessToken'
 + echo 'Not able to get bearerToken'
 Not able to get bearerToken
 ````
-This usually means you have either the wrong user name or password in `deploydocker.sh` command, specfically double check this section, or check you have the correct hostname for the `--endpointRest`
+This usually means you have either the wrong user name or password in `deploydocker.sh` command, specfically double check this section, or check you have the correct hostname for the `--endpointRest`.  It could also mean that your docker container cannot reach the OpenShift system running EventStore, this could be the case if you are using a PC or MAC and it is not on the IBM network (did not start the VPN to connect to IBM) and your EventStore system is on the IBM network.
 ```
 --user admin --password password
 ```
