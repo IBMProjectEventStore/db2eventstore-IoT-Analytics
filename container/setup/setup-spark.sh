@@ -42,16 +42,20 @@ fi
 cd $SPARK_MEDIA_LOC
 
 mkdir -p $SPARK_HOME
-# Will use local copy of spark media Jim Stroud copied to github.com as the download took too long and was unreliable
+# Will use local copy of spark media Jim Stroud copied to github.com as the download took too long and was unreliable. Jan 29 2022 had to undo this b/c could not clone this repo as out of git lfs bandwdith
 # wget -q -O ${SPARK_MEDIA}.tar.gz \
+#  Below was original media source from apache.org that is unreliable
 #   http://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/${SPARK_MEDIA}.tgz
+# Jim Stroud created a free linux aws linux ec2 server and installed nginx and placed spark media there jan 29, 2022
+ http://ec2-18-221-253-80.us-east-2.compute.amazonaws.com/spark-${SPARK_VERSION}/${SPARK_MEDIA}.tgz
 # tar -xzvf ${SPARK_MEDIA}.tar.gz
 # mv ${SPARK_MEDIA}/* $SPARK_HOME
 # below are commands use files for spark media from github, git clone performed earlier puts files under /root/ in docker container
-echo "extract spark tar gzipped file and move it to /spark_home and then delete original media file"
-tar -xzvf /root/db2eventstore-IoT-Analytics/spark_media_package/spark-2.4.8-bin-hadoop2.6.tgz -C /
-cp -r /spark-2.4.8-bin-hadoop2.6/* /spark_home
-rm -rf /root/db2eventstore-IoT-Analytics/spark_media_package /spark-2.4.8-bin-hadoop2.6
+# comment out because does not work anymore as we are out bandwidth for gihub.com for git lfs downloads
+# echo "extract spark tar gzipped file and move it to /spark_home and then delete original media file"
+# tar -xzvf /root/db2eventstore-IoT-Analytics/spark_media_package/spark-2.4.8-bin-hadoop2.6.tgz -C /
+# cp -r /spark-2.4.8-bin-hadoop2.6/* /spark_home
+# rm -rf /root/db2eventstore-IoT-Analytics/spark_media_package /spark-2.4.8-bin-hadoop2.6
 
 wget -q -O scopt_2.11-${SCOPT_211_VERSION}.jar \
    https://repo1.maven.org/maven2/com/github/scopt/scopt_2.11/${SCOPT_211_VERSION}/scopt_2.11-${SCOPT_211_VERSION}.jar
