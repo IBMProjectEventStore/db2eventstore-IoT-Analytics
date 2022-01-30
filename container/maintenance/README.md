@@ -38,16 +38,16 @@ https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/
 Also update this page <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications#specific-applicaition-option
 
-Also update Docker file 
+Also update Docker file <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L51
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L52
 
 
 This file and directory name is now hard coded in a few places, so if it changes you must update, this is pulling from
-an Amazon Web Services (AWS) linux server in James Stroud's personal account that has nginx running as the web server
-https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L49
-If this wget from spark media fails just replace line above with line below to pull from apache.ort
-https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L53
+an Amazon Web Services (AWS) linux server in James Stroud's personal account that has nginx running as the web server <br>
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L49 <br>
+If this wget from spark media fails just replace line above with line below to pull from archive.apache.org <br>
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L53 <br>
 Inside the IoT container (when connecting with dockershell), this directory
 ```
 /spark_home
