@@ -42,32 +42,37 @@ Also update Docker file
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L51
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L52
 
-Place the spark media file to <br>
-https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/spark_media_package <br>
-You will need to do the following to do this
-```
-cd ~
-git clone git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git
-```
-copy the file to
-```
-~/db2eventstore-IoT-Analytics/spark_media_package
-```
-since the file is over 100 MB you need to use `git-lfs`, so run these commands replace `spark-2.4.8-bin-hadoop2.6.tgz` with your new spark media file
-```
-yum install -y git-lfs
-git install lfs
-git lfs track "spark-2.4.8-bin-hadoop2.6.tgz"
-gid add .gitattributes
-git add spark-2.4.8-bin-hadoop2.6.tgz
-git commit -m "adding new spark media file"
-git pull
-git push
-```
-This file and directory name is now hard coded in a few places, so if it changes you must update
-https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L52
+
+This file and directory name is now hard coded in a few places, so if it changes you must update, this is pulling from
+an Amazon Web Services (AWS) linux server in James Stroud's personal account that has nginx running as the web server
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L49
+If this wget from spark media fails just replace line above with line below to pull from apache.ort
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L53
-https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L54
+Inside the IoT container (when connecting with dockershell), this directory
+```
+/spark_home
+```
+should have directories and files that like so when the spark media has been copied successfully into the container
+```
+root@adc807075d94 spark_home]# ls -ltr
+total 104
+drwxr-xr-x 2 501 1000    42 May  8  2021 yarn
+drwxr-xr-x 4 501 1000    38 May  8  2021 kubernetes
+drwxr-xr-x 4 501 1000    29 May  8  2021 examples
+-rw-r--r-- 1 501 1000   187 May  8  2021 RELEASE
+drwxr-xr-x 2 501 1000  4096 May  8  2021 licenses
+drwxr-xr-x 5 501 1000    50 May  8  2021 data
+drwxr-xr-x 2 501 1000   230 May  8  2021 conf
+drwxr-xr-x 2 501 1000  4096 May  8  2021 bin
+-rw-r--r-- 1 501 1000  3756 May  8  2021 README.md
+-rw-r--r-- 1 501 1000 42919 May  8  2021 NOTICE
+-rw-r--r-- 1 501 1000 21371 May  8  2021 LICENSE
+drwxr-xr-x 2 501 1000  4096 May  8  2021 sbin
+drwxr-xr-x 7 501 1000   275 May  8  2021 python
+drwxr-xr-x 3 501 1000    17 May  8  2021 R
+drwxr-xr-x 2 501 1000 12288 Sep  9 14:13 jars
+```
+
 
 ## Python
 This is done here
@@ -157,12 +162,11 @@ Java 1.8 is automatically updated to the latest version upon building the docker
 There is another Simple Build Tool (SBT) used in this container.  I only updated the one mentioned above.  There is a much older version that is in use here that I do not know how to update.  It was updated in htap-ng repo.  If I can find that pull request I will add it here. This may be pull request https://github.ibm.com/htap-ng/db2-sirius/pull/196
 
 ### Spark Client
-The spark client is stored in this repo. It is 224 MB and `git-lfs` is needed to pull or clone this repo.  github.com limits the amount of data in a month that can be pulled.  So we should move this 224 MB file out of this repo and put it in artifactory or some other site that is reliable and modify the `setup-spark.sh` script accordingly.  This file currently located in this folder https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/spark_media_package and the file is `spark-2.4.8-bin-hadoop2.6.tgz`
+The spark client is stored in aws amazon linux and is pulled down via wget.  This 224 MB file is now in aws ec2 free instance, ideally we should put this in artifactory or some other site that is reliable and modify the `setup-spark.sh` script accordingly.  The file is `spark-2.4.8-bin-hadoop2.6.tgz` and this container pulls from `ec2-18-221-253-80.us-east-2.compute.amazonaws.com` host on aws the file is under `/usr/share/nginx/html` directory. The amazon linux 2 instance is running nginx.
 
 The original scripts used to perform a wget against a maven web site to get this file, but that was unreliable and took too long.  This is the original method
-https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L46
-https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L47
-
-Here is how it is done now
-https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L52
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L53
+where line 
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L49
+is.  Using line 49 is much faster and more reliable.
+
