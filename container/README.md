@@ -6,7 +6,7 @@ The Dockerfile in this directory will build a docker image named `eventstore_dem
 #### Step 1: Clone this git repo
 On a Mac or Linux desktop git clone this repo (it is possible to do this on Windows 10 but not recommended).  Add your public ssh key (normally the contents of this file `~/.ssh/id_rsa.pub` on your Windows, Linux or Mac machine) to https://github.com/settings/keys if you have not done so already.  To add your public ssh key click `New SSH Key` button on upper right ...Title ... In `Key` Box paste in your public ssh key ... Click `Add SSH Key` button <br>
 
-As of December 2021 `git-lfs` is needed as the 224 MB spark media file is in this git repo and for the git clone to work `git-lfs` is needed.
+As of January 2022 `git-lfs` is no longer needed but I kept the command to install it in below (in Dec 2021 we used `git-lfs` but back this change out in Jan 2022)
 
 **Linux**
 ```
@@ -55,7 +55,7 @@ On either:
     ```
     will show something like
     ```
-    Docker version 20.10.8, build 3967b7d
+    Docker version 20.10.12, build e91ed57
     ```
     More details are here https://docs.docker.com/engine/install/centos/
 - Windows 10 21H1 or greater with [docker desktop](https://www.docker.com/products/docker-desktop) installed and running with [Windows Subsystem for Linux 2 (WSL 2)](https://docs.microsoft.com/en-us/windows/wsl/install-win10) integration enabled with a Linux distro from Windows installed (this was tested with Kali Linux from the Microsoft Store in Windows 10). In July 2021 Microsoft greatly simplified the instalation of WSL2 and linux distributions.  You just need to run from either DOS prompt or Powersheel with Administrator privlidges `wsl --install` to install WSL2 with Ubuntu. You need to be running Windows 10 version 2004 or higher, and have the [KB5004296](https://betanews.com/2021/07/30/microsoft-releases-kb5004296-update-for-windows-10-to-fix-game-performance-problems-and-more/) update installed to take advantage of this new single command WSL installation procedure. [see here for more details](https://betanews.com/2021/07/31/microsoft-just-made-it-even-easier-to-install-windows-subsystem-for-linux-in-windows-11-and-10/) and Microsoft's blog about it [here](https://devblogs.microsoft.com/commandline/install-wsl-with-a-single-command-now-available-in-windows-10-version-2004-and-higher/). 
