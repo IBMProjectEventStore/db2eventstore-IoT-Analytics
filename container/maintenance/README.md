@@ -123,7 +123,6 @@ To update the docker image with new versions of the  IBM Data Server Driver, dow
   cd db2eventstore-IoT-Analytics/ibm_data_server_driver_package
   git add <new ds driver filename> 
   git commit -a -m "put comments about the change - such as update to new db2 dsdriver version xxxx"
-  git pull
   git push
   ```
   
@@ -135,7 +134,6 @@ To update the docker image with new versions of the  IBM Data Server Driver, dow
   cd db2eventstore-IoT-Analytics/ibm_data_server_driver_package
   git rm <od  ds driver filename> 
   git commit -m "put comments about the change - such as remove old  db2 dsdriver version xxxx"
-  git pull
   git push
   ```
   if the file we are deleting is `v11.5.6_linuxx64_dsdriver.tar.gz`, then the git rm command would be
