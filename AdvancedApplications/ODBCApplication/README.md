@@ -24,8 +24,14 @@ cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/ODBCApplication
 ./bldExampleODBCApp /clidriver
 ./ExampleODBCApp
 ```
+For some reason db2 ds driver 11.5.7 does not work, we get this error when running `./bldExampleODBCApp /clidriver`
+```
+[root@c0ae9eaffd40 ODBCApplication]# ./bldExampleODBCApp /clidriver
+/clidriver/lib/libdb2.so: undefined reference to `SqloCosClient::SqloCosClient_toString(unsigned long, char*)'
+collect2: error: ld returned 1 exit status
+```
  
-Some of output at the end will look like
+With vesrsions 11.5.6 and earlier some of output at the end will look like
 ```
 -----------------------------------------------------------
 USE THE CLI FUNCTIONS
