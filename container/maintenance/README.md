@@ -109,7 +109,7 @@ https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/
 
 and are referenced here
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L54
-So if a new version of Db2 driver is available, download it, put in the folder above, and modify the Dockerfile to ensure it is referenced properly.
+So if a new version of Db2 driver is available, download it, put in the folder above, and modify the Dockerfile to ensure it is referenced properly. The Db2 driver is called `IBM Data Server Driver Package` on IBM support pages and also referred to as `Information Management, IBM Data Server Client Packages (Linux 64-bit,x86_64)` and is roughly 75 MB in size.
 The Db2 driver is used for the ODBC test.
 
 To update the docker image with new versions of the  IBM Data Server Driver, download it as described [here](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications#odbcdb2cli-setup ), clone this repo on a linux vm, then copy the file to
