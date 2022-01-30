@@ -51,14 +51,13 @@ RUN echo -e 'syntax enable \nset tabstop=4 \nset number \nset hlsearch \nset inc
 # copy json file to user_volume
 COPY ./es-releases.json /root/user_volume/
 
-
 # Create client config file and eliminate this error message "cat: /usr/lib/jvm/java-1.8.0-openjdk/release: No such file or directory" when executing ./runscalaExample
 RUN mkdir -p /bluspark/external_conf/
 RUN touch /bluspark/external_conf/bluspark.conf /usr/lib/jvm/java-1.8.0-openjdk/release
 WORKDIR /root
 
 # Install IBM Db2 data server drivers.  git clone copies files to /root/db2eventstore-IoT-Analytics
-RUN tar -xvf /root/db2eventstore-IoT-Analytics/ibm_data_server_driver_package/v11.5.6_linuxx64_dsdriver.tar.gz -C / \
+RUN tar -xvf /root/db2eventstore-IoT-Analytics/ibm_data_server_driver_package/v11.5.7_linuxx64_dsdriver.tar.gz -C / \
   && tar -xvf /dsdriver/odbc_cli_driver/linuxamd64/ibm_data_server_driver_for_odbc_cli.tar.gz -C / \
   && cp -r /dsdriver/security64 /clidriver/ \
   && rm -rf /root/db2eventstore-IoT-Analytics/ibm_data_server_driver_package
