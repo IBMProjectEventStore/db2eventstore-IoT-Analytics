@@ -108,7 +108,7 @@ The instructions to populate that folder are here <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications#odbcdb2cli-setup <br>
 
 and are referenced here
-https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L54
+https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L60
 So if a new version of Db2 driver is available, download it, put in the folder above, and modify the Dockerfile to ensure it is referenced properly. The Db2 driver is called `IBM Data Server Driver Package` on IBM support pages and also referred to as `Information Management, IBM Data Server Client Packages (Linux 64-bit,x86_64)` and is roughly 75 MB in size.
 The Db2 driver is used for the ODBC test.
 
@@ -127,7 +127,22 @@ To update the docker image with new versions of the  IBM Data Server Driver, dow
   git push
   ```
   
-  edit https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L54 and point to the new file
+  edit https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L60 and point to the new file
+  
+  To remove an the old db2 ds driver after you updated the repo with the new one, do the following
+  ```
+  git pull
+  cd db2eventstore-IoT-Analytics/ibm_data_server_driver_package
+  git rm <od  ds driver filename> 
+  git commit -m "put comments about the change - such as remove old  db2 dsdriver version xxxx"
+  git pull
+  git push
+  ```
+  if the file we are deleting is `v11.5.6_linuxx64_dsdriver.tar.gz`, then the git rm command would be
+  ```
+  git rm v11.5.6_linuxx64_dsdriver.tar.gz
+  ```
+
 
 ## Operating System 
 Jim Stroud upgraded from UBI 7 to [UBI 8](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L1) on June 13, 2021, when that was done, we had to move any Red Hat version 7 (el7) rpms to version 8 (el8). <br>
