@@ -30,7 +30,7 @@ For some reason db2 ds driver 11.5.7 does not work, I got this error when runnin
 /clidriver/lib/libdb2.so: undefined reference to `SqloCosClient::SqloCosClient_toString(unsigned long, char*)'
 collect2: error: ld returned 1 exit status
 ```
-So I reverted back to db2 ds driver 11.5.6. The issue is this file `clidriver/lib/libdb2.so.1` in db2 ds driver causes the `./bldExampleODBCApp /clidriver` command to fail with error mentioned above but this same file from version 11.5.6 works fine. The `libdb2.so.1` file is zipped in this file `ibm_data_server_driver_for_odbc_cli.tar.gz` which is zipped in this file `v11.5.6_linuxx64_dsdriver.tar.gz`
+So I reverted back to db2 ds driver 11.5.6. The issue is this file `clidriver/lib/libdb2.so.1` in db2 ds driver ver. 11.5.7 causes the `./bldExampleODBCApp /clidriver` command to fail with error mentioned above but this same file from version 11.5.6 works fine. The `libdb2.so.1` file is zipped in this file `ibm_data_server_driver_for_odbc_cli.tar.gz` which is zipped in this file `v11.5.6_linuxx64_dsdriver.tar.gz`
 
 
  
