@@ -6,7 +6,7 @@ The Dockerfile in this directory will build a docker image named `eventstore_dem
 #### Step 1: Clone this git repo
 On a Mac or Linux desktop git clone this repo (it is possible to do this on Windows 10 but not recommended).  Add your public ssh key (normally the contents of this file `~/.ssh/id_rsa.pub` on your Windows, Linux or Mac machine) to https://github.com/settings/keys if you have not done so already.  To add your public ssh key click `New SSH Key` button on upper right ...Title ... In `Key` Box paste in your public ssh key ... Click `Add SSH Key` button <br>
 
-As of January 2022 `git-lfs` is no longer needed but I kept the command to install it in below (in Dec 2021 we used `git-lfs` but back this change out in Jan 2022)
+As of January 2022 `git-lfs` is no longer needed but I kept the command to install it in below (in Dec 2021 we used `git-lfs` but backed this change out in Jan 2022)
 
 **Linux**
 ```
