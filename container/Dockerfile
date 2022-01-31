@@ -10,7 +10,7 @@ ARG BRANCH=master
 ARG SETUP_AREA=${IOT_REPO_PATH}/container/setup
 
 # Install neccessary packages
-# git-lfs is needed since dec 2021 large spark media file (224 MB) is in this github.com repo and needs git-lfs installed to download that file via git clone.   
+# git-lfs was needed since dec 2021 large spark media file (224 MB) is in this github.com repo and needs git-lfs installed to download that file via git clone. But in Jan 2022 we removed the nead for git-lfs   
 RUN yum install -y \
     wget \
     vim \
