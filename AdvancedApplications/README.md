@@ -67,11 +67,11 @@ You can also refer to the script used to set up the [container](https://github.c
 
 #### SBT Setup
 
-To set up Simple Build Tool (SBT), version 1.5.7, do the following as the root user.  
+To set up Simple Build Tool (SBT), version 1.6.2, do the following as the root user.  
   
 ```
-wget -O /tmp/sbt-1.5.7.tgz https://github.com/sbt/sbt/releases/download/v1.5.7/sbt-1.5.7.tgz
-tar xzvf /tmp/sbt-1.5.7.tgz -C /usr/share/
+wget -O /tmp/sbt-1.6.2.tgz https://github.com/sbt/sbt/releases/download/v1.6.2/sbt-1.6.2.tgz
+tar xzvf /tmp/sbt-1.6.2.tgz -C /usr/share/
 ln -s /usr/share/sbt/bin/sbt /usr/bin/sbt
 ```
 
