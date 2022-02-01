@@ -174,6 +174,7 @@ To update the docker image with new versions of the  IBM Data Server Driver, dow
   ```
   git rm v11.5.6_linuxx64_dsdriver.tar.gz
   ```
+  Db2 11.5.7 Data Server (DS) Driver would not work, see here for what I found https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications/ODBCApplication#running-the-example-app-exampleodbcapp
 
 
 ## Operating System 
