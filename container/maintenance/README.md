@@ -210,7 +210,7 @@ Java 1.8 is automatically updated to the latest version upon building the docker
 There is another Simple Build Tool (SBT) used in this container.  I only updated the one mentioned above.  There is a much older version that is in use here that I do not know how to update.  It was updated in htap-ng repo.  If I can find that pull request I will add it here. This may be pull request https://github.ibm.com/htap-ng/db2-sirius/pull/196
 
 ### Spark Client
-The spark client is stored in aws amazon linux and is pulled down via wget.  This 224 MB file is now in aws ec2 free instance, ideally we should put this in artifactory or some other site that is reliable and modify the `setup-spark.sh` script accordingly.  The file is `spark-2.4.8-bin-hadoop2.6.tgz` and this container pulls from `ec2-18-221-253-80.us-east-2.compute.amazonaws.com` host on aws the file is under `/usr/share/nginx/html` directory. The amazon linux 2 instance is running nginx.
+The spark client is stored in aws amazon linux and is pulled down via wget.  This 224 MB file is now in aws ec2 free instance, ideally we should put this in artifactory or some other site that is reliable and modify the `setup-spark.sh` script accordingly.  The file is `spark-2.4.8-bin-hadoop2.6.tgz` and this container pulls from `ec2-3-19-229-245.us-east-2.compute.amazonaws.com` host on aws the file is under `/usr/share/nginx/html` directory. The amazon linux 2 instance is running nginx.
 
 The original scripts used to perform a wget against a maven web site to get this file, but that was unreliable and took too long.  This is the original method
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L53
