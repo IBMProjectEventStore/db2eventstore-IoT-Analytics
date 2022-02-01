@@ -31,7 +31,7 @@ git clone git@github.com:IBMProjectEventStore/db2eventstore-IoT-Analytics.git
 In all scenarios below, the machine that will build and run the docker image needs docker installed and running, git & git-lfs installed, access to the internet, and about 6 GB of free disk space.  
 #### Install Docker
 On either:
-- Mac OS 11.4, 11.5.2, 11.6, 12.0.1, 12.1, 12.2 and [docker desktop](https://www.docker.com/products/docker-desktop) (tested with Docker version `20.10.7, build f0df350` & `Docker version 20.10.8, build 3967b7d` with Docker Desktop `4.1.1 (69879)` and `Docker version 20.10.11, build dea9396`  and `Docker version 20.10.12, build e91ed57`  MacBook Pro 16 inch 2019 model) installed and running or;
+- Mac OS 11.4, 11.5.2, 11.6, 12.0.1, 12.1, 12.2 and [docker desktop](https://www.docker.com/products/docker-desktop) (tested with Docker version `20.10.7, build f0df350` & `Docker version 20.10.8, build 3967b7d` with Docker Desktop `4.1.1 (69879)` & Docker Desktop `4.4.2 (73305)` and `Docker version 20.10.11, build dea9396`  and `Docker version 20.10.12, build e91ed57`  MacBook Pro 16 inch 2019 model) installed and running or;
 - Linux desktop or server (CentOS & Red Hat  7.9 & CentOS & Red Hat 8.x, & CentOS 8 Stream work fine.  CentOS 8 Stream, Red Hat 7.x & 8.x only work with Docker and not Podman.  Docker must be installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker. Linux is the most common OS used. Tested with multiple versions of Docker CE two last used were `Docker version 20.10.8, build 3967b7d` & `Docker version 20.10.12, build e91ed57 (on Red Hat 8.5)` 
 - CentOS 8 Stream & Rocky Linux 8 - work fine also
 
