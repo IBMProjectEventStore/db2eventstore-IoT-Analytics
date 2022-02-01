@@ -72,6 +72,40 @@ drwxr-xr-x 7 501 1000   275 May  8  2021 python
 drwxr-xr-x 3 501 1000    17 May  8  2021 R
 drwxr-xr-x 2 501 1000 12288 Sep  9 14:13 jars
 ```
+Since I found the apache.org for downloads of the `spark-2.4.8-bin-hadoop2.6.tgz` to be unreliable, I stood up an Amazon linux server, installed nginx, then copied
+the spark hadoop media to this aws instance to allow for faster and reliable downloads.  Here is how I set this up. <br>
+Get  a free tier amazon linux 2 ami as a `spot instance`  lot into the container, you must login as the `ec2-user` and open up ports 22, 80 & 443 from the internet
+then run these commands
+```
+sudo su -
+yum update -y
+sudo amazon-linux-extras list | grep nginx
+yum -y install nginx
+amazon-linux-extras enable nginx1
+yum clean metadata
+yum install -y nginx
+systemctl status nginx
+systemctl start nginx
+systemctl enable  nginx
+```
+
+Copy or download the spark-2.4.8-bin-hadoop2.6.tgz to `/home/ec2-user`
+you can get the file from https://archive.apache.org/dist/spark/spark-2.4.8/spark-2.4.8-bin-hadoop2.6.tgz
+here is how to do this and to copy this file to the nginx doc root
+
+```
+cd /home/ec2-user
+wget https://archive.apache.org/dist/spark/spark-2.4.8/spark-2.4.8-bin-hadoop2.6.tgz
+cp spark-2.4.8-bin-hadoop2.6.tgz /usr/share/nginx/html/
+```
+
+Now run the following commands to enable automatic package and operating system updates to 
+```
+yum install yum-cron -y
+sudo systemctl enable yum-cron
+sudo systemctl start yum-cron
+sed -i "s/apply_updates = no/apply_updates = yes/g" /etc/yum/yum-cron.conf
+```
 
 
 ## Python
