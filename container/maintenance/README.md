@@ -73,8 +73,8 @@ drwxr-xr-x 3 501 1000    17 May  8  2021 R
 drwxr-xr-x 2 501 1000 12288 Sep  9 14:13 jars
 ```
 Since I found the apache.org for downloads of the `spark-2.4.8-bin-hadoop2.6.tgz` to be unreliable, I stood up an Amazon linux server, installed nginx, then copied
-the spark hadoop media to this aws instance to allow for faster and reliable downloads.  Here is how I set this up. <br>
-Get  a free tier amazon linux 2 ami as a `spot instance`  lot into the container, you must login as the `ec2-user` and open up ports 22, 80 & 443 from the internet
+the spark hadoop media to this aws instance to allow for faster and reliable downloads.  From the AWS console get a free tier `spot` instance (the default is on-demand and is not free)  Here is how I set this up. <br>
+Get  a free tier amazon linux 2 ami as a `spot instance`  log into the container, you must login as the `ec2-user` and open up ports 22, 80 & 443 from the internet
 then run these commands
 ```
 sudo su -
