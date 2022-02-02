@@ -14,6 +14,23 @@ Follow these links to get the specifics for each sample application:
 * [Java sample application](JavaApplication/README.md)
 * [Python sample application](PythonApplication/README.md)
 * [JDBC sample application](JDBCApplication/README.md)
+* [rest api testing](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/rest#sample-execution)
+
+Below are all the commands to run all the tests above inside the IoT demo container
+```
+cd ~/db2eventstore-IoT-Analytics/AdvancedApplications/ScalaApplication
+./runscalaExample
+cd ~/db2eventstore-IoT-Analytics/AdvancedApplications/PythonApplication
+./runpythonExample
+cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/ODBCApplication
+./bldExampleODBCApp /clidriver
+./ExampleODBCApp
+cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/JavaApplication
+./runjavaExample
+cd $HOME/db2eventstore-IoT-Analytics/rest
+./install.sh
+./run.sh
+```
 
 ## Environment setup to run sample applications
 
