@@ -38,9 +38,6 @@ https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/
 Also update this page <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/AdvancedApplications#specific-applicaition-option
 
-Also update Docker file <br>
-https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L51
-https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/Dockerfile#L52
 
 
 This file and directory name is now hard coded in a few places, so if it changes you must update, this is pulling from
