@@ -12,11 +12,12 @@ Follow these links to get the specifics for each sample application:
 * [Scala sample application to ingest and query](ScalaApplication/README.md)
 * [IBM Streams sample application for ingesting](IngestUsingIBMStreams/README.md)
 * [Java sample application](JavaApplication/README.md)
+* [ODBC sample application](ODBCApplication/README.md)
 * [Python sample application](PythonApplication/README.md)
 * [JDBC sample application](JDBCApplication/README.md)
 * [rest api testing](https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/tree/master/rest#sample-execution)
 
-Below are all the commands to run all the tests above inside the IoT demo container
+Below are all the commands to run all the tests above (except for IBM Streams) inside the IoT demo container
 ```
 cd ~/db2eventstore-IoT-Analytics/AdvancedApplications/ScalaApplication
 ./runscalaExample
