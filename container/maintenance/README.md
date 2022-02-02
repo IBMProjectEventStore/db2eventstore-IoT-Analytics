@@ -44,7 +44,7 @@ https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/
 
 
 This file and directory name is now hard coded in a few places, so if it changes you must update, this is pulling from
-an Amazon Web Services (AWS) linux server in James Stroud's personal account that has nginx running as the web server <br>
+an Amazon Web Services (AWS) linux server in James Stroud's personal account that has nginx running as the web server. **Since I could not get this server for free I backed out from using the AWS linux server and went back to the archive.apache.org web site <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L49 <br>
 If this wget from spark media fails just replace line above with line below to pull from archive.apache.org <br>
 https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics/blob/master/container/setup/setup-spark.sh#L53 <br>
