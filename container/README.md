@@ -91,16 +91,35 @@ On either:
 cd ~/db2eventstore-IoT-Analytics/container
 sudo ./build.sh --es-version 2.0.1.4
 ```
-The format to run this for other (versions) releases of Event Store is:
-```
-./build.sh --es-version <eventstore-release>
-```
-where `<eventstore-release>` is replaced with the actual eventstore-release number.
-
 Note the log file for the installation is under 
 ```
 ~/db2eventstore-IoT-Analytics/container/
 ```
+The format to run this for other (versions) releases of Event Store is:
+```
+./build.sh --es-version <eventstore-release>
+```
+where `<eventstore-release>` is replaced with the actual eventstore-release number. <br>
+
+**Tip** if you already have docker image already on your system with the 2.0.1.4 tag, as shown by `docker images` command (see below)
+```
+REPOSITORY        TAG                IMAGE ID       CREATED        SIZE
+eventstore_demo   2.0.1.4            95d332f74f37   3 days ago     4.55GB
+```
+you can build the docker image with a new tag other than `2.0.1.4`, such as 
+```
+sudo ./build.sh --es-version 2.0.1.4-test
+```
+or you can delete the `2.0.1.4` docker image by issuing
+```
+docker rmi -f 95d332f74f37
+```
+Then run the command to build the image with the `2.0.1.4` tag such as 
+```
+sudo ./build.sh --es-version 2.0.1.4
+```
+
+
 
 #### Step 3: Start the docker container
 After the image is built, run the shell script `dockershell.sh` to start the container and run the examples. The Event Store release identifies which tagged image to start.
