@@ -24,7 +24,8 @@ cd /root/db2eventstore-IoT-Analytics/AdvancedApplications/ODBCApplication
 ./bldExampleODBCApp /clidriver
 ./ExampleODBCApp
 ```
-**For some reason db2 ds driver 11.5.7 does not work**, I got this error when running `./bldExampleODBCApp /clidriver`  (there should be no output from that command)
+### Db2 Data Server Driver Versions
+For some reason db2 ds driver 11.5.7 does not work, I got this error when running `./bldExampleODBCApp /clidriver`  (there should be no output from that command)
 ```
 [root@c0ae9eaffd40 ODBCApplication]# ./bldExampleODBCApp /clidriver
 /clidriver/lib/libdb2.so: undefined reference to `SqloCosClient::SqloCosClient_toString(unsigned long, char*)'
