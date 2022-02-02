@@ -163,7 +163,7 @@ To update the docker image with new versions of the  IBM Data Server Driver, dow
   ```
   git pull
   cd db2eventstore-IoT-Analytics/ibm_data_server_driver_package
-  git rm <od  ds driver filename> 
+  git rm <old ds driver filename> 
   git commit -m "put comments about the change - such as remove old  db2 dsdriver version xxxx"
   git push
   ```
