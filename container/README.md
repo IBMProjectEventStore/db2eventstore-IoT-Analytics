@@ -35,7 +35,7 @@ On either:
 - Linux desktop or server (CentOS & Red Hat  7.9 & CentOS & Red Hat 8.x, & CentOS 8 Stream work fine.  CentOS 8 Stream, Red Hat 7.x & 8.x only work with Docker and not Podman.  Docker must be installed and running.  See https://docs.docker.com/engine/install/ for instructions on installing docker. Linux is the most common OS used. Tested with multiple versions of Docker CE two last used were `Docker version 20.10.8, build 3967b7d` & `Docker version 20.10.12, build e91ed57 (on Red Hat 8.5)` 
 - CentOS 8 Stream & Rocky Linux 8 - work fine also
 
-    Docker Community Edition (CE) works fine for CentOS & Red Hat 7.9 & 8.7 and CentOS 8 Stream. For Red Hat 8.x & CentOS 8 Stream you first need to uninstall `podmad` & `buildah` by running these commands as root (before installing docker-ce).  
+    Docker Community Edition (CE) works fine for CentOS & Red Hat 7.9 & 8.7, and CentOS 8 Stream. For Red Hat 8.x & CentOS 8 Stream you first need to uninstall `podmad` & `buildah` by running these commands as root (before installing docker-ce).    The `dnf remove` command below is not needed for Red Hat 9.x
     ```
     dnf remove -y buildah podman
     ```
