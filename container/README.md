@@ -318,7 +318,7 @@ the output of the command above shows that the container is not in use, this is 
    Error msg: DB2 SQL Error: SQLCODE=-10003, SQLSTATE=57011, SQLERRMC=null, DRIVER=4.25.4
 
    ```
-   If you run oc get pods and you have dozens and dozens of pods in this state
+   If you run `oc get pods` and you have dozens and dozens of pods in this state
    ```
 
    usermgmt-ldap-sync-cron-job-1634481600-xz2f4                      0/1     Pending     0          23h
@@ -330,7 +330,7 @@ the output of the command above shows that the container is not in use, this is 
    usermgmt-ldap-sync-cron-job-1634488800-mzzts                      0/1     Pending     0          21h
    ```
    Shawn Li and Jim Stroud fixed a situation like this once by
-   1) untainting the worker nodes by running this from the infrastrucutre node while logged into the Openshift cluster
+   1) untainting the worker nodes by running this from the infrastructure node while logged into the OpenShift cluster
    ```
    for node in $(oc get no --no-headers | awk {'print $1'} | grep "worker"); do
    	oc adm taint node $node icp4data-
@@ -358,7 +358,7 @@ After James Stroud upgrade from MacOS 11.6 to 12.0.1, none of my docker images a
 ```
 /Users/jamesstroud/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw
 ```
-and Docker desktop was properly configured to use this `Docker.raw` file under `Preferences ... Resources ...Disk image location`.  I did not try (but probably should have) `Troubleshooting .. Reset to Factory Defaults` .  I uninstalled Docker desktop under `Troubleshooting`, moved the `Docker.app` to the Trash, downloaded and reinstalled Docker desktop, then rebuilt the demo docker container  and the the docker image appeared and the IoT container worked on MacOS 12.0.1
+and Docker Desktop was properly configured to use this `Docker.raw` file under `Preferences ... Resources ...Disk image location`.  I did not try (but probably should have) `Troubleshooting .. Reset to Factory Defaults` .  I uninstalled Docker desktop under `Troubleshooting`, moved the `Docker.app` to the Trash, downloaded and reinstalled Docker desktop, then rebuilt the demo docker container  and the the docker image appeared and the IoT container worked on MacOS 12.0.1
 
 ### Caveats
 Watson Studio Local (wsl). This is legacy and has not been tested or tried in several years.
