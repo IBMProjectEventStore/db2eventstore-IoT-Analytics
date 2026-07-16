@@ -75,8 +75,9 @@ yum install -y git
 git clone https://github.com/IBMProjectEventStore/db2eventstore-IoT-Analytics.git
 ```
 
-- It is useful to perform an `oc login` to the OpenShift custer running Event Store.  This requires the `oc` client tool installed, which is typically done with the installatio of OpenShift.  If your linux machine does not have the `oc` binary installed, for CentOS 7 & 8 and Red Hat 7 & 8, run these as the commands as the `root` user to install it
-```
+- It is useful to perform an `oc login` to the OpenShift custer running Event Store.  This requires the `oc` client tool installed, which is typically done with the installation of OpenShift.  If your linux machine does not have the `oc` binary installed, for CentOS 7 & 8 and Red Hat 7 & 8, run these as the commands as the `root` user to install it
+
+```bash
 cd $HOME
 yum install -y wget
 wget https://github.com/openshift/okd/releases/download/4.7.0-0.okd-2021-05-22-050008/openshift-client-linux-4.7.0-0.okd-2021-05-22-050008.tar.gz
@@ -136,7 +137,7 @@ The sample IoT dataset can be ingested to the IBM Db2 Event Store table just cre
 
 In the example below we refer to the local load script, which is found under the data directory. This can be used to ingest the sample CSV dataset into the Event Store database with a single command when run from within the Db2 Event Store cluster. For more information on this, refer to the Db2 Event Store [Knowledge Center](https://www.ibm.com/support/knowledgecenter/en/SSGNPV_2.0.0/local/loadcsv.html). 
 
-```
+```bash
 $ ./load.sh --namespace dsx
 ```
 
@@ -167,6 +168,7 @@ This notebook demonstrates the use of the time series capabilities that are new 
 The instructions for running the REST API example can be found at: [Event Store REST API instruction](rest/README.md)
 
 ### 4. Run Example IBM Streams and Remote Access Applications with Event Store
+
 ![Architecture](images/advanced.png)
 
 The instructions for running the example IBM Streams application and the example remote access applications in Python, Java, Db2 JDBC, Scala can be found under the [AdvancedApplications folder](AdvancedApplications/README.md)
@@ -183,6 +185,7 @@ See the notebooks with example output here: [notebook examples with result](note
 * [**IBM Marketplace**](https://www.ibm.com/us-en/marketplace/db2-event-store)
 
 # Learn more
+
 * **IBM Watson Studio Local**: Master the art of data science with IBM's [IBM Watson Studio Local](https://www.ibm.com/cloud/watson-studio/)
 
 # License
